@@ -7,8 +7,10 @@ using Microsoft.Win32;
 using System.Net;
 using System.Net.Sockets;
 
+
 namespace InstallCeltaBSPDV {
     public partial class EnableConfigurations: Form {
+
         public EnableConfigurations() {
             InitializeComponent();
         }
@@ -82,6 +84,7 @@ namespace InstallCeltaBSPDV {
                 MessageBox.Show(ex.Message);
             }
         }
+
         private void ConfigureFirewall() {
 
             #region ICMPv4 - PING
@@ -96,11 +99,14 @@ namespace InstallCeltaBSPDV {
                     RedirectStandardOutput = true
                 }
             };
+
             try {
                 removePING.Start();
             } catch(Exception ex) {
-                MessageBox.Show(ex.Message);
+                MessageBox.Show("Erro para remover o PING: " + ex.Message);
             }
+
+            Thread.Sleep(new TimeSpan(hours: 0, minutes: 0, seconds: 1)); //se não fizer isso, as vezes tenta criar a regra do PING enquanto tá excluindo aí da erro
 
             Process pingProcess = new Process {
                 StartInfo = {
@@ -112,23 +118,23 @@ namespace InstallCeltaBSPDV {
                 }
             };
 
-            INetFwPolicy2 firewallPolicyPING = (INetFwPolicy2)Activator.CreateInstance(Type.GetTypeFromProgID("HNetCfg.FwPolicy2"));
-
             try {
                 pingProcess.Start();
                 var output = pingProcess.StandardOutput.ReadToEnd();
                 pingProcess.WaitForExit();
+            } catch(Exception ex) {
+                MessageBox.Show("Erro para criar as regras do PING: " + ex.Message);
+            }
 
-
+            try {
+                INetFwPolicy2 firewallPolicyPING = (INetFwPolicy2)Activator.CreateInstance(Type.GetTypeFromProgID("HNetCfg.FwPolicy2"));
 
                 var rule = firewallPolicyPING!.Rules.Item("PING"); // Name of your rule here
                 rule.EdgeTraversal = true; // Update the rule here. Nothing else needed to persist the changes
-                richTextBoxResults.Text += "Firewall: Regra de PING adicionada";
+                richTextBoxResults.Text += "\nFirewall: Regra de PING adicionada";
             } catch(Exception ex) {
-                MessageBox.Show("Erro para editar as regras do PING: " + ex.Message);
+                MessageBox.Show("Erro para editar o PING: " + ex.Message);
             }
-
-
             #endregion
 
             #region porta 9092
@@ -150,6 +156,7 @@ namespace InstallCeltaBSPDV {
             firewallPolicy9092.Rules.Add(firewallRule9092);
 
             richTextBoxResults.Text += "\nFirewall: Regra da porta 9092 adicionada";
+
             #endregion
 
             #region porta 27017
@@ -173,8 +180,7 @@ namespace InstallCeltaBSPDV {
 
             richTextBoxResults.Text += "\nFirewall: Regra da porta 27017 adicionada";
             #endregion
-
-            Task.Delay(1000); //estava dando erro as vezes pra editar a regra do PING antes de fazer isso
+            
 
         }
 
@@ -204,8 +210,8 @@ namespace InstallCeltaBSPDV {
         private void createTempPath() {
             if(!Directory.Exists(@"C:\temp")) {
                 Directory.CreateDirectory(@"C:\Temp");
-                MessageBox.Show("não possui mesmo");
             }
+            richTextBoxResults.Text += "\nPasta 'C:\\temp' criada";
         }
         private void neverNotifyUser() {
             var info = new ProcessStartInfo("cmd", @"/c C:\Windows\System32\UserAccountControlSettings.exe");
@@ -234,23 +240,25 @@ namespace InstallCeltaBSPDV {
         }
 
         private void enableIISFeatures() {
-            var info = new ProcessStartInfo("cmd",
-                @"/c START /WAIT DISM /Online /Enable-Feature /FeatureName:IIS-ApplicationDevelopment /FeatureName:IIS-ASP /FeatureName:IIS-ASPNET /FeatureName:IIS-BasicAuthentication /FeatureName:IIS-CGI /FeatureName:IIS-ClientCertificateMappingAuthentication /FeatureName:IIS-CommonHttpFeatures /FeatureName:IIS-CustomLogging /FeatureName:IIS-DefaultDocument /FeatureName:IIS-DigestAuthentication /FeatureName:IIS-DirectoryBrowsing /FeatureName:IIS-FTPExtensibility /FeatureName:IIS-FTPServer /FeatureName:IIS-FTPSvc /FeatureName:IIS-HealthAndDiagnostics /FeatureName:IIS-HostableWebCore /FeatureName:IIS-HttpCompressionDynamic /FeatureName:IIS-HttpCompressionStatic /FeatureName:IIS-HttpErrors /FeatureName:IIS-HttpLogging /FeatureName:IIS-HttpRedirect /FeatureName:IIS-HttpTracing /FeatureName:IIS-IIS6ManagementCompatibility /FeatureName:IIS-IISCertificateMappingAuthentication /FeatureName:IIS-IPSecurity /FeatureName:IIS-ISAPIExtensions /FeatureName:IIS-ISAPIFilter /FeatureName:IIS-LegacyScripts /FeatureName:IIS-LegacySnapIn /FeatureName:IIS-LoggingLibraries /FeatureName:IIS-ManagementConsole /FeatureName:IIS-ManagementScriptingTools /FeatureName:IIS-ManagementService /FeatureName:IIS-Metabase /FeatureName:IIS-NetFxExtensibility /FeatureName:IIS-ODBCLogging /FeatureName:IIS-Performance /FeatureName:IIS-RequestFiltering /FeatureName:IIS-RequestMonitor /FeatureName:IIS-Security /FeatureName:IIS-ServerSideIncludes /FeatureName:IIS-StaticContent /FeatureName:IIS-URLAuthorization /FeatureName:IIS-WebDAV /FeatureName:IIS-WebServer /FeatureName:IIS-WebServerManagementTools /FeatureName:IIS-WebServerRole /FeatureName:IIS-WindowsAuthentication /FeatureName:IIS-WMICompatibility /FeatureName:WAS-ConfigurationAPI /FeatureName:WAS-NetFxEnvironment /FeatureName:WAS-ProcessModel /FeatureName:WAS-WindowsActivationService"
-);
-            info.WindowStyle = ProcessWindowStyle.Hidden;
+
+            string command = "START /WAIT DISM /Online /Enable-Feature /FeatureName:IIS-ApplicationDevelopment /FeatureName:IIS-ASP /FeatureName:IIS-ASPNET /FeatureName:IIS-BasicAuthentication /FeatureName:IIS-CGI /FeatureName:IIS-ClientCertificateMappingAuthentication /FeatureName:IIS-CommonHttpFeatures /FeatureName:IIS-CustomLogging /FeatureName:IIS-DefaultDocument /FeatureName:IIS-DigestAuthentication /FeatureName:IIS-DirectoryBrowsing /FeatureName:IIS-FTPExtensibility /FeatureName:IIS-FTPServer /FeatureName:IIS-FTPSvc /FeatureName:IIS-HealthAndDiagnostics /FeatureName:IIS-HostableWebCore /FeatureName:IIS-HttpCompressionDynamic /FeatureName:IIS-HttpCompressionStatic /FeatureName:IIS-HttpErrors /FeatureName:IIS-HttpLogging /FeatureName:IIS-HttpRedirect /FeatureName:IIS-HttpTracing /FeatureName:IIS-IIS6ManagementCompatibility /FeatureName:IIS-IISCertificateMappingAuthentication /FeatureName:IIS-IPSecurity /FeatureName:IIS-ISAPIExtensions /FeatureName:IIS-ISAPIFilter /FeatureName:IIS-LegacyScripts /FeatureName:IIS-LegacySnapIn /FeatureName:IIS-LoggingLibraries /FeatureName:IIS-ManagementConsole /FeatureName:IIS-ManagementScriptingTools /FeatureName:IIS-ManagementService /FeatureName:IIS-Metabase /FeatureName:IIS-NetFxExtensibility /FeatureName:IIS-ODBCLogging /FeatureName:IIS-Performance /FeatureName:IIS-RequestFiltering /FeatureName:IIS-RequestMonitor /FeatureName:IIS-Security /FeatureName:IIS-ServerSideIncludes /FeatureName:IIS-StaticContent /FeatureName:IIS-URLAuthorization /FeatureName:IIS-WebDAV /FeatureName:IIS-WebServer /FeatureName:IIS-WebServerManagementTools /FeatureName:IIS-WebServerRole /FeatureName:IIS-WindowsAuthentication /FeatureName:IIS-WMICompatibility /FeatureName:WAS-ConfigurationAPI /FeatureName:WAS-NetFxEnvironment /FeatureName:WAS-ProcessModel /FeatureName:WAS-WindowsActivationService";
+
+            ProcessStartInfo pStartInfo = new ProcessStartInfo("cmd.exe", "/c " + command);
+            Process p = new Process();
+            p.StartInfo = pStartInfo;
             try {
-                Process.Start(info);
+            p.Start();
             } catch(Exception ex) {
                 MessageBox.Show(ex.Message);
             }
         }
         private void buttonConfigureFirewall_Click(object sender, EventArgs e) {
-            ConfigureFirewall();
+            //ConfigureFirewall();
+            //disableSuspendUSB();
+            //neverNotifyUser();
+            //setMachineName();
+            //createTempPath();
             enableIISFeatures();
-            disableSuspendUSB();
-            neverNotifyUser();
-            setMachineName();
-            createTempPath();
         }
     }
 }

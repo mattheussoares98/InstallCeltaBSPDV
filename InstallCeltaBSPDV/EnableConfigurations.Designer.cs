@@ -29,10 +29,9 @@
             // 
             // buttonConfigureFirewall
             // 
-            this.buttonConfigureFirewall.Location = new System.Drawing.Point(114, 398);
-            this.buttonConfigureFirewall.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
+            this.buttonConfigureFirewall.Location = new System.Drawing.Point(100, 298);
             this.buttonConfigureFirewall.Name = "buttonConfigureFirewall";
-            this.buttonConfigureFirewall.Size = new System.Drawing.Size(327, 181);
+            this.buttonConfigureFirewall.Size = new System.Drawing.Size(286, 136);
             this.buttonConfigureFirewall.TabIndex = 0;
             this.buttonConfigureFirewall.Text = "Configurar firewall";
             this.buttonConfigureFirewall.UseVisualStyleBackColor = true;
@@ -40,20 +39,21 @@
             // 
             // richTextBoxResults
             // 
-            this.richTextBoxResults.Location = new System.Drawing.Point(27, 36);
+            this.richTextBoxResults.Enabled = false;
+            this.richTextBoxResults.Location = new System.Drawing.Point(24, 27);
+            this.richTextBoxResults.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
             this.richTextBoxResults.Name = "richTextBoxResults";
-            this.richTextBoxResults.Size = new System.Drawing.Size(584, 330);
+            this.richTextBoxResults.Size = new System.Drawing.Size(512, 248);
             this.richTextBoxResults.TabIndex = 1;
             this.richTextBoxResults.Text = "";
             // 
             // EnableConfigurations
             // 
-            this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 20F);
+            this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 15F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(633, 601);
+            this.ClientSize = new System.Drawing.Size(554, 451);
             this.Controls.Add(this.richTextBoxResults);
             this.Controls.Add(this.buttonConfigureFirewall);
-            this.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
             this.Name = "EnableConfigurations";
             this.Text = "Form1";
             this.ResumeLayout(false);
