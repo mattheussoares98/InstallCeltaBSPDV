@@ -3,10 +3,11 @@ using Microsoft.Win32;
 using NetFwTypeLib;
 using System.Diagnostics;
 using System.Runtime.InteropServices;
-using Microsoft.Win32;
 using System.Net;
 using System.Net.Sockets;
-
+using System.Security.AccessControl;
+using System.Security.Principal;
+using System.IO.Compression;
 
 namespace InstallCeltaBSPDV {
     public partial class EnableConfigurations: Form {
@@ -131,7 +132,7 @@ namespace InstallCeltaBSPDV {
 
                 var rule = firewallPolicyPING!.Rules.Item("PING"); // Name of your rule here
                 rule.EdgeTraversal = true; // Update the rule here. Nothing else needed to persist the changes
-                richTextBoxResults.Text += "\nFirewall: Regra de PING adicionada";
+                richTextBoxResults.Text += "Firewall: Regra de PING adicionada\n";
             } catch(Exception ex) {
                 MessageBox.Show("Erro para editar o PING: " + ex.Message);
             }
@@ -155,7 +156,7 @@ namespace InstallCeltaBSPDV {
             firewallPolicy9092.Rules.Remove("9092");
             firewallPolicy9092.Rules.Add(firewallRule9092);
 
-            richTextBoxResults.Text += "\nFirewall: Regra da porta 9092 adicionada";
+            richTextBoxResults.Text += "Firewall: Regra da porta 9092 adicionada\n";
 
             #endregion
 
@@ -178,29 +179,40 @@ namespace InstallCeltaBSPDV {
             firewallPolicy.Rules.Remove("27017");
             firewallPolicy.Rules.Add(firewallRule27017);
 
-            richTextBoxResults.Text += "\nFirewall: Regra da porta 27017 adicionada";
+            richTextBoxResults.Text += "Firewall: Regra da porta 27017 adicionada\n";
             #endregion
-            
+
 
         }
 
         private void disableSuspendUSB() {
-            var info = new ProcessStartInfo("cmd", "/C powercfg /change -monitor-timeout-ac 0"); //nunca desligar o vídeo
-            info.WindowStyle = ProcessWindowStyle.Hidden;
+            var hibernateAC = new ProcessStartInfo("cmd", "/c powercfg /x -hibernate-timeout-ac 0");
+            var hibernateDC = new ProcessStartInfo("cmd", "/c powercfg /x -hibernate-timeout-dc 0");
+            var diskTimeOutAC = new ProcessStartInfo("cmd", "/c powercfg /x -disk-timeout-ac 0");
+            var diskTimeOutDC = new ProcessStartInfo("cmd", "/c powercfg /x -disk-timeout-dc 0");
+            var monitorTimeOutAC = new ProcessStartInfo("cmd", "/c powercfg /x -monitor-timeout-ac 0");
+            var monitorTimeOutDC = new ProcessStartInfo("cmd", "/c powercfg /x -monitor-timeout-dc 0");
+            var standybyTimeoutAC = new ProcessStartInfo("cmd", "/c Powercfg /x -standby-timeout-ac 0");
+            var standybyTimeoutDC = new ProcessStartInfo("cmd", "/c powercfg /x -standby-timeout-dc 0");
+            var disableUsbStandbyBattery = new ProcessStartInfo("cmd", "/c powercfg /SETDCVALUEINDEX SCHEME_CURRENT 2a737441-1930-4402-8d77-b2bebba308a3 48e6b7a6-50f5-4782-a5d4-53bb8f07e226 0"); //desabilitar suspensão da USB
+            var disableUsbStandbyPlugged = new ProcessStartInfo("cmd", "/c powercfg /SETACVALUEINDEX SCHEME_CURRENT 2a737441-1930-4402-8d77-b2bebba308a3 48e6b7a6-50f5-4782-a5d4-53bb8f07e226 0"); //desabilitar suspensão da USB
+
             try {
-                Process.Start(info);
+                Process.Start(hibernateAC);
+                Process.Start(hibernateDC);
+                Process.Start(diskTimeOutAC);
+                Process.Start(diskTimeOutDC);
+                Process.Start(monitorTimeOutAC);
+                Process.Start(monitorTimeOutDC);
+                Process.Start(standybyTimeoutAC);
+                Process.Start(standybyTimeoutDC);
+                Process.Start(disableUsbStandbyBattery);
+                Process.Start(disableUsbStandbyPlugged);
 
-                var one = new ProcessStartInfo("cmd", "/c powercfg /SETDCVALUEINDEX SCHEME_CURRENT 2a737441-1930-4402-8d77-b2bebba308a3 48e6b7a6-50f5-4782-a5d4-53bb8f07e226 0"); //desabilitar suspensão da USB
-
-                var two = new ProcessStartInfo("cmd", "/c powercfg /SETACVALUEINDEX SCHEME_CURRENT 2a737441-1930-4402-8d77-b2bebba308a3 48e6b7a6-50f5-4782-a5d4-53bb8f07e226 0"); //desabilitar suspensão da USB
-
-                Process.Start(one);
-                Process.Start(two);
+                richTextBoxResults.Text += "Configurações de energia da USB, monitor e PCI efetuadas com sucesso\n";
             } catch(Exception ex) {
                 MessageBox.Show(ex.Message);
             }
-
-            richTextBoxResults.Text += "\nDesabilitada a suspensão de USB para o plano de energia atual";
         }
         private void setMachineName() {
             Form FormComputerName = new ComputerName();
@@ -211,7 +223,7 @@ namespace InstallCeltaBSPDV {
             if(!Directory.Exists(@"C:\temp")) {
                 Directory.CreateDirectory(@"C:\Temp");
             }
-            richTextBoxResults.Text += "\nPasta 'C:\\temp' criada";
+            richTextBoxResults.Text += "Pasta 'C:\\temp' criada\n";
         }
         private void neverNotifyUser() {
             var info = new ProcessStartInfo("cmd", @"/c C:\Windows\System32\UserAccountControlSettings.exe");
@@ -247,18 +259,277 @@ namespace InstallCeltaBSPDV {
             Process p = new Process();
             p.StartInfo = pStartInfo;
             try {
-            p.Start();
+                p.Start();
             } catch(Exception ex) {
                 MessageBox.Show(ex.Message);
             }
         }
-        private void buttonConfigureFirewall_Click(object sender, EventArgs e) {
+
+        private void enableAllPermissionsForMongoBin() {
+            string programFiles = Environment.ExpandEnvironmentVariables("%ProgramW6432%");
+            string mongoBin = programFiles += "\\MongoDB\\Server\\4.0\\bin";
+
+            #region Edit permissions
+
+            const FileSystemRights rights = FileSystemRights.FullControl;
+
+            var allUsers = new SecurityIdentifier(WellKnownSidType.BuiltinUsersSid, null);
+
+            // Add Access Rule to the actual directory itself
+            var accessRule = new FileSystemAccessRule(
+                allUsers,
+                rights,
+                InheritanceFlags.None,
+                PropagationFlags.NoPropagateInherit,
+                AccessControlType.Allow);
+
+            if(!Directory.Exists(mongoBin)) {
+                richTextBoxResults.Text += $"O caminho {mongoBin} não foi encontrado. Instale o MondoDB antes de executar o programa novamente!\n";
+                return;
+            }
+
+            var info = new DirectoryInfo(mongoBin);
+            var security = info.GetAccessControl(AccessControlSections.Access);
+
+            bool result;
+            security.ModifyAccessRule(AccessControlModification.Set, accessRule, out result);
+
+            if(!result) {
+                throw new InvalidOperationException("Failed to give full-control permission to all users for mongoBin " + mongoBin);
+            } else {
+                richTextBoxResults.Text += $"Adicionado permissão para todos usuários na pasta {mongoBin}\n";
+            }
+
+            // add inheritance
+            var inheritedAccessRule = new FileSystemAccessRule(
+                allUsers,
+                rights,
+                InheritanceFlags.ContainerInherit | InheritanceFlags.ObjectInherit,
+                PropagationFlags.InheritOnly,
+                AccessControlType.Allow);
+
+            bool inheritedResult;
+            security.ModifyAccessRule(AccessControlModification.Add, inheritedAccessRule, out inheritedResult);
+
+            if(!inheritedResult) {
+                throw new InvalidOperationException("Failed to give full-control permission inheritance to all users for " + programFiles);
+            }
+
+            info.SetAccessControl(security);
+            #endregion
+        }
+
+        private void editMongoCfg() {
+            string programFiles = Environment.ExpandEnvironmentVariables("%ProgramW6432%");
+            string mongoBin = programFiles += "\\MongoDB\\Server\\4.0\\bin";
+            string newText = "";
+            string mongoConfig = mongoBin + "\\mongod.cfg";
+
+            try {
+                StreamReader sr = File.OpenText(mongoConfig);
+                string? textoDoArquivo = sr.ReadToEnd();
+                newText = textoDoArquivo.Replace("127.0.0.1", "0.0.0.0");
+                sr.Close();
+
+                Task.Delay(3000).Wait();
+                File.Delete(mongoConfig);
+
+                Task.Delay(1000).Wait();
+                File.CreateText(mongoConfig).Close();
+
+            } catch(Exception e) {
+                MessageBox.Show("Erro para ler os dados do arquivo: " + e.Message);
+                Console.WriteLine(e.Message);
+            }
+
+
+            try {
+                File.WriteAllText(mongoConfig, String.Empty);
+                StreamWriter sw = new StreamWriter(mongoConfig);
+                sw.WriteLine(newText);
+                sw.Close();
+            } catch(Exception ex) {
+                MessageBox.Show("Erro para escrever os dados no mongod.cfg: " + ex.Message);
+            }
+        }
+
+        private void createLink() {
+            string pdvPath = "C:\\CeltaBSPDV\\CeltaWare.CBS.PDV.UI.exe";
+            string startupPath = "C:\\ProgramData\\Microsoft\\Windows\\Start Menu\\Programs\\Startup\\CeltaWare.CBS.PDV.UI.exe";
+
+            if(!File.Exists(pdvPath)) {
+                MessageBox.Show($"Não foi possível encontrar o arquivo {pdvPath}");
+                return;
+            } else if(File.Exists(startupPath)) {
+                richTextBoxResults.Text += "PDV adicionado com sucesso na pasta de inicialização automática  do windows\n";
+                return;
+            }
+
+            File.CreateSymbolicLink(startupPath, pdvPath);
+            richTextBoxResults.Text += "PDV adicionado com sucesso na pasta de inicialização automática  do windows\n";
+        }
+
+        private async Task DownloadFileTaskAsync(string fileName, string destinyPath) {
+            //coloquei o valor padrão como "" para quando for extrair os arquivos do PDV, não extrair para a pasta C:\install\pdv\pdv
+            HttpClient client = new HttpClient();
+
+            string sourcePath = "C:\\install";
+
+            if(!Directory.Exists(sourcePath)) {
+                Directory.CreateDirectory(sourcePath);
+            }
+
+            string fileNamePath = sourcePath + "\\" + fileName;
+
+            string uri = "http://177.103.179.36/downloads/lastversion/" + fileName;
+
+            #region download files
+            if(!File.Exists(fileNamePath)) {
+                richTextBoxResults.Text += "Baixando o " + fileName + ". Dependendo da velocidade da internet, esse processo pode ser demorado\n";
+                //só tenta baixar o arquivo se ele não existir ainda
+                try {
+                    using(var s = await client.GetStreamAsync(uri)) {
+                        using(var fs = new FileStream(fileNamePath, FileMode.CreateNew)) {
+                            await s.CopyToAsync(fs);
+
+                            s.Position = 0;
+                        }
+                    }
+                    richTextBoxResults.Text += fileName + " baixado com sucesso\n";
+                } catch(Exception ex) {
+                    MessageBox.Show("Erro para baixar o arquivo: " + ex.Message);
+                }
+            } else {
+                richTextBoxResults.Text += $"O {fileName} já foi baixado\n";
+            }
+            #endregion
+
+            #region extract paths
+            destinyPath = sourcePath + "\\" + destinyPath;
+            if(File.Exists(fileNamePath) && !Directory.Exists(destinyPath)) {
+                try {
+                    ZipFile.ExtractToDirectory(fileNamePath, destinyPath);
+                    richTextBoxResults.Text += $"Extraindo os arquivos do {fileName}\n";
+                } catch(Exception ex) {
+                    MessageBox.Show($"Erro para extrair o {fileName}: {ex.Message}");
+                }
+            } else {
+                richTextBoxResults.Text += $"Os arquivos do {fileName} já foram extraídos\n";
+            }
+            #endregion
+        }
+
+        private void readDataToCopy(string pathToRead, string destiny) {
+            string[] files = Directory.GetFiles(pathToRead);
+            Task.Delay(300).Wait();
+
+            foreach(string file in files) {
+                string localDestiny = file.Replace(pathToRead, destiny);
+                //MessageBox.Show($"file: {file}\ndestiny = " + destiny);
+                try {
+                    File.Copy(file, localDestiny);
+                } catch(Exception ex) {
+                    MessageBox.Show($"Erro para copiar o arquivo para o destino\norigem: {file}\ndestino: {localDestiny}\nerro: {ex.Message}");
+                }
+                Task.Delay(300).Wait();
+                richTextBoxResults.Text += file + "\n";
+
+            }
+        }
+
+        private async Task createPathSharedSat() {
+
+            string celtaSatPdvBin = "C:\\Celta SAT\\PDV\\Bin";
+            string celtaSatPdv = "C:\\Celta SAT\\PDV";
+            string celtaSat = "C:\\Celta SAT";
+            string installDeployment = "C:\\install\\deployment";
+            string installDeploymentPdv = "C:\\install\\deployment\\PDV";
+            string installDeploymentZip = "C:\\install\\deployment.zip";
+
+            string celtaSatPdvSalesalePath = "C:\\Celta SAT\\PDV\\Sale\\Release\\WebService";
+            string celtaSatPdvSalePathBin = "C:\\Celta SAT\\PDV\\Sale\\Release\\WebService\\bin";
+
+            string CeltaSatPdvSatPath = "C:\\Celta SAT\\PDV\\Sat\\Release\\WebService";
+            string CeltaSatPdvSatPathBin = "C:\\Celta SAT\\PDV\\Sat\\Release\\WebService\\bin";
+
+
+            if(Directory.Exists(celtaSat)) {
+                Directory.Delete(celtaSat, true); //se houver uma pasta com esse nome, da erro pra mover o arquivo pra essa pasta. O true serve para excluir todos arquivos que estiverem nessa pasta
+            }
+
+            Directory.CreateDirectory(celtaSat);
+
+            if(File.Exists(installDeploymentZip)) {
+                if(!Directory.Exists(celtaSat)) {
+                    Directory.Delete(celtaSat);
+                }
+
+                Directory.Delete(installDeployment, true);
+
+                ZipFile.ExtractToDirectory(installDeploymentZip, installDeployment);
+                Task.Delay(13000).Wait(); //para ter certeza que vai aguardar a extração dos arquivos para fazer a cópia
+
+                //if(!Directory.Exists(celtaSatPdvBin)) {
+                //    Directory.CreateDirectory(celtaSatPdvBin);
+                //}
+
+                try {
+                    Directory.Move(installDeploymentPdv, celtaSatPdv);
+                    Task.Delay(900).Wait();
+                } catch(Exception ex) {
+                    MessageBox.Show("else if error = " + ex.Message);
+                }
+
+                if(!Directory.Exists(celtaSatPdvBin)) {
+                    Directory.CreateDirectory(celtaSatPdvBin);
+                }
+                //readDataToCopy(celtaSatPdvSalesalePath, celtaSat);
+                readDataToCopy(celtaSatPdvSalePathBin, celtaSatPdvBin);
+                readDataToCopy(CeltaSatPdvSatPathBin, celtaSatPdvBin);
+                readDataToCopy(celtaSatPdvSalesalePath, celtaSatPdv);
+                readDataToCopy(CeltaSatPdvSatPath, celtaSatPdv);
+            } else {
+                MessageBox.Show("ELSEEEE!!!!!");
+                if(Directory.Exists(installDeployment)) {
+                    Directory.Delete(installDeployment);
+                }
+                await DownloadFileTaskAsync("deployment.zip", "deployment");
+                await createPathSharedSat();
+            }
+
+            if(Directory.Exists("C:\\Celta SAT\\PDV\\Sale")) {
+                Directory.Delete("C:\\Celta SAT\\PDV\\Sale", true);
+            } 
+            if(Directory.Exists("C:\\Celta SAT\\PDV\\sat")) {
+                Directory.Delete("C:\\Celta SAT\\PDV\\sat", true);
+            }
+        }
+
+        private async void buttonConfigureFirewall_Click(object sender, EventArgs e) {
+            buttonConfigureFirewall.Enabled = false;
+            buttonConfigureFirewall.Text = "Aguarde";
+            richTextBoxResults.Text = "";
+            //await DownloadFileTaskAsync("installbspdv.zip", "PDV");
+            //await DownloadFileTaskAsync("deployment.zip", "deployment");
+            await createPathSharedSat();
             //ConfigureFirewall();
+            //Task.Delay(3000).Wait();
             //disableSuspendUSB();
-            //neverNotifyUser();
-            //setMachineName();
+            //Task.Delay(3000).Wait();
             //createTempPath();
-            enableIISFeatures();
+            //Task.Delay(3000).Wait();
+            //neverNotifyUser();
+            //Task.Delay(3000).Wait();
+            //setMachineName();
+            //Task.Delay(3000).Wait();
+            //enableIISFeatures();
+            //Task.Delay(3000).Wait();
+            //enableAllPermissionsForMongoBin();
+            //editMongoCfg();
+            //Task.Delay(3000).Wait();
+            //createLink();
+            buttonConfigureFirewall.Text = "Efetuar configurações";
+            buttonConfigureFirewall.Enabled = true;
         }
     }
 }

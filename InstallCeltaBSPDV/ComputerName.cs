@@ -16,7 +16,7 @@ namespace InstallCeltaBSPDV {
             maskedTextBoxSetComputerName.Focus();
         }
 
-        private void buttonSetComputerName_Click(object sender, EventArgs e) {
+        public void buttonSetComputerName_Click(object sender, EventArgs e) {
             RegistryKey key = Registry.LocalMachine;
             string newName = "PDV" + maskedTextBoxSetComputerName.Text;
 
