@@ -370,7 +370,6 @@ namespace InstallCeltaBSPDV {
         }
 
         private async Task DownloadFileTaskAsync(string fileName, string destinyPath) {
-            //coloquei o valor padrão como "" para quando for extrair os arquivos do PDV, não extrair para a pasta C:\install\pdv\pdv
             HttpClient client = new HttpClient();
 
             string sourcePath = "C:\\install";
@@ -391,8 +390,6 @@ namespace InstallCeltaBSPDV {
                     using(var s = await client.GetStreamAsync(uri)) {
                         using(var fs = new FileStream(fileNamePath, FileMode.CreateNew)) {
                             await s.CopyToAsync(fs);
-
-                            s.Position = 0;
                         }
                     }
                     richTextBoxResults.Text += fileName + " baixado com sucesso\n";
@@ -405,11 +402,12 @@ namespace InstallCeltaBSPDV {
             #endregion
 
             #region extract paths
-            destinyPath = sourcePath + "\\" + destinyPath;
             if(File.Exists(fileNamePath) && !Directory.Exists(destinyPath)) {
                 try {
-                    ZipFile.ExtractToDirectory(fileNamePath, destinyPath);
-                    richTextBoxResults.Text += $"Extraindo os arquivos do {fileName}\n";
+                    MessageBox.Show("fileNamePath: " + fileNamePath);
+                    MessageBox.Show("destinyPath: " + destinyPath);
+                    await Task.Run(() => ZipFile.ExtractToDirectory(fileNamePath, destinyPath)  );
+                    //richTextBoxResults.Text += $"Extraindo os arquivos do {fileName}\n";
                 } catch(Exception ex) {
                     MessageBox.Show($"Erro para extrair o {fileName}: {ex.Message}");
                 }
@@ -437,71 +435,83 @@ namespace InstallCeltaBSPDV {
             }
         }
 
-        private async Task createPathSharedSat() {
 
+        private async Task createPathSharedSat() {
+            #region directoryes
             string celtaSatPdvBin = "C:\\Celta SAT\\PDV\\Bin";
             string celtaSatPdv = "C:\\Celta SAT\\PDV";
             string celtaSat = "C:\\Celta SAT";
+            string install = "c:\\install";
             string installDeployment = "C:\\install\\deployment";
             string installDeploymentPdv = "C:\\install\\deployment\\PDV";
             string installDeploymentZip = "C:\\install\\deployment.zip";
+            string celtaSatSale = "C:\\Celta Sat\\PDV\\Sale";
+            string celtaSatSat = "C:\\Celta Sat\\PDV\\Sat";
 
             string celtaSatPdvSalesalePath = "C:\\Celta SAT\\PDV\\Sale\\Release\\WebService";
             string celtaSatPdvSalePathBin = "C:\\Celta SAT\\PDV\\Sale\\Release\\WebService\\bin";
 
             string CeltaSatPdvSatPath = "C:\\Celta SAT\\PDV\\Sat\\Release\\WebService";
             string CeltaSatPdvSatPathBin = "C:\\Celta SAT\\PDV\\Sat\\Release\\WebService\\bin";
+            #endregion
 
 
-            if(Directory.Exists(celtaSat)) {
-                Directory.Delete(celtaSat, true); //se houver uma pasta com esse nome, da erro pra mover o arquivo pra essa pasta. O true serve para excluir todos arquivos que estiverem nessa pasta
-            }
+            if(!File.Exists(installDeploymentZip)) {
+                //se não houver o deployment na pasta install, baixa ele novamente e chama o mesmo método para efetuar a extração dos arquivos e criação da pasta de compartilhamento do SAT
+                await DownloadFileTaskAsync("deployment.zip", install);
 
-            Directory.CreateDirectory(celtaSat);
-
-            if(File.Exists(installDeploymentZip)) {
-                if(!Directory.Exists(celtaSat)) {
-                    Directory.Delete(celtaSat);
-                }
-
-                Directory.Delete(installDeployment, true);
-
-                ZipFile.ExtractToDirectory(installDeploymentZip, installDeployment);
-                Task.Delay(13000).Wait(); //para ter certeza que vai aguardar a extração dos arquivos para fazer a cópia
-
-                //if(!Directory.Exists(celtaSatPdvBin)) {
-                //    Directory.CreateDirectory(celtaSatPdvBin);
-                //}
-
-                try {
-                    Directory.Move(installDeploymentPdv, celtaSatPdv);
-                    Task.Delay(900).Wait();
-                } catch(Exception ex) {
-                    MessageBox.Show("else if error = " + ex.Message);
-                }
-
-                if(!Directory.Exists(celtaSatPdvBin)) {
-                    Directory.CreateDirectory(celtaSatPdvBin);
-                }
-                //readDataToCopy(celtaSatPdvSalesalePath, celtaSat);
-                readDataToCopy(celtaSatPdvSalePathBin, celtaSatPdvBin);
-                readDataToCopy(CeltaSatPdvSatPathBin, celtaSatPdvBin);
-                readDataToCopy(celtaSatPdvSalesalePath, celtaSatPdv);
-                readDataToCopy(CeltaSatPdvSatPath, celtaSatPdv);
-            } else {
-                MessageBox.Show("ELSEEEE!!!!!");
-                if(Directory.Exists(installDeployment)) {
-                    Directory.Delete(installDeployment);
-                }
-                await DownloadFileTaskAsync("deployment.zip", "deployment");
                 await createPathSharedSat();
-            }
 
-            if(Directory.Exists("C:\\Celta SAT\\PDV\\Sale")) {
-                Directory.Delete("C:\\Celta SAT\\PDV\\Sale", true);
-            } 
-            if(Directory.Exists("C:\\Celta SAT\\PDV\\sat")) {
-                Directory.Delete("C:\\Celta SAT\\PDV\\sat", true);
+                MessageBox.Show("if");
+            } else {
+                //se houver o arquivo do deployment.zip na pasta install, a aplicação extrai os arquivos, exclui a pasta de compartilhamento (se houver) e cria tudo novamente com os arquivos novos
+                MessageBox.Show("else if");
+                try {
+
+                    if(Directory.Exists(celtaSat)) {
+                        await Task.Run(() => Directory.Delete(celtaSat, true));
+                    }
+
+                    if(Directory.Exists(installDeployment)) {
+                        Directory.Delete(installDeployment, true);
+                    }
+
+                    await Task.Run(() => ZipFile.ExtractToDirectory(installDeploymentZip, installDeployment));
+
+
+                    if(Directory.Exists(celtaSatPdv)) {
+                        await Task.Run(() => Directory.Delete(celtaSatPdv, true));
+                    }
+
+                    if(!Directory.Exists(celtaSat)) {
+                        await Task.Run(() => Directory.CreateDirectory(celtaSat));
+
+                    }
+
+
+                    await Task.Run(() => Directory.Move(installDeploymentPdv, celtaSatPdv));
+
+
+                    if(!Directory.Exists(celtaSatPdvBin)) {
+                        Directory.CreateDirectory(celtaSatPdvBin);
+                    }
+
+
+                    readDataToCopy(celtaSatPdvSalePathBin, celtaSatPdvBin);
+                    readDataToCopy(CeltaSatPdvSatPathBin, celtaSatPdvBin);
+                    readDataToCopy(celtaSatPdvSalesalePath, celtaSatPdv);
+                    readDataToCopy(CeltaSatPdvSatPath, celtaSatPdv);
+
+                    if(Directory.Exists(celtaSatSale)) {
+                        Directory.Delete(celtaSatSale, true);
+                    }
+
+                    if(Directory.Exists(celtaSatSat)) {
+                        Directory.Delete(celtaSatSat, true);
+                    }
+                } catch(Exception ex) {
+                    MessageBox.Show(ex.Message);
+                }
             }
         }
 
@@ -509,8 +519,8 @@ namespace InstallCeltaBSPDV {
             buttonConfigureFirewall.Enabled = false;
             buttonConfigureFirewall.Text = "Aguarde";
             richTextBoxResults.Text = "";
-            //await DownloadFileTaskAsync("installbspdv.zip", "PDV");
-            //await DownloadFileTaskAsync("deployment.zip", "deployment");
+            //await DownloadFileTaskAsync("installbspdv.zip", "C:\\Install");
+            //await DownloadFileTaskAsync("deployment.zip", "C:\\Install");
             await createPathSharedSat();
             //ConfigureFirewall();
             //Task.Delay(3000).Wait();
