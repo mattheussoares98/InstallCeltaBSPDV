@@ -631,12 +631,8 @@ namespace InstallCeltaBSPDV {
             richTextBoxResults.Text = "";
             //o download do installbspdv e deployment precisam ser antes da criação do link para iniciar o app quando ligar a máquina
 
-            await enableAllPermissionsForPath(cInstallPdvCeltabspdv);
 
             ////as pastas precisam ter exatamente o nome da pasta que existe no windows explorer senão da problema de permissão na pasta
-
-
-
 
             await ConfigureFirewall();
             await disableSuspendUSB();
@@ -649,8 +645,11 @@ namespace InstallCeltaBSPDV {
 
             //como esses processos abaixo são mais demorados e depende da velocidade da internet, deixei pra fazer por último
 
+            #region bspdv
             await downloadFileTaskAsync(installBsPdvZip);
+            await enableAllPermissionsForPath(cInstallPdvCeltabspdv); //as vezes da erro pra fazer a extração se não deixar permissão pra todos
             await movePath(cInstallPdvCeltabspdv, cCeltabspdv); //essencial fazer esse processo depois de baixaro arquivo installBsPdv.zip
+            #endregion
 
             await extractFile(cInstallBsPdvZip, cInstall, installBsPdvZip);
             await createPdvLink();
