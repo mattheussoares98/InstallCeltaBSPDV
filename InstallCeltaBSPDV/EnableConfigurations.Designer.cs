@@ -29,7 +29,7 @@
             // 
             // buttonConfigureFirewall
             // 
-            this.buttonConfigureFirewall.Location = new System.Drawing.Point(100, 298);
+            this.buttonConfigureFirewall.Location = new System.Drawing.Point(133, 303);
             this.buttonConfigureFirewall.Name = "buttonConfigureFirewall";
             this.buttonConfigureFirewall.Size = new System.Drawing.Size(286, 136);
             this.buttonConfigureFirewall.TabIndex = 0;
@@ -39,7 +39,6 @@
             // 
             // richTextBoxResults
             // 
-            this.richTextBoxResults.Enabled = false;
             this.richTextBoxResults.Location = new System.Drawing.Point(24, 27);
             this.richTextBoxResults.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
             this.richTextBoxResults.Name = "richTextBoxResults";
@@ -55,6 +54,7 @@
             this.Controls.Add(this.richTextBoxResults);
             this.Controls.Add(this.buttonConfigureFirewall);
             this.Name = "EnableConfigurations";
+            this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "Form1";
             this.ResumeLayout(false);
 

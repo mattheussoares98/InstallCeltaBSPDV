@@ -281,7 +281,7 @@ namespace InstallCeltaBSPDV {
             try {
                 //await Task.Run(() => );
                 Process.Start(pStartInfo);
-                richTextBoxResults.Text += "Adicionando recursos do IIS. Não feche a janela do CMD! Após a conclusão do CMD, confirme se instalou os recursos do IIS e caso não tenha instalado, instale manualmente";
+                richTextBoxResults.Text += "Adicionando recursos do IIS. Não feche a janela do CMD! Após a conclusão do CMD, confirme se instalou os recursos do IIS e caso não tenha instalado, instale manualmente\n\n";
             } catch(Exception ex) {
                 MessageBox.Show(ex.Message);
             }
@@ -304,7 +304,7 @@ namespace InstallCeltaBSPDV {
                 AccessControlType.Allow);
 
             if(!Directory.Exists(path)) {
-                richTextBoxResults.Text += $"O caminho {path} não foi encontrado. Instale o MondoDB antes de executar o programa novamente!\n\n";
+                richTextBoxResults.Text += $"O caminho {path} não foi encontrado para habilitar a permissão para todos usuários\n\n";
                 return;
             }
 
@@ -340,23 +340,44 @@ namespace InstallCeltaBSPDV {
             #endregion
         }
 
-        private void editMongoCfg() {
+        private async Task editMongoCfg() {
             string programFiles = Environment.ExpandEnvironmentVariables("%ProgramW6432%");
             string mongoBin = programFiles += "\\MongoDB\\Server\\4.0\\bin";
             string newText = "";
             string mongoConfig = mongoBin + "\\mongod.cfg";
 
+            if(!File.Exists(mongoConfig)) {
+                richTextBoxResults.Text += $"O {mongoConfig} não existe. Instale o mongoDB E SOMENTE APÓS A INSTALAÇÃO clique em ok\n\n";
+                DialogResult dialogResult = MessageBox.Show($"O {mongoConfig} não existe. Instale o mongoDB E SOMENTE APÓS A INSTALAÇÃO clique em ok", "ALERTA!!!", MessageBoxButtons.OK, MessageBoxIcon.Information);
+
+                //if(dialogResult.Equals(DialogResult.Yes)) {
+                //    return;
+                //}
+                await editMongoCfg();
+
+            }
+
+
+
             try {
                 StreamReader sr = File.OpenText(mongoConfig);
                 string? textoDoArquivo = sr.ReadToEnd();
+
+                if(textoDoArquivo.Contains("0.0.0.0")) {
+                    richTextBoxResults.Text += $"O {mongoConfig} já foi alterado para conseguir acessar o banco de dados remotamente\n\n";
+                    return;
+                }
+
+                await enableAllPermissionsForPath(Environment.ExpandEnvironmentVariables("%ProgramW6432%") + "\\MongoDB\\Server\\4.0\\bin");
+
                 newText = textoDoArquivo.Replace("127.0.0.1", "0.0.0.0");
                 sr.Close();
 
                 Task.Delay(3000).Wait();
-                File.Delete(mongoConfig);
 
-                Task.Delay(1000).Wait();
-                File.CreateText(mongoConfig).Close();
+                File.WriteAllText(mongoConfig, newText); //caso já tenha um arquivo com o mesmo nome, ele sobrescreve com o texto que está no segundo parâmetro
+
+                richTextBoxResults.Text += $"O arquivo {mongoConfig} foi alterado com sucesso para conseguir acessar o banco de dados externamente\n\n";
 
             } catch(Exception e) {
                 MessageBox.Show("Erro para ler os dados do arquivo: " + e.Message);
@@ -365,10 +386,9 @@ namespace InstallCeltaBSPDV {
 
 
             try {
-                File.WriteAllText(mongoConfig, String.Empty);
-                StreamWriter sw = new StreamWriter(mongoConfig);
-                sw.WriteLine(newText);
-                sw.Close();
+                //StreamWriter sw = new StreamWriter(mongoConfig);
+                //sw.WriteLine(newText);
+                //sw.Close();
             } catch(Exception ex) {
                 MessageBox.Show("Erro para escrever os dados no mongod.cfg: " + ex.Message);
             }
@@ -380,10 +400,9 @@ namespace InstallCeltaBSPDV {
             string startupPath = "C:\\ProgramData\\Microsoft\\Windows\\Start Menu\\Programs\\Startup\\CeltaWare.CBS.PDV.exe";
             string desktopPath = Environment.GetFolderPath(Environment.SpecialFolder.Desktop) + "\\CeltaWare.CBS.PDV.exe";
             string desktopUiPath = Environment.GetFolderPath(Environment.SpecialFolder.Desktop) + "\\CeltaWare.CBS.PDV.UI.exe";
-            MessageBox.Show(startupPath);
 
             if(!File.Exists(pdvPath)) {
-                MessageBox.Show($"Não foi possível encontrar o arquivo {pdvPath}. Iniciando download do installbspdv.zip para fazer as configurações das pastas");
+                richTextBoxResults.Text += $"Não foi possível encontrar o arquivo {pdvPath}. Iniciando download do installbspdv.zip para fazer as configurações das pastas\n";
                 richTextBoxResults.Text += "Iniciando download do installBsPdv.zip\n\n";
                 await downloadFileTaskAsync(installBsPdvZip);
                 await extractFile(cInstallBsPdvZip, cInstall, "installbspdv.zip");
@@ -430,7 +449,7 @@ namespace InstallCeltaBSPDV {
 
             #region download files
             if(!File.Exists(fileNamePath)) {
-                //richTextBoxResults.Text += "Baixando o " + fileName + ". Dependendo da velocidade da internet, esse processo pode ser demorado\n\n";
+                richTextBoxResults.Text += "Baixando o " + fileName + ". Dependendo da velocidade da internet, esse processo pode ser demorado\n\n";
                 //só tenta baixar o arquivo se ele não existir ainda
                 try {
                     using(var s = await client.GetStreamAsync(uri)) {
@@ -470,11 +489,9 @@ namespace InstallCeltaBSPDV {
                     MessageBox.Show($"Erro para extrair o {fileName}: {ex.Message}");
                 }
             }
-            Task.Delay(7000).Wait();
         }
-        private async Task overrideFiles(string pathToRead, string destiny) {
-            Task.Delay(700).Wait();
-            if(!File.Exists(pathToRead)) {
+        private async Task overrideFilesInPath(string pathToRead, string destiny) {
+            if(!Directory.Exists(pathToRead)) {
                 MessageBox.Show($"Não foi possível encontrar o caminho {pathToRead}");
             }
             string[] files = Directory.GetFiles(pathToRead);
@@ -484,11 +501,9 @@ namespace InstallCeltaBSPDV {
                 //MessageBox.Show($"file: {file}\n\ndestiny = " + destiny);
                 try {
                     await Task.Run(() => File.Copy(file, localDestiny));
-
                 } catch(Exception ex) {
                     MessageBox.Show($"Erro para copiar o arquivo para o destino\n\norigem: {file}\n\ndestino: {localDestiny}\n\nerro: {ex.Message}");
                 }
-                richTextBoxResults.Text += file + "\n\n";
             }
         }
 
@@ -506,9 +521,9 @@ namespace InstallCeltaBSPDV {
 
             try {
                 //Directory.Move(sourcePath, destinyPath);
-            Task.Delay(7000).Wait();
+                Task.Delay(7000).Wait();
                 await Task.Run(() => Directory.Move(sourcePath, destinyPath));
-                richTextBoxResults.Text += $"{sourcePath} movido com sucesso para o caminho {destinyPath}";
+                richTextBoxResults.Text += $"{sourcePath} movido com sucesso para o caminho {destinyPath}\n\n";
             } catch(Exception ex) {
                 MessageBox.Show(ex.Message);
             }
@@ -539,65 +554,49 @@ namespace InstallCeltaBSPDV {
 
             if(!File.Exists(installDeploymentZip)) {
                 //se não houver o deployment na pasta install, baixa ele novamente e chama o mesmo método para efetuar a extração dos arquivos e criação da pasta de compartilhamento do SAT
-
+                richTextBoxResults.Text += $"Como o {installDeploymentZip} não existe, a aplicação fará o download do arquivo para criar a pasta de compartilhamento do SAT atualizada\n\n";
                 await downloadFileTaskAsync("deployment.zip");
 
                 await createPathSharedSat();
-                
+                return;
 
             } else {
                 //se houver o arquivo do deployment.zip na pasta install, a aplicação extrai os arquivos, exclui a pasta de compartilhamento (se houver) e cria tudo novamente com os arquivos novos
                 try {
-                    MessageBox.Show("1");
                     if(Directory.Exists(celtaSat)) {
                         await Task.Run(() => Directory.Delete(celtaSat, true));
                     }
 
-                    MessageBox.Show("2");
                     if(Directory.Exists(installDeployment)) {
                         Directory.Delete(installDeployment, true);
                     }
-                    
-                    MessageBox.Show("3");
+
 
 
                     await Task.Run(() => ZipFile.ExtractToDirectory(installDeploymentZip, installDeployment));
 
-                    MessageBox.Show("4");
 
                     if(Directory.Exists(celtaSatPdv)) {
                         await Task.Run(() => Directory.Delete(celtaSatPdv, true));
                     }
 
-                    MessageBox.Show("5");
 
                     if(!Directory.Exists(celtaSat)) {
                         await Task.Run(() => Directory.CreateDirectory(celtaSat));
 
                     }
 
-                    MessageBox.Show("6");
-
-
                     await Task.Run(() => Directory.Move(installDeploymentPdv, celtaSatPdv));
 
-                    MessageBox.Show("7");
 
                     if(!Directory.Exists(celtaSatPdvBin)) {
                         Directory.CreateDirectory(celtaSatPdvBin);
                     }
 
-                    MessageBox.Show("8");
-
-
-                    await overrideFiles(celtaSatPdvSalePathBin, celtaSatPdvBin);
-                    MessageBox.Show("9");
-                    await overrideFiles(CeltaSatPdvSatPathBin, celtaSatPdvBin);
-                    MessageBox.Show("10");
-                    await overrideFiles(celtaSatPdvSalesalePath, celtaSatPdv);
-                    MessageBox.Show("11");
-                    await overrideFiles(CeltaSatPdvSatPath, celtaSatPdv);
-                    MessageBox.Show("12");
+                    await overrideFilesInPath(celtaSatPdvSalePathBin, celtaSatPdvBin);
+                    await overrideFilesInPath(CeltaSatPdvSatPathBin, celtaSatPdvBin);
+                    await overrideFilesInPath(celtaSatPdvSalesalePath, celtaSatPdv);
+                    await overrideFilesInPath(CeltaSatPdvSatPath, celtaSatPdv);
 
                     if(Directory.Exists(celtaSatSale)) {
                         Directory.Delete(celtaSatSale, true);
@@ -606,6 +605,7 @@ namespace InstallCeltaBSPDV {
                     if(Directory.Exists(celtaSatSat)) {
                         Directory.Delete(celtaSatSat, true);
                     }
+                    richTextBoxResults.Text += $"A pasta de compartilhamento do SAT foi criada com sucesso. Pasta: {celtaSat}\n\n";
                 } catch(Exception ex) {
                     MessageBox.Show(ex.Message);
                 }
@@ -630,33 +630,38 @@ namespace InstallCeltaBSPDV {
             buttonConfigureFirewall.Text = "Aguarde";
             richTextBoxResults.Text = "";
             //o download do installbspdv e deployment precisam ser antes da criação do link para iniciar o app quando ligar a máquina
-            //await downloadFileTaskAsync(installBsPdvZip);
-            //await extractFile(cInstallBsPdvZip, cInstall, installBsPdvZip);
 
+            await enableAllPermissionsForPath(cInstallPdvCeltabspdv);
 
-            //await enableAllPermissionsForPath(cInstallPdvCeltabspdv);
-
-            //await movePath(cInstallPdvCeltabspdv, cCeltabspdv);
             ////as pastas precisam ter exatamente o nome da pasta que existe no windows explorer senão da problema de permissão na pasta
 
-            //await createPdvLink();
 
-            //await enableAllPermissionsForPath(Environment.ExpandEnvironmentVariables("%ProgramW6432%") + "\\MongoDB\\Server\\4.0\\bin");
-            //editMongoCfg();
 
-            //await downloadFileTaskAsync("deployment.zip");
+
+            await ConfigureFirewall();
+            await disableSuspendUSB();
+            createTempPath();
+            openAdjustVisualEffects();
+            neverNotifyUser();
+            setMachineName();
+
+            enableIISFeatures();
+
+            //como esses processos abaixo são mais demorados e depende da velocidade da internet, deixei pra fazer por último
+
+            await downloadFileTaskAsync(installBsPdvZip);
+            await movePath(cInstallPdvCeltabspdv, cCeltabspdv); //essencial fazer esse processo depois de baixaro arquivo installBsPdv.zip
+
+            await extractFile(cInstallBsPdvZip, cInstall, installBsPdvZip);
+            await createPdvLink();
+            await editMongoCfg();
+
+
+            await downloadFileTaskAsync("deployment.zip");
             await createPathSharedSat();
 
-            //await ConfigureFirewall();
 
-            //await disableSuspendUSB();
 
-            //createTempPath();
-            //openAdjustVisualEffects();
-            //neverNotifyUser();
-            //setMachineName();
-            //enableIISFeatures();
-            
             buttonConfigureFirewall.Text = "Efetuar configurações";
             buttonConfigureFirewall.Enabled = true;
         }
