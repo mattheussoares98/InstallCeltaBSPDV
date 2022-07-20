@@ -15,77 +15,6 @@ namespace InstallCeltaBSPDV {
         public EnableConfigurations() {
             InitializeComponent();
         }
-        private void ConfigureFirewallWithoutEdgeTransversal() {
-            //dessa forma abaixo não habilita os recursos de borda, por isso deixei conforme o método ConfigureFirewall();
-
-            // https://support.microsoft.com/en-us/help/947709/how-to-use-the-netsh-advfirewall-firewall-context-instead-of-the-netsh
-
-            //Remove any rule with the same name. Otherwise every time you run this code a new rule is added.  
-            Process removePort = new Process {
-                StartInfo = {
-                    FileName = "netsh",
-                    Arguments = $@"advfirewall firewall delete rule name=""9092, 27017"" EdgeTraversal = true",
-                    UseShellExecute = false,
-                    WindowStyle = ProcessWindowStyle.Hidden,
-                    RedirectStandardOutput = true,
-                }
-            };
-
-            Process removePING = new Process {
-                StartInfo = {
-                    FileName = "netsh",
-                    Arguments = $@"advfirewall firewall delete rule name=""PING""",
-                    UseShellExecute = false,
-                    WindowStyle = ProcessWindowStyle.Hidden,
-                    RedirectStandardOutput = true
-                }
-            };
-            try {
-                removePort.Start();
-                removePING.Start();
-                var output = removePort.StandardOutput.ReadToEnd();
-                removePort.WaitForExit();
-            } catch(Exception ex) {
-                MessageBox.Show(ex.Message);
-            }
-
-            Process pingProcess = new Process {
-                StartInfo = {
-                    FileName = "netsh",
-                    Arguments = $@"advfirewall firewall add rule name = ""PING"" protocol = ICMPv4:any,any dir =in action = allow",
-                    UseShellExecute = false,
-                    WindowStyle = ProcessWindowStyle.Hidden,
-                    RedirectStandardOutput = true
-                }
-            };
-
-            try {
-                pingProcess.Start();
-                var output = pingProcess.StandardOutput.ReadToEnd();
-                pingProcess.WaitForExit();
-            } catch(Exception ex) {
-                MessageBox.Show(ex.Message);
-            }
-
-            Process portProcess = new Process {
-                StartInfo = {
-                    FileName = "netsh",
-                    Arguments = $@"advfirewall firewall add rule name=""9092, 27017"" protocol=TCP localport=9092,27017 dir=in action=allow",
-                    UseShellExecute = false,
-                    WindowStyle = ProcessWindowStyle.Hidden,
-                    RedirectStandardOutput = true
-                }
-            };
-
-            try {
-                portProcess.Start();
-                var output = portProcess.StandardOutput.ReadToEnd();
-                portProcess.WaitForExit();
-            } catch(Exception ex) {
-                MessageBox.Show(ex.Message);
-            }
-        }
-
         private async Task ConfigureFirewall() {
 
             #region ICMPv4 - PING
@@ -107,8 +36,6 @@ namespace InstallCeltaBSPDV {
                 MessageBox.Show("Erro para remover o PING: " + ex.Message);
             }
 
-            //Thread.Sleep(new TimeSpan(hours: 0, minutes: 0, seconds: 1)); //se não fizer isso, as vezes tenta criar a regra do PING enquanto tá excluindo aí da erro
-
             Process pingProcess = new Process {
                 StartInfo = {
                     FileName = "netsh",
@@ -118,6 +45,8 @@ namespace InstallCeltaBSPDV {
                     RedirectStandardOutput = true
                 }
             };
+
+            Task.Delay(5000).Wait();
 
             try {
                 await Task.Run(() => pingProcess.Start());
@@ -340,28 +269,36 @@ namespace InstallCeltaBSPDV {
             #endregion
         }
 
+        private void openInstallMongoDb() {
+            if(File.Exists(@"C:\Install\PDV\Database\mongodb-win32-x86_64-2008plus-ssl-4.0.22-signed.msi")) {
+                var mongoPath = new ProcessStartInfo("cmd", "/c C:\\Install\\PDV\\Database\\mongodb-win32-x86_64-2008plus-ssl-4.0.22-signed.msi");
+
+                mongoPath.CreateNoWindow = true;
+                Process.Start(mongoPath);
+            }
+        }
+
         private async Task editMongoCfg() {
             string programFiles = Environment.ExpandEnvironmentVariables("%ProgramW6432%");
             string mongoBin = programFiles += "\\MongoDB\\Server\\4.0\\bin";
-            string newText = "";
             string mongoConfig = mongoBin + "\\mongod.cfg";
 
             if(!File.Exists(mongoConfig)) {
-                richTextBoxResults.Text += $"O {mongoConfig} não existe. Instale o mongoDB E SOMENTE APÓS A INSTALAÇÃO clique em ok\n\n";
-                DialogResult dialogResult = MessageBox.Show($"O {mongoConfig} não existe. Instale o mongoDB E SOMENTE APÓS A INSTALAÇÃO clique em ok", "ALERTA!!!", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                //richTextBoxResults.Text += $"O {mongoConfig} não existe. Clique em 'YES' para tentar abrir o instalador do PDV\n\n";
+                DialogResult dialogResult = MessageBox.Show($"O {mongoConfig} não existe\n\nClique em 'YES' para abrir o instalador do PDV e habilitar o acesso remoto ao banco de dados\n\nCaso não queira configurar o compartilhamento, clique em 'NO'", "ALERTA!!!", MessageBoxButtons.YesNo, MessageBoxIcon.Information);
 
-                //if(dialogResult.Equals(DialogResult.Yes)) {
-                //    return;
-                //}
-                await editMongoCfg();
-
+                if(dialogResult.Equals(DialogResult.Yes)) {
+                    openInstallMongoDb();
+                    await editMongoCfg();
+                } else {
+                    return;
+                }
             }
-
-
 
             try {
                 StreamReader sr = File.OpenText(mongoConfig);
                 string? textoDoArquivo = sr.ReadToEnd();
+                sr.Close();
 
                 if(textoDoArquivo.Contains("0.0.0.0")) {
                     richTextBoxResults.Text += $"O {mongoConfig} já foi alterado para conseguir acessar o banco de dados remotamente\n\n";
@@ -370,8 +307,7 @@ namespace InstallCeltaBSPDV {
 
                 await enableAllPermissionsForPath(Environment.ExpandEnvironmentVariables("%ProgramW6432%") + "\\MongoDB\\Server\\4.0\\bin");
 
-                newText = textoDoArquivo.Replace("127.0.0.1", "0.0.0.0");
-                sr.Close();
+                string newText = textoDoArquivo.Replace("127.0.0.1", "0.0.0.0");
 
                 Task.Delay(3000).Wait();
 
@@ -563,31 +499,22 @@ namespace InstallCeltaBSPDV {
             } else {
                 //se houver o arquivo do deployment.zip na pasta install, a aplicação extrai os arquivos, exclui a pasta de compartilhamento (se houver) e cria tudo novamente com os arquivos novos
                 try {
-                    if(Directory.Exists(celtaSat)) {
-                        await Task.Run(() => Directory.Delete(celtaSat, true));
-                    }
 
                     if(Directory.Exists(installDeployment)) {
                         Directory.Delete(installDeployment, true);
                     }
 
-
-
                     await Task.Run(() => ZipFile.ExtractToDirectory(installDeploymentZip, installDeployment));
-
 
                     if(Directory.Exists(celtaSatPdv)) {
                         await Task.Run(() => Directory.Delete(celtaSatPdv, true));
                     }
 
-
                     if(!Directory.Exists(celtaSat)) {
                         await Task.Run(() => Directory.CreateDirectory(celtaSat));
-
                     }
 
                     await Task.Run(() => Directory.Move(installDeploymentPdv, celtaSatPdv));
-
 
                     if(!Directory.Exists(celtaSatPdvBin)) {
                         Directory.CreateDirectory(celtaSatPdvBin);
@@ -623,14 +550,11 @@ namespace InstallCeltaBSPDV {
         private static readonly string installBsPdvZip = "installbspdv.zip";
         private static readonly string cInstallPdvCeltabspdv = "C:\\Install\\PDV\\CeltaBSPDV";
         private static readonly string cCeltabspdv = "C:\\CeltaBSPDV";
-
-
         private async void buttonConfigureFirewall_Click(object sender, EventArgs e) {
             buttonConfigureFirewall.Enabled = false;
             buttonConfigureFirewall.Text = "Aguarde";
             richTextBoxResults.Text = "";
             //o download do installbspdv e deployment precisam ser antes da criação do link para iniciar o app quando ligar a máquina
-
 
             ////as pastas precisam ter exatamente o nome da pasta que existe no windows explorer senão da problema de permissão na pasta
 
@@ -641,25 +565,29 @@ namespace InstallCeltaBSPDV {
             neverNotifyUser();
             setMachineName();
 
-            enableIISFeatures();
 
-            //como esses processos abaixo são mais demorados e depende da velocidade da internet, deixei pra fazer por último
+            ////como esses processos abaixo são mais demorados e depende da velocidade da internet, deixei pra fazer por último
 
             #region bspdv
             await downloadFileTaskAsync(installBsPdvZip);
+            Task.Delay(700).Wait(); //só pra confirmar que realmente terminou o download do arquivo
+            await extractFile(cInstallBsPdvZip, cInstall, installBsPdvZip);
             await enableAllPermissionsForPath(cInstallPdvCeltabspdv); //as vezes da erro pra fazer a extração se não deixar permissão pra todos
+            Task.Delay(700).Wait(); //para ter certeza que já terá extraído a pasta e que já terá dado permissão para todos usuários na pasta. Se não fizer isso, da erro as vezes
             await movePath(cInstallPdvCeltabspdv, cCeltabspdv); //essencial fazer esse processo depois de baixaro arquivo installBsPdv.zip
             #endregion
 
-            await extractFile(cInstallBsPdvZip, cInstall, installBsPdvZip);
             await createPdvLink();
-            await editMongoCfg();
+            await editMongoCfg(); //nessa função já está adicionando permissão para todos usuários na pasta do arquivo. Ele só chega nessa parte quando existe a pasta do arquivo
 
 
-            await downloadFileTaskAsync("deployment.zip");
-            await createPathSharedSat();
+            DialogResult createSharedSat = MessageBox.Show("Deseja baixar o deployment para criar a pasta de compartilhamento do SAT?", "Criar compartilhamento do SAT", MessageBoxButtons.YesNo, MessageBoxIcon.Question, MessageBoxDefaultButton.Button1);
 
-
+            if(createSharedSat.Equals(DialogResult.Yes)) {
+                enableIISFeatures();
+                await downloadFileTaskAsync("deployment.zip");
+                await createPathSharedSat();
+            }
 
             buttonConfigureFirewall.Text = "Efetuar configurações";
             buttonConfigureFirewall.Enabled = true;

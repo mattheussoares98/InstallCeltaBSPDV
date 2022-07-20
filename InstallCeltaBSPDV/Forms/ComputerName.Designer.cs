@@ -70,6 +70,7 @@
             this.Name = "ComputerName";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "ComputerName";
+            this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.ComputerName_FormClosing);
             this.ResumeLayout(false);
             this.PerformLayout();
 

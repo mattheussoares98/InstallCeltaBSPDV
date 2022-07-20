@@ -45,7 +45,12 @@ namespace InstallCeltaBSPDV {
         private void maskedTextBoxSetComputerName_KeyUp(object sender, KeyEventArgs e) {
             if(e.KeyCode == Keys.Enter) {
                 buttonSetComputerName_Click(null, null);
+                this.Close();
             }
+        }
+
+        private void ComputerName_FormClosing(object sender, FormClosingEventArgs e) {
+            e.Cancel = false;
         }
     }
 }
