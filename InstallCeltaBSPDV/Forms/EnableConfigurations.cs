@@ -10,9 +10,9 @@ using System.Security.Principal;
 using System.IO.Compression;
 
 namespace InstallCeltaBSPDV {
-    public partial class EnableConfigurations: Form {
+    public partial class enableConfigurations: Form {
 
-        public EnableConfigurations() {
+        public enableConfigurations() {
             InitializeComponent();
         }
         private async Task ConfigureFirewall() {
@@ -554,17 +554,18 @@ namespace InstallCeltaBSPDV {
             buttonConfigureFirewall.Enabled = false;
             buttonConfigureFirewall.Text = "Aguarde";
             richTextBoxResults.Text = "";
-            //o download do installbspdv e deployment precisam ser antes da criação do link para iniciar o app quando ligar a máquina
+            progressBarInstall.Style = ProgressBarStyle.Marquee;
+            progressBarInstall.MarqueeAnimationSpeed = 30;
+            progressBarInstall.Visible = true;
+            this.ControlBox = false;
 
-            ////as pastas precisam ter exatamente o nome da pasta que existe no windows explorer senão da problema de permissão na pasta
-
+            #region windows
             await ConfigureFirewall();
             await disableSuspendUSB();
-            createTempPath();
             openAdjustVisualEffects();
             neverNotifyUser();
             setMachineName();
-
+            #endregion
 
             ////como esses processos abaixo são mais demorados e depende da velocidade da internet, deixei pra fazer por último
 
@@ -577,10 +578,15 @@ namespace InstallCeltaBSPDV {
             await movePath(cInstallPdvCeltabspdv, cCeltabspdv); //essencial fazer esse processo depois de baixaro arquivo installBsPdv.zip
             #endregion
 
+            //coloquei essa parte pra fazer depois da parte do PDV porque ele tenta criar os atalhos do PDV e editar a conexão remota do banco
+            #region path and links
+            createTempPath();
             await createPdvLink();
             await editMongoCfg(); //nessa função já está adicionando permissão para todos usuários na pasta do arquivo. Ele só chega nessa parte quando existe a pasta do arquivo
+            #endregion
 
 
+            #region sharedSAT
             DialogResult createSharedSat = MessageBox.Show("Deseja baixar o deployment para criar a pasta de compartilhamento do SAT?", "Criar compartilhamento do SAT", MessageBoxButtons.YesNo, MessageBoxIcon.Question, MessageBoxDefaultButton.Button1);
 
             if(createSharedSat.Equals(DialogResult.Yes)) {
@@ -588,9 +594,19 @@ namespace InstallCeltaBSPDV {
                 await downloadFileTaskAsync("deployment.zip");
                 await createPathSharedSat();
             }
+            #endregion
 
             buttonConfigureFirewall.Text = "Efetuar configurações";
             buttonConfigureFirewall.Enabled = true;
+            progressBarInstall.Style = ProgressBarStyle.Continuous;
+            progressBarInstall.MarqueeAnimationSpeed = 0;
+            progressBarInstall.Visible = false;
+            this.ControlBox = true;
+        }
+
+        private void richTextBoxResults_TextChanged(object sender, EventArgs e) {
+            richTextBoxResults.SelectionStart = richTextBoxResults.Text.Length;
+            richTextBoxResults.ScrollToCaret();
         }
     }
 }
