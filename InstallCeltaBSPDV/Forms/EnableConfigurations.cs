@@ -8,14 +8,18 @@ using System.Net.Sockets;
 using System.Security.AccessControl;
 using System.Security.Principal;
 using System.IO.Compression;
+using InstallCeltaBSPDV.Configurations;
 
 namespace InstallCeltaBSPDV {
-    public partial class enableConfigurations: Form {
+    public partial class EnableConfigurations: Form {
 
-        public enableConfigurations() {
+        public EnableConfigurations() {
             InitializeComponent();
         }
         private async Task ConfigureFirewall() {
+            bool pingVerify = false;
+            bool sitePortVerify = false;
+            bool mongoPortVerify = false;
 
             #region ICMPv4 - PING
 
@@ -64,6 +68,8 @@ namespace InstallCeltaBSPDV {
 
                 var rule = firewallPolicyPING!.Rules.Item("PING"); // Name of your rule here
                 rule.EdgeTraversal = true; // Update the rule here. Nothing else needed to persist the changes
+
+                pingVerify = true;
                 richTextBoxResults.Text += "Firewall: Regra de PING adicionada\n\n";
             } catch(Exception ex) {
                 MessageBox.Show("Erro para editar o PING: " + ex.Message);
@@ -85,12 +91,16 @@ namespace InstallCeltaBSPDV {
             INetFwPolicy2 firewallPolicy9092 = (INetFwPolicy2)Activator.CreateInstance(
                 Type.GetTypeFromProgID("HNetCfg.FwPolicy2"));
 
-            await Task.Run(() => firewallPolicy9092.Rules.Remove("9092"));
+            try {
+                await Task.Run(() => firewallPolicy9092.Rules.Remove("9092"));
 
-            await Task.Run(() => firewallPolicy9092.Rules.Add(firewallRule9092));
+                await Task.Run(() => firewallPolicy9092.Rules.Add(firewallRule9092));
 
-            richTextBoxResults.Text += "Firewall: Regra da porta 9092 adicionada\n\n";
-
+                sitePortVerify = true;
+                richTextBoxResults.Text += "Firewall: Regra da porta 9092 adicionada\n\n";
+            } catch(Exception ex) {
+                MessageBox.Show($"Erro para criar a regra 9092 do Firewall: {ex.Message}");
+            }
             #endregion
 
             #region porta 27017
@@ -109,13 +119,23 @@ namespace InstallCeltaBSPDV {
             INetFwPolicy2 firewallPolicy = (INetFwPolicy2)Activator.CreateInstance(
                 Type.GetTypeFromProgID("HNetCfg.FwPolicy2"));
 
-            await Task.Run(() => firewallPolicy!.Rules.Remove("27017"));
-            await Task.Run(() => firewallPolicy!.Rules.Add(firewallRule27017));
+            try {
+                await Task.Run(() => firewallPolicy!.Rules.Remove("27017"));
+                await Task.Run(() => firewallPolicy!.Rules.Add(firewallRule27017));
+                mongoPortVerify = true;
+            } catch(Exception ex) {
+                MessageBox.Show($"Erro para configurar a porta 27017: {ex.Message}");
+            }
+
 
             richTextBoxResults.Text += "Firewall: Regra da porta 27017 adicionada\n\n";
             #endregion
 
-
+            if(pingVerify && sitePortVerify && mongoPortVerify) {
+                checkBoxFirewall.Checked = true;
+                //checkBoxFirewall.ForeColor = Color.Green;
+                //checkBoxFirewall.ForeColor = Color.Green;
+            }
         }
 
         private async Task disableSuspendUSB() {
@@ -158,21 +178,32 @@ namespace InstallCeltaBSPDV {
                     Process.Start(disableUsbStandbyBattery);
                     Process.Start(disableUsbStandbyPlugged);
                 });
-
-                richTextBoxResults.Text += "Configurações de energia da USB, monitor e PCI efetuadas com sucesso\n\n";
+                checkBoxSuspendUSB.Checked = true;
+                //checkBoxSuspendUSB.ForeColor = Color.Green;
+                checkBoxSuspendMonitorAndPC.Checked = true;
+                //checkBoxSuspendMonitorAndPC.ForeColor = Color.Green;
+                //richTextBoxResults.Text += "Configurações de energia da USB, monitor e PCI efetuadas com sucesso\n\n";
             } catch(Exception ex) {
                 MessageBox.Show(ex.Message);
             }
         }
         private void setMachineName() {
-            Form FormComputerName = new ComputerName();
+            ComputerName FormComputerName = new ComputerName(this);
             FormComputerName.Show();
         }
         private void createTempPath() {
             if(!Directory.Exists("C:\\Temp")) {
-                Directory.CreateDirectory("C:\\Temp");
+                DirectoryInfo info = Directory.CreateDirectory("C:\\Temp");
+                bool exists = info.Exists;
+
+                if(exists) {
+                    checkBoxTemp.Checked = true;
+                    //checkBoxTemp.ForeColor = Color.Green;
+                }
+            } else {
+                checkBoxTemp.Checked = true;
+                //checkBoxTemp.ForeColor = Color.Green;
             }
-            richTextBoxResults.Text += "Pasta 'C:\\Temp' criada\n\n";
         }
         private void neverNotifyUser() {
             var info = new ProcessStartInfo("cmd", @"/c C:\Windows\System32\UserAccountControlSettings.exe");
@@ -215,217 +246,7 @@ namespace InstallCeltaBSPDV {
                 MessageBox.Show(ex.Message);
             }
         }
-
-        private async Task enableAllPermissionsForPath(string path) {
-
-            #region Edit permissions
-
-            const FileSystemRights rights = FileSystemRights.FullControl;
-
-            var allUsers = new SecurityIdentifier(WellKnownSidType.BuiltinUsersSid, null);
-
-            // Add Access Rule to the actual directory itself
-            var accessRule = new FileSystemAccessRule(
-                allUsers,
-                rights,
-                InheritanceFlags.None,
-                PropagationFlags.NoPropagateInherit,
-                AccessControlType.Allow);
-
-            if(!Directory.Exists(path)) {
-                richTextBoxResults.Text += $"O caminho {path} não foi encontrado para habilitar a permissão para todos usuários\n\n";
-                return;
-            }
-
-            var info = new DirectoryInfo(path);
-            var security = info.GetAccessControl(AccessControlSections.Access);
-
-            bool result;
-            security.ModifyAccessRule(AccessControlModification.Set, accessRule, out result);
-
-            if(!result) {
-                throw new InvalidOperationException("Failed to give full-control permission to all users for path " + path);
-            } else {
-                richTextBoxResults.Text += $"Adicionado permissão para todos usuários na pasta {path}\n\n";
-            }
-
-            // add inheritance
-            var inheritedAccessRule = new FileSystemAccessRule(
-                allUsers,
-                rights,
-                InheritanceFlags.ContainerInherit | InheritanceFlags.ObjectInherit,
-                PropagationFlags.InheritOnly,
-                AccessControlType.Allow);
-
-            bool inheritedResult;
-            security.ModifyAccessRule(AccessControlModification.Add, inheritedAccessRule, out inheritedResult);
-
-            if(!inheritedResult) {
-                throw new InvalidOperationException("Failed to give full-control permission inheritance to all users for " + path);
-            }
-            await Task.Run(() => info.SetAccessControl(security));
-
-
-            #endregion
-        }
-
-        private void openInstallMongoDb() {
-            if(File.Exists(@"C:\Install\PDV\Database\mongodb-win32-x86_64-2008plus-ssl-4.0.22-signed.msi")) {
-                var mongoPath = new ProcessStartInfo("cmd", "/c C:\\Install\\PDV\\Database\\mongodb-win32-x86_64-2008plus-ssl-4.0.22-signed.msi");
-
-                mongoPath.CreateNoWindow = true;
-                Process.Start(mongoPath);
-            }
-        }
-
-        private async Task editMongoCfg() {
-            string programFiles = Environment.ExpandEnvironmentVariables("%ProgramW6432%");
-            string mongoBin = programFiles += "\\MongoDB\\Server\\4.0\\bin";
-            string mongoConfig = mongoBin + "\\mongod.cfg";
-
-            if(!File.Exists(mongoConfig)) {
-                //richTextBoxResults.Text += $"O {mongoConfig} não existe. Clique em 'YES' para tentar abrir o instalador do PDV\n\n";
-                DialogResult dialogResult = MessageBox.Show($"O {mongoConfig} não existe\n\nClique em 'YES' para abrir o instalador do PDV e habilitar o acesso remoto ao banco de dados\n\nCaso não queira configurar o compartilhamento, clique em 'NO'", "ALERTA!!!", MessageBoxButtons.YesNo, MessageBoxIcon.Information);
-
-                if(dialogResult.Equals(DialogResult.Yes)) {
-                    openInstallMongoDb();
-                    await editMongoCfg();
-                } else {
-                    return;
-                }
-            }
-
-            try {
-                StreamReader sr = File.OpenText(mongoConfig);
-                string? textoDoArquivo = sr.ReadToEnd();
-                sr.Close();
-
-                if(textoDoArquivo.Contains("0.0.0.0")) {
-                    richTextBoxResults.Text += $"O {mongoConfig} já foi alterado para conseguir acessar o banco de dados remotamente\n\n";
-                    return;
-                }
-
-                await enableAllPermissionsForPath(Environment.ExpandEnvironmentVariables("%ProgramW6432%") + "\\MongoDB\\Server\\4.0\\bin");
-
-                string newText = textoDoArquivo.Replace("127.0.0.1", "0.0.0.0");
-
-                Task.Delay(3000).Wait();
-
-                File.WriteAllText(mongoConfig, newText); //caso já tenha um arquivo com o mesmo nome, ele sobrescreve com o texto que está no segundo parâmetro
-
-                richTextBoxResults.Text += $"O arquivo {mongoConfig} foi alterado com sucesso para conseguir acessar o banco de dados externamente\n\n";
-
-            } catch(Exception e) {
-                MessageBox.Show("Erro para ler os dados do arquivo: " + e.Message);
-                Console.WriteLine(e.Message);
-            }
-
-
-            try {
-                //StreamWriter sw = new StreamWriter(mongoConfig);
-                //sw.WriteLine(newText);
-                //sw.Close();
-            } catch(Exception ex) {
-                MessageBox.Show("Erro para escrever os dados no mongod.cfg: " + ex.Message);
-            }
-        }
-
-        private async Task createPdvLink() {
-            string pdvPath = "C:\\CeltaBSPDV\\CeltaWare.CBS.PDV.UI.exe";
-            string startupUiPath = "C:\\ProgramData\\Microsoft\\Windows\\Start Menu\\Programs\\Startup\\CeltaWare.CBS.PDV.UI.exe";
-            string startupPath = "C:\\ProgramData\\Microsoft\\Windows\\Start Menu\\Programs\\Startup\\CeltaWare.CBS.PDV.exe";
-            string desktopPath = Environment.GetFolderPath(Environment.SpecialFolder.Desktop) + "\\CeltaWare.CBS.PDV.exe";
-            string desktopUiPath = Environment.GetFolderPath(Environment.SpecialFolder.Desktop) + "\\CeltaWare.CBS.PDV.UI.exe";
-
-            if(!File.Exists(pdvPath)) {
-                richTextBoxResults.Text += $"Não foi possível encontrar o arquivo {pdvPath}. Iniciando download do installbspdv.zip para fazer as configurações das pastas\n";
-                richTextBoxResults.Text += "Iniciando download do installBsPdv.zip\n\n";
-                await downloadFileTaskAsync(installBsPdvZip);
-                await extractFile(cInstallBsPdvZip, cInstall, "installbspdv.zip");
-                Task.Delay(7000).Wait();
-                await movePath(cInstallPdvCeltabspdv, cCeltabspdv);
-                Task.Delay(7000).Wait();
-                await createPdvLink();
-            }
-
-            if(File.Exists(startupPath) && File.Exists(startupUiPath)) {
-                File.Delete(startupUiPath);
-                richTextBoxResults.Text += "O PDV já está na pasta de inicialização automática do windows\n\n";
-            } else if(File.Exists(startupPath) || File.Exists(startupUiPath)) {
-                richTextBoxResults.Text += "O PDV já está na pasta de inicialização automática do windows\n\n";
-            } else {
-                //File.CreateSymbolicLink(startupPath, pdvPath);
-                await Task.Run(() => File.CreateSymbolicLink(startupPath, pdvPath));
-                richTextBoxResults.Text += "O atalho do PDV foi adicionado na pasta de inicialização do windows\n\n";
-            }
-
-            if(File.Exists(desktopPath) && File.Exists(desktopUiPath)) {
-                File.Delete(startupUiPath);
-                richTextBoxResults.Text += "O PDV já está na área de trabalho\n\n";
-            } else if(File.Exists(desktopPath) || File.Exists(desktopUiPath)) {
-                richTextBoxResults.Text += "O PDV já está na área de trabalho\n\n";
-            } else {
-                await Task.Run(() => File.CreateSymbolicLink(desktopPath, pdvPath));
-                richTextBoxResults.Text += "O atalho do PDV foi adicionado na área de trabalho\n\n";
-            }
-        }
-
-        private async Task downloadFileTaskAsync(string fileName) {
-            HttpClient client = new HttpClient();
-
-            string destinyPath = "C:\\Install";
-
-            if(!Directory.Exists(destinyPath)) {
-                Directory.CreateDirectory(destinyPath);
-            }
-
-            string fileNamePath = destinyPath + "\\" + fileName;
-
-            string uri = "http://177.103.179.36/downloads/lastversion/" + fileName;
-
-            #region download files
-            if(!File.Exists(fileNamePath)) {
-                richTextBoxResults.Text += "Baixando o " + fileName + ". Dependendo da velocidade da internet, esse processo pode ser demorado\n\n";
-                //só tenta baixar o arquivo se ele não existir ainda
-                try {
-                    using(var s = await client.GetStreamAsync(uri)) {
-                        using(var fs = new FileStream(fileNamePath, FileMode.CreateNew)) {
-                            await s.CopyToAsync(fs);
-                        }
-                    }
-                } catch(Exception ex) {
-                    MessageBox.Show("Erro para baixar o arquivo: " + ex.Message);
-                }
-                richTextBoxResults.Text += fileName + " baixado com sucesso\n\n";
-            } else {
-                richTextBoxResults.Text += $"O {fileName} já foi baixado\n\n";
-            }
-            #endregion
-        }
-        private async Task extractFile(string sourceFilePath, string destinyPath, string fileName) {
-            if(!File.Exists(sourceFilePath)) {
-                DialogResult dialogResult = MessageBox.Show($"O {sourceFilePath} não existe. Deseja baixá-lo?", "Aviso!", MessageBoxButtons.YesNo, MessageBoxIcon.Warning, MessageBoxDefaultButton.Button1);
-
-                if(dialogResult == DialogResult.Yes) {
-                    try {
-                        await downloadFileTaskAsync(fileName);
-                    } catch(Exception ex) {
-                        MessageBox.Show($"Erro para baixar o {fileName}: {ex.Message}");
-                    }
-                } else {
-                    return;
-                }
-            }
-
-            if(File.Exists(sourceFilePath)) {
-                try {
-                    await Task.Run(() => ZipFile.ExtractToDirectory(sourceFilePath, destinyPath, true));
-                    //mesmo colocando o await acima, parece que estava indo pro próximo passo sem terminar a execução da extração dos arquivos
-                } catch(Exception ex) {
-                    MessageBox.Show($"Erro para extrair o {fileName}: {ex.Message}");
-                }
-            }
-        }
+       
         private async Task overrideFilesInPath(string pathToRead, string destiny) {
             if(!Directory.Exists(pathToRead)) {
                 MessageBox.Show($"Não foi possível encontrar o caminho {pathToRead}");
@@ -441,33 +262,6 @@ namespace InstallCeltaBSPDV {
                     MessageBox.Show($"Erro para copiar o arquivo para o destino\n\norigem: {file}\n\ndestino: {localDestiny}\n\nerro: {ex.Message}");
                 }
             }
-        }
-
-        private async Task movePath(string sourcePath, string destinyPath) {
-            if(!Directory.Exists(sourcePath)) {
-                MessageBox.Show($"Não foi possível encontrar o caminho {sourcePath}");
-                return;
-            }
-
-            if(Directory.Exists(destinyPath)) {
-                MessageBox.Show($"Como o diretório {destinyPath} já existe, não fará a cópia da pasta para o diretório");
-                return;
-            }
-
-
-            try {
-                //Directory.Move(sourcePath, destinyPath);
-                Task.Delay(7000).Wait();
-                await Task.Run(() => Directory.Move(sourcePath, destinyPath));
-                richTextBoxResults.Text += $"{sourcePath} movido com sucesso para o caminho {destinyPath}\n\n";
-            } catch(Exception ex) {
-                MessageBox.Show(ex.Message);
-            }
-
-            //if(Directory.Exists(destinyPath)) {
-            //} else {
-            //    richTextBoxResults.Text += $"O caminho {destinyPath} já existe";
-            //}
         }
         private async Task createPathSharedSat() {
             #region directoryes
@@ -491,7 +285,7 @@ namespace InstallCeltaBSPDV {
             if(!File.Exists(installDeploymentZip)) {
                 //se não houver o deployment na pasta install, baixa ele novamente e chama o mesmo método para efetuar a extração dos arquivos e criação da pasta de compartilhamento do SAT
                 richTextBoxResults.Text += $"Como o {installDeploymentZip} não existe, a aplicação fará o download do arquivo para criar a pasta de compartilhamento do SAT atualizada\n\n";
-                await downloadFileTaskAsync("deployment.zip");
+                await Utils.downloadFileTaskAsync("deployment.zip");
 
                 await createPathSharedSat();
                 return;
@@ -532,24 +326,28 @@ namespace InstallCeltaBSPDV {
                     if(Directory.Exists(celtaSatSat)) {
                         Directory.Delete(celtaSatSat, true);
                     }
-                    richTextBoxResults.Text += $"A pasta de compartilhamento do SAT foi criada com sucesso. Pasta: {celtaSat}\n\n";
+
+                    checkBoxSharedPath.Checked = true;
+                    //checkBoxSharedPath.ForeColor = Color.Green;
                 } catch(Exception ex) {
                     MessageBox.Show(ex.Message);
                 }
+
+                try {
+
+                    await Utils.downloadFileTaskAsync("web.config", "https://drive.google.com/u/1/uc?id=19D1bDda6HU4qa7tdbVppHFRmh0SsAoem&export=download");
+
+                    await Task.Run(() => File.Move("C:\\Install\\web.config", "C:\\Celta SAT\\PDV\\web.config", true));
+                } catch(Exception ex) {
+                    MessageBox.Show($"Erro para baixar o webConfig do compartilhamento do SAT: {ex.Message}");
+                }
             }
         }
-
         private void openAdjustVisualEffects() {
             var adjustVisualEffects = new ProcessStartInfo("cmd", "/c %windir%\\system32\\SystemPropertiesPerformance.exe");
             adjustVisualEffects.CreateNoWindow = true;
             Process.Start(adjustVisualEffects);
         }
-
-        private static readonly string cInstall = "C:\\Install";
-        private static readonly string cInstallBsPdvZip = "C:\\Install\\installbspdv.zip";
-        private static readonly string installBsPdvZip = "installbspdv.zip";
-        private static readonly string cInstallPdvCeltabspdv = "C:\\Install\\PDV\\CeltaBSPDV";
-        private static readonly string cCeltabspdv = "C:\\CeltaBSPDV";
         private async void buttonConfigureFirewall_Click(object sender, EventArgs e) {
             buttonConfigureFirewall.Enabled = false;
             buttonConfigureFirewall.Text = "Aguarde";
@@ -557,6 +355,7 @@ namespace InstallCeltaBSPDV {
             progressBarInstall.Style = ProgressBarStyle.Marquee;
             progressBarInstall.MarqueeAnimationSpeed = 30;
             progressBarInstall.Visible = true;
+            flowLayoutPanel1.Enabled = false;
             this.ControlBox = false;
 
             #region windows
@@ -565,33 +364,21 @@ namespace InstallCeltaBSPDV {
             openAdjustVisualEffects();
             neverNotifyUser();
             setMachineName();
+            createTempPath();
             #endregion
 
             ////como esses processos abaixo são mais demorados e depende da velocidade da internet, deixei pra fazer por último
 
-            #region bspdv
-            await downloadFileTaskAsync(installBsPdvZip);
-            Task.Delay(700).Wait(); //só pra confirmar que realmente terminou o download do arquivo
-            await extractFile(cInstallBsPdvZip, cInstall, installBsPdvZip);
-            await enableAllPermissionsForPath(cInstallPdvCeltabspdv); //as vezes da erro pra fazer a extração se não deixar permissão pra todos
-            Task.Delay(700).Wait(); //para ter certeza que já terá extraído a pasta e que já terá dado permissão para todos usuários na pasta. Se não fizer isso, da erro as vezes
-            await movePath(cInstallPdvCeltabspdv, cCeltabspdv); //essencial fazer esse processo depois de baixaro arquivo installBsPdv.zip
-            #endregion
+            await BsPdv.configureBsPdv(this);
 
             //coloquei essa parte pra fazer depois da parte do PDV porque ele tenta criar os atalhos do PDV e editar a conexão remota do banco
-            #region path and links
-            createTempPath();
-            await createPdvLink();
-            await editMongoCfg(); //nessa função já está adicionando permissão para todos usuários na pasta do arquivo. Ele só chega nessa parte quando existe a pasta do arquivo
-            #endregion
-
 
             #region sharedSAT
-            DialogResult createSharedSat = MessageBox.Show("Deseja baixar o deployment para criar a pasta de compartilhamento do SAT?", "Criar compartilhamento do SAT", MessageBoxButtons.YesNo, MessageBoxIcon.Question, MessageBoxDefaultButton.Button1);
+            DialogResult createSharedSat = MessageBox.Show("Deseja criar a pasta de compartilhamento do SAT?", "Criar compartilhamento do SAT", MessageBoxButtons.YesNo, MessageBoxIcon.Question, MessageBoxDefaultButton.Button1);
 
             if(createSharedSat.Equals(DialogResult.Yes)) {
                 enableIISFeatures();
-                await downloadFileTaskAsync("deployment.zip");
+                await Utils.downloadFileTaskAsync("deployment.zip");
                 await createPathSharedSat();
             }
             #endregion
@@ -601,6 +388,7 @@ namespace InstallCeltaBSPDV {
             progressBarInstall.Style = ProgressBarStyle.Continuous;
             progressBarInstall.MarqueeAnimationSpeed = 0;
             progressBarInstall.Visible = false;
+            flowLayoutPanel1.Enabled = true;
             this.ControlBox = true;
         }
 

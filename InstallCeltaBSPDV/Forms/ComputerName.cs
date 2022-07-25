@@ -11,12 +11,15 @@ using System.Windows.Forms;
 
 namespace InstallCeltaBSPDV {
     public partial class ComputerName: Form {
-        public ComputerName() {
+        public ComputerName(EnableConfigurations enableConfigurations) {
             InitializeComponent();
             maskedTextBoxSetComputerName.Focus();
+            enable = enableConfigurations;
         }
+        EnableConfigurations enable;
 
         public void buttonSetComputerName_Click(object sender, EventArgs e) {
+
             RegistryKey key = Registry.LocalMachine;
             string newName = "PDV" + maskedTextBoxSetComputerName.Text;
 
@@ -37,15 +40,14 @@ namespace InstallCeltaBSPDV {
                 hostName.SetValue("NV Hostname", newName);
                 hostName.Close();
 
+                enable.checkBox5.Checked = true;
                 this.Close();
             }
-
         }
 
         private void maskedTextBoxSetComputerName_KeyUp(object sender, KeyEventArgs e) {
             if(e.KeyCode == Keys.Enter) {
                 buttonSetComputerName_Click(null, null);
-                this.Close();
             }
         }
 
