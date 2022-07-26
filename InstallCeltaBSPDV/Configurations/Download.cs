@@ -6,7 +6,7 @@ using System.Text;
 using System.Threading.Tasks;
 
 namespace InstallCeltaBSPDV.Configurations {
-    public static class Utils {
+    public static class Download {
         public static readonly string cInstall = "C:\\Install";
         public static readonly string cInstallBsPdvZip = "C:\\Install\\installbspdv.zip";
         public static readonly string installBsPdvZip = "installbspdv.zip";

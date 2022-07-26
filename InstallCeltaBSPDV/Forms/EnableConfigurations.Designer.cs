@@ -23,7 +23,7 @@
         ///  the contents of this method with the code editor.
         /// </summary>
         private void InitializeComponent() {
-            this.buttonConfigureFirewall = new System.Windows.Forms.Button();
+            this.buttonConfigurations = new System.Windows.Forms.Button();
             this.flowLayoutPanel1 = new System.Windows.Forms.FlowLayoutPanel();
             this.checkBoxFirewall = new System.Windows.Forms.CheckBox();
             this.checkBoxSuspendUSB = new System.Windows.Forms.CheckBox();
@@ -52,15 +52,15 @@
             this.flowLayoutPanel1.SuspendLayout();
             this.SuspendLayout();
             // 
-            // buttonConfigureFirewall
+            // buttonConfigurations
             // 
-            this.buttonConfigureFirewall.Location = new System.Drawing.Point(599, 497);
-            this.buttonConfigureFirewall.Name = "buttonConfigureFirewall";
-            this.buttonConfigureFirewall.Size = new System.Drawing.Size(386, 71);
-            this.buttonConfigureFirewall.TabIndex = 0;
-            this.buttonConfigureFirewall.Text = "Iniciar configurações";
-            this.buttonConfigureFirewall.UseVisualStyleBackColor = true;
-            this.buttonConfigureFirewall.Click += new System.EventHandler(this.buttonConfigureFirewall_Click);
+            this.buttonConfigurations.Location = new System.Drawing.Point(599, 497);
+            this.buttonConfigurations.Name = "buttonConfigurations";
+            this.buttonConfigurations.Size = new System.Drawing.Size(386, 71);
+            this.buttonConfigurations.TabIndex = 0;
+            this.buttonConfigurations.Text = "Iniciar configurações";
+            this.buttonConfigurations.UseVisualStyleBackColor = true;
+            this.buttonConfigurations.Click += new System.EventHandler(this.buttonConfigurations_Click);
             // 
             // flowLayoutPanel1
             // 
@@ -347,7 +347,7 @@
             this.Controls.Add(this.progressBarInstall);
             this.Controls.Add(this.flowLayoutPanel1);
             this.Controls.Add(this.richTextBoxResults);
-            this.Controls.Add(this.buttonConfigureFirewall);
+            this.Controls.Add(this.buttonConfigurations);
             this.Name = "EnableConfigurations";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "Form1";
@@ -359,20 +359,15 @@
 
         #endregion
 
-        private Button buttonConfigureFirewall;
+        private Button buttonConfigurations;
         private CheckBox checkBox16;
         private CheckBox checkBox17;
         private CheckBox checkBox18;
         private CheckBox checkBox14;
-        private CheckBox checkBoxSharedPath;
         private CheckBox checkBox12;
         private CheckBox checkBox9;
-        private CheckBox checkBoxSuspendMonitorAndPC;
-        private CheckBox checkBoxFirewall;
         private CheckBox checkBox8;
-        private CheckBox checkBoxTemp;
         private CheckBox checkBox3;
-        private CheckBox checkBoxSuspendUSB;
         private CheckBox checkBox19;
         private CheckBox checkBox20;
         private CheckBox checkBox21;
@@ -385,5 +380,10 @@
         public CheckBox checkBoxPdvLink;
         public CheckBox checkBoxEnableRemoteAcces;
         public CheckBox checkBoxInstallMongo;
+        public CheckBox checkBoxFirewall;
+        public CheckBox checkBoxSuspendUSB;
+        public CheckBox checkBoxSuspendMonitorAndPC;
+        public CheckBox checkBoxTemp;
+        public CheckBox checkBoxSharedPath;
     }
 }
