@@ -25,6 +25,8 @@ namespace InstallCeltaBSPDV.Configurations {
 
             string fileNamePath = destinyPath + "\\" + fileName;
 
+            uri += fileName; //se não fizer isso, não funciona o download
+
             #region download files
             if(!File.Exists(fileNamePath)) {
                 enableConfigurations.richTextBoxResults.Text += "Baixando o " + fileName + ". Dependendo da velocidade da internet, esse processo pode ser demorado\n\n";
