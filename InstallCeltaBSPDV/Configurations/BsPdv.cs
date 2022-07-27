@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Microsoft.Win32;
+using System;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
@@ -29,7 +30,9 @@ namespace InstallCeltaBSPDV.Configurations {
             //} catch(Exception ex) {
             //    MessageBox.Show($"Erro para criar o atalho do PDV: {ex.Message}");
             //}
-            installMongoDb();
+
+
+
             //await editMongoCfg(enable); //nessa função já está adicionando permissão para todos usuários na pasta do arquivo. Ele só chega nessa parte quando existe a pasta do arquivo
         }
 
@@ -83,19 +86,55 @@ namespace InstallCeltaBSPDV.Configurations {
                 //enable.checkBoxPdvLink.ForeColor = Color.Green;
             }
         }
-        private static void installMongoDb() {
-            var installMongoProcess = new ProcessStartInfo("cmd", "/c cd C:\\Install\\PDV\\Database&msiexec.exe / l * v mdbinstall.log / qb / i mongodb - win32 - x86_64 - 2008plus - ssl - 4.0.22 - signed.msi ^ ADDLOCAL = ServerService,Client");
 
-            //msiexec.exe /l*v mdbinstall.log  /qb /i mongodb-win32-x86_64-2008plus-ssl-4.0.22-signed.msi ^
-            //ADDLOCAL = "ServerService,Client"
+        public static bool verifyMongoIsInstalled() {
+            // consulta no regedit se contém o Mongo instalado
+            List<String> programsDisplayName = new() {
+            };
 
-            installMongoProcess.CreateNoWindow = false;
-
-            try {
-                Process.Start(installMongoProcess);
-            } catch(Exception ex) {
-                MessageBox.Show("Erro para instalar o MongoDB");
+            string registry_key = @"SOFTWARE\Microsoft\Windows\CurrentVersion\Uninstall";
+            using(RegistryKey key = Registry.LocalMachine.OpenSubKey(registry_key)) {
+                foreach(string subkey_name in key.GetSubKeyNames()) {
+                    using(RegistryKey subkey = key.OpenSubKey(subkey_name)) {
+                        if(subkey.GetValue("DisplayName") != null) {
+                            programsDisplayName.Add((string)subkey.GetValue("DisplayName"));
+                        }
+                    }
+                }
             }
+
+            bool mongoIsInstalled = false;
+            foreach(var installed in programsDisplayName) {
+                if(installed.Contains("Mongo")) {
+                    mongoIsInstalled = true;
+                }
+            }
+            return mongoIsInstalled;
+        }
+        private static void installMongoDb(EnableConfigurations enable) {
+
+            string appPath = System.Reflection.Assembly.GetExecutingAssembly().Location;
+            string appDirectory = Path.GetDirectoryName(appPath)!;
+
+            var installMongo = new ProcessStartInfo("cmd", $"/c cd {appDirectory}&installMongoDB.bat");
+            installMongo.CreateNoWindow = true;
+            try {
+                bool isInstalled = verifyMongoIsInstalled();
+                if(!isInstalled) {
+                    Process.Start(installMongo);
+                }
+
+                Task.Delay(60000).Wait(); //tempo que acredito que dará para terminar a instalação do mongo e continuar as configurações
+                isInstalled = verifyMongoIsInstalled();
+                if(!isInstalled) {
+                    installMongoDb(enable);
+                }
+
+            } catch(Exception ex) {
+                MessageBox.Show("Erro para instalar o MongoDB: " + ex.Message);
+            }
+
+            MessageBox.Show("Application location: " + appDirectory);
         }
         private static async Task editMongoCfg(EnableConfigurations enable) {
             string programFiles = Environment.ExpandEnvironmentVariables("%ProgramW6432%");
@@ -105,7 +144,7 @@ namespace InstallCeltaBSPDV.Configurations {
             if(!File.Exists(mongoConfig)) {
                 //richTextBoxResults.Text += $"O {mongoConfig} não existe. Clique em 'YES' para tentar abrir o instalador do PDV\n\n";
 
-                installMongoDb();
+                installMongoDb(enable);
                 DialogResult dialogResult = MessageBox.Show("Clique em OK caso tenha terminado a instalação do MongoDB", "CONTINUAR?", MessageBoxButtons.OK, MessageBoxIcon.Information);
 
                 if(dialogResult == DialogResult.OK) {
