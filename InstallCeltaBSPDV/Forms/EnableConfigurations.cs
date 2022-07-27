@@ -35,9 +35,9 @@ namespace InstallCeltaBSPDV {
             ControlBox = false;
             #endregion
 
-            await Windows.configureWindows(this);
+            //await Windows.configureWindows(this);
 
-            //await BsPdv.configureBsPdv(this);
+            await BsPdv.configureBsPdv(this);
 
             //await SharedSat.createSharedSat(this);
 

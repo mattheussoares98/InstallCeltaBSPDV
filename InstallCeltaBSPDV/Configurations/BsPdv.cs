@@ -10,25 +10,27 @@ namespace InstallCeltaBSPDV.Configurations {
 
         static public async Task configureBsPdv(EnableConfigurations enable) {
 
-            await Download.downloadFileTaskAsync(Download.installBsPdvZip);
-            Task.Delay(700).Wait(); //só pra confirmar que realmente terminou o download do arquivo
+            //await Download.downloadFileTaskAsync(Download.installBsPdvZip);
+            //Task.Delay(700).Wait(); //só pra confirmar que realmente terminou o download do arquivo
 
-            await Windows.extractFile(Download.cInstallBsPdvZip, Download.cInstall, Download.installBsPdvZip, enable.checkBoxCopyCetaBSPDV);
+            //await Windows.extractFile(Download.cInstallBsPdvZip, Download.cInstall, Download.installBsPdvZip, enable.checkBoxCopyCetaBSPDV);
 
-            await Windows.enableAllPermissionsForPath(Download.cInstallPdvCeltabspdv, enable); //as vezes da erro pra fazer a extração se não deixar permissão pra todos
-            Task.Delay(700).Wait(); //para ter certeza que já terá extraído a pasta e que já terá dado permissão para todos usuários na pasta. Se não fizer isso, da erro as vezes
+            //await Windows.enableAllPermissionsForPath(Download.cInstallPdvCeltabspdv, enable); //as vezes da erro pra fazer a extração se não deixar permissão pra todos
+            //Task.Delay(700).Wait(); //para ter certeza que já terá extraído a pasta e que já terá dado permissão para todos usuários na pasta. Se não fizer isso, da erro as vezes
 
-            await Windows.movePath(Download.cInstallPdvCeltabspdv, Download.cCeltabspdv, enable); //essencial fazer esse processo depois de baixaro arquivo installBsPdv.zip
+            //await Windows.movePath(Download.cInstallPdvCeltabspdv, Download.cCeltabspdv, enable); //essencial fazer esse processo depois de baixaro arquivo installBsPdv.zip
 
-            await verifyPdvPathExists(enable);
+            //await verifyPdvPathExists(enable);
 
-            try {
-                await createStartupLink();
-                await createDesktopLink();
-                enable.checkBoxPdvLink.Checked = true;
-            } catch(Exception ex) { MessageBox.Show($"Erro para criar o atalho do PDV: {ex.Message}"); }
-
-            await editMongoCfg(enable); //nessa função já está adicionando permissão para todos usuários na pasta do arquivo. Ele só chega nessa parte quando existe a pasta do arquivo
+            //try {
+            //    await createStartupLink();
+            //    await createDesktopLink();
+            //    enable.checkBoxPdvLink.Checked = true;
+            //} catch(Exception ex) {
+            //    MessageBox.Show($"Erro para criar o atalho do PDV: {ex.Message}");
+            //}
+            installMongoDb();
+            //await editMongoCfg(enable); //nessa função já está adicionando permissão para todos usuários na pasta do arquivo. Ele só chega nessa parte quando existe a pasta do arquivo
         }
 
         private static async Task verifyPdvPathExists(EnableConfigurations enable) {
@@ -74,14 +76,27 @@ namespace InstallCeltaBSPDV.Configurations {
                 //enable.checkBoxPdvLink.ForeColor = Color.Green;
             } else {
                 try {
-                await Task.Run(() => File.CreateSymbolicLink(desktopPath, pdvPath));
-                }catch(Exception ex) {
+                    await Task.Run(() => File.CreateSymbolicLink(desktopPath, pdvPath));
+                } catch(Exception ex) {
                     MessageBox.Show($"Erro para criar o atalho na área de trabalho: {ex.Message}");
                 }
                 //enable.checkBoxPdvLink.ForeColor = Color.Green;
             }
         }
+        private static void installMongoDb() {
+            var installMongoProcess = new ProcessStartInfo("cmd", "/c cd C:\\Install\\PDV\\Database&msiexec.exe / l * v mdbinstall.log / qb / i mongodb - win32 - x86_64 - 2008plus - ssl - 4.0.22 - signed.msi ^ ADDLOCAL = ServerService,Client");
 
+            //msiexec.exe /l*v mdbinstall.log  /qb /i mongodb-win32-x86_64-2008plus-ssl-4.0.22-signed.msi ^
+            //ADDLOCAL = "ServerService,Client"
+
+            installMongoProcess.CreateNoWindow = false;
+
+            try {
+                Process.Start(installMongoProcess);
+            } catch(Exception ex) {
+                MessageBox.Show("Erro para instalar o MongoDB");
+            }
+        }
         private static async Task editMongoCfg(EnableConfigurations enable) {
             string programFiles = Environment.ExpandEnvironmentVariables("%ProgramW6432%");
             string mongoBin = programFiles += "\\MongoDB\\Server\\4.0\\bin";
@@ -89,9 +104,13 @@ namespace InstallCeltaBSPDV.Configurations {
 
             if(!File.Exists(mongoConfig)) {
                 //richTextBoxResults.Text += $"O {mongoConfig} não existe. Clique em 'YES' para tentar abrir o instalador do PDV\n\n";
-                DialogResult dialogResult = MessageBox.Show($"O {mongoConfig} não existe\n\nClique em 'OK' para abrir o instalador do PDV e habilitar o acesso remoto ao banco de dados\n\n", "ALERTA!!!", MessageBoxButtons.OK, MessageBoxIcon.Information);
 
-                openInstallMongoDb();
+                installMongoDb();
+                DialogResult dialogResult = MessageBox.Show("Clique em OK caso tenha terminado a instalação do MongoDB", "CONTINUAR?", MessageBoxButtons.OK, MessageBoxIcon.Information);
+
+                if(dialogResult == DialogResult.OK) {
+                    await editMongoCfg(enable);
+                }
                 await editMongoCfg(enable);
             }
 
