@@ -247,8 +247,14 @@ namespace InstallCeltaBSPDV.Configurations {
             var monitorTimeOutDC = new ProcessStartInfo("cmd", "/c powercfg /x -monitor-timeout-dc 0");
             var standybyTimeoutAC = new ProcessStartInfo("cmd", "/c Powercfg /x -standby-timeout-ac 0");
             var standybyTimeoutDC = new ProcessStartInfo("cmd", "/c powercfg /x -standby-timeout-dc 0");
+            var neverHibernate = new ProcessStartInfo("cmd", "/c powercfg /hibernate off");
             var disableUsbStandbyBattery = new ProcessStartInfo("cmd", "/c powercfg /SETDCVALUEINDEX SCHEME_CURRENT 2a737441-1930-4402-8d77-b2bebba308a3 48e6b7a6-50f5-4782-a5d4-53bb8f07e226 0"); //desabilitar suspensão da USB
             var disableUsbStandbyPlugged = new ProcessStartInfo("cmd", "/c powercfg /SETACVALUEINDEX SCHEME_CURRENT 2a737441-1930-4402-8d77-b2bebba308a3 48e6b7a6-50f5-4782-a5d4-53bb8f07e226 0"); //desabilitar suspensão da USB
+
+            var enableMaxPerformance = new ProcessStartInfo("cmd", "/c powercfg -duplicatescheme e9a42b02-d5df-448d-aa00-03f14749eb61"); //habilita o plano de desempenho máximo
+
+            var selectMaxPerformance = new ProcessStartInfo("cmd", "/c powercfg /setactive a69d9b1c-b6ca-4e5d-a983-a3e9d2497239"); //torna o plano de desempenho máximo como ativo
+
             #endregion
 
             #region dont show a command line
@@ -260,23 +266,28 @@ namespace InstallCeltaBSPDV.Configurations {
             monitorTimeOutDC.CreateNoWindow = true;
             standybyTimeoutAC.CreateNoWindow = true;
             standybyTimeoutDC.CreateNoWindow = true;
+            neverHibernate.CreateNoWindow = true;
             disableUsbStandbyBattery.CreateNoWindow = true;
             disableUsbStandbyPlugged.CreateNoWindow = true;
+            enableMaxPerformance.CreateNoWindow = true;
+            selectMaxPerformance.CreateNoWindow = true;
             #endregion
 
             try {
-                await Task.Run(() => {
-                    Process.Start(hibernateAC);
-                    Process.Start(hibernateDC);
-                    Process.Start(diskTimeOutAC);
-                    Process.Start(diskTimeOutDC);
-                    Process.Start(monitorTimeOutAC);
-                    Process.Start(monitorTimeOutDC);
-                    Process.Start(standybyTimeoutAC);
-                    Process.Start(standybyTimeoutDC);
-                    Process.Start(disableUsbStandbyBattery);
-                    Process.Start(disableUsbStandbyPlugged);
-                });
+                await Task.Run(() => Process.Start(enableMaxPerformance));
+                await Task.Run(() => Process.Start(selectMaxPerformance));
+                //esses dois comandos acima precisam ser chamados antes dos posteriores, porque eles mudam o plano selecionado pro de desempenho máximo
+                await Task.Run(() => Process.Start(hibernateAC));
+                await Task.Run(() => Process.Start(hibernateDC));
+                await Task.Run(() => Process.Start(diskTimeOutAC));
+                await Task.Run(() => Process.Start(diskTimeOutDC));
+                await Task.Run(() => Process.Start(monitorTimeOutAC));
+                await Task.Run(() => Process.Start(monitorTimeOutDC));
+                await Task.Run(() => Process.Start(standybyTimeoutAC));
+                await Task.Run(() => Process.Start(standybyTimeoutDC));
+                await Task.Run(() => Process.Start(neverHibernate));
+                await Task.Run(() => Process.Start(disableUsbStandbyBattery));
+                await Task.Run(() => Process.Start(disableUsbStandbyPlugged));
                 enable.checkBoxSuspendUSB.Checked = true;
                 //enable.checkBoxSuspendUSB.ForeColor = Color.Green;
                 enable.checkBoxSuspendMonitorAndPC.Checked = true;
