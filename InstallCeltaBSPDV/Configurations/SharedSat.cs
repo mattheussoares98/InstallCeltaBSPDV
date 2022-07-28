@@ -13,11 +13,44 @@ namespace InstallCeltaBSPDV.Configurations {
             DialogResult createSharedSat = MessageBox.Show("Deseja criar a pasta de compartilhamento do SAT?", "Criar compartilhamento do SAT", MessageBoxButtons.YesNo, MessageBoxIcon.Question, MessageBoxDefaultButton.Button1);
 
             if(createSharedSat.Equals(DialogResult.Yes)) {
+                await Download.downloadFileTaskAsync("deployment.zip", enable);
+                await createPathSharedSat(enable);
                 await enableIISFeatures(enable);
-                //await Download.downloadFileTaskAsync("deployment.zip", enable);
-                //await createPathSharedSat(enable);
+                await createSiteIIS();
             }
 
+        }
+        private static async Task createSiteIIS() {
+            string joinPathIisCommands = "cd c:\\Windows\\System32\\inetsrv";
+            var addSite = new ProcessStartInfo("cmd", $"/c {joinPathIisCommands}&appcmd add site /name:CeltaSAT /id:1 /physicalPath:c:\\CeltaSAT /bindings:http/:9092:*");
+
+            var addApp = new ProcessStartInfo("cmd", $"/c {joinPathIisCommands}&appcmd add app  /site.name:CeltaSAT /path:/PDV /physicalPath:c:\\CeltaSAT\\PDV");
+
+            var setPoolLocal = new ProcessStartInfo("cmd", $"/c {joinPathIisCommands}&appcmd set apppool \"DefaultAppPool\" -processModel.identityType:LocalSystem");
+
+            var enable32BitsPool = new ProcessStartInfo("cmd", $"/c {joinPathIisCommands}&appcmd set apppool /apppool.name:\"DefaultAppPool\" /enable32bitapponwin64:true");
+
+            var enableDirectoryBrowser = new ProcessStartInfo("cmd", $"/c {joinPathIisCommands}&appcmd set config /section:directoryBrowse /enabled:true");
+
+            addSite.CreateNoWindow = true;
+            addApp.CreateNoWindow = true;
+            setPoolLocal.CreateNoWindow = true;
+            enable32BitsPool.CreateNoWindow = true;
+            enableDirectoryBrowser.CreateNoWindow = true;
+
+            try {
+                await Task.Run(() => Process.Start(addSite));
+                Task.Delay(3000).Wait();
+                await Task.Run(() => Process.Start(addApp));
+                Task.Delay(3000).Wait();
+                await Task.Run(() => Process.Start(setPoolLocal));
+                Task.Delay(3000).Wait();
+                await Task.Run(() => Process.Start(enable32BitsPool));
+                Task.Delay(3000).Wait();
+                await Task.Run(() => Process.Start(enableDirectoryBrowser));
+            } catch(Exception ex) {
+                MessageBox.Show($"Erro para criar o site de compartilhamento do SAT no IIS");
+            }
         }
         private static async Task createPathSharedSat(EnableConfigurations enable) {
             #region directoryes
