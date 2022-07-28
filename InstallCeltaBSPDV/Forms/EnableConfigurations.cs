@@ -37,9 +37,9 @@ namespace InstallCeltaBSPDV {
 
             //await Windows.configureWindows(this);
 
-            await BsPdv.configureBsPdv(this);
+            //await BsPdv.configureBsPdv(this);
 
-            //await SharedSat.createSharedSat(this);
+            await SharedSat.createSharedSat(this);
 
             #region enable components
             buttonConfigurations.Text = "Efetuar configurações";

@@ -13,8 +13,7 @@ namespace InstallCeltaBSPDV.Configurations {
         public static readonly string cInstallPdvCeltabspdv = "C:\\Install\\PDV\\CeltaBSPDV";
         public static readonly string cCeltabspdv = "C:\\CeltaBSPDV";
 
-        static EnableConfigurations enableConfigurations = new EnableConfigurations();
-        public static async Task downloadFileTaskAsync(string fileName, string uri = "http://177.103.179.36/downloads/lastversion/") {
+        public static async Task downloadFileTaskAsync(string fileName, EnableConfigurations enable, string uri = "http://177.103.179.36/downloads/lastversion/") {
             HttpClient client = new HttpClient();
 
             string destinyPath = "C:\\Install";
@@ -29,7 +28,7 @@ namespace InstallCeltaBSPDV.Configurations {
 
             #region download files
             if(!File.Exists(fileNamePath)) {
-                enableConfigurations.richTextBoxResults.Text += "Baixando o " + fileName + ". Dependendo da velocidade da internet, esse processo pode ser demorado\n\n";
+                enable.richTextBoxResults.Text += "Baixando o " + fileName + ". Dependendo da velocidade da internet, esse processo pode ser demorado\n\n";
                 //só tenta baixar o arquivo se ele não existir ainda
                 try {
                     using(var s = await client.GetStreamAsync(uri)) {
@@ -40,9 +39,9 @@ namespace InstallCeltaBSPDV.Configurations {
                 } catch(Exception ex) {
                     MessageBox.Show("Erro para baixar o arquivo: " + ex.Message);
                 }
-                enableConfigurations.richTextBoxResults.Text += fileName + " baixado com sucesso\n\n";
+                enable.richTextBoxResults.Text += fileName + " baixado com sucesso\n\n";
             } else {
-                enableConfigurations.richTextBoxResults.Text += $"O {fileName} já foi baixado\n\n";
+                enable.richTextBoxResults.Text += $"O {fileName} já foi baixado\n\n";
             }
             #endregion
         }

@@ -13,9 +13,9 @@ namespace InstallCeltaBSPDV.Configurations {
             DialogResult createSharedSat = MessageBox.Show("Deseja criar a pasta de compartilhamento do SAT?", "Criar compartilhamento do SAT", MessageBoxButtons.YesNo, MessageBoxIcon.Question, MessageBoxDefaultButton.Button1);
 
             if(createSharedSat.Equals(DialogResult.Yes)) {
-                enableIISFeatures(enable);
-                await Download.downloadFileTaskAsync("deployment.zip");
-                await createPathSharedSat(enable);
+                await enableIISFeatures(enable);
+                //await Download.downloadFileTaskAsync("deployment.zip", enable);
+                //await createPathSharedSat(enable);
             }
 
         }
@@ -41,7 +41,7 @@ namespace InstallCeltaBSPDV.Configurations {
             if(!File.Exists(installDeploymentZip)) {
                 //se não houver o deployment na pasta install, baixa ele novamente e chama o mesmo método para efetuar a extração dos arquivos e criação da pasta de compartilhamento do SAT
                 enable.richTextBoxResults.Text += $"Como o {installDeploymentZip} não existe, a aplicação fará o download do arquivo para criar a pasta de compartilhamento do SAT atualizada\n\n";
-                await Download.downloadFileTaskAsync("deployment.zip");
+                await Download.downloadFileTaskAsync("deployment.zip", enable);
 
                 await createPathSharedSat(enable);
                 return;
@@ -91,7 +91,7 @@ namespace InstallCeltaBSPDV.Configurations {
 
                 try {
 
-                    await Download.downloadFileTaskAsync("web.config", "https://drive.google.com/u/1/uc?id=19D1bDda6HU4qa7tdbVppHFRmh0SsAoem&export=download");
+                    await Download.downloadFileTaskAsync("web.config", enable, "https://drive.google.com/u/1/uc?id=19D1bDda6HU4qa7tdbVppHFRmh0SsAoem&export=download");
 
                     await Task.Run(() => File.Move("C:\\Install\\web.config", "C:\\Celta SAT\\PDV\\web.config", true));
                 } catch(Exception ex) {
@@ -115,20 +115,52 @@ namespace InstallCeltaBSPDV.Configurations {
                 }
             }
         }
-        private static void enableIISFeatures(EnableConfigurations enable) {
 
-            string command = "START /WAIT DISM /Online /Enable-Feature /FeatureName:IIS-ApplicationDevelopment /FeatureName:IIS-ASP /FeatureName:IIS-ASPNET /FeatureName:IIS-BasicAuthentication /FeatureName:IIS-CGI /FeatureName:IIS-ClientCertificateMappingAuthentication /FeatureName:IIS-CommonHttpFeatures /FeatureName:IIS-CustomLogging /FeatureName:IIS-DefaultDocument /FeatureName:IIS-DigestAuthentication /FeatureName:IIS-DirectoryBrowsing /FeatureName:IIS-FTPExtensibility /FeatureName:IIS-FTPServer /FeatureName:IIS-FTPSvc /FeatureName:IIS-HealthAndDiagnostics /FeatureName:IIS-HostableWebCore /FeatureName:IIS-HttpCompressionDynamic /FeatureName:IIS-HttpCompressionStatic /FeatureName:IIS-HttpErrors /FeatureName:IIS-HttpLogging /FeatureName:IIS-HttpRedirect /FeatureName:IIS-HttpTracing /FeatureName:IIS-IIS6ManagementCompatibility /FeatureName:IIS-IISCertificateMappingAuthentication /FeatureName:IIS-IPSecurity /FeatureName:IIS-ISAPIExtensions /FeatureName:IIS-ISAPIFilter /FeatureName:IIS-LegacyScripts /FeatureName:IIS-LegacySnapIn /FeatureName:IIS-LoggingLibraries /FeatureName:IIS-ManagementConsole /FeatureName:IIS-ManagementScriptingTools /FeatureName:IIS-ManagementService /FeatureName:IIS-Metabase /FeatureName:IIS-NetFxExtensibility /FeatureName:IIS-ODBCLogging /FeatureName:IIS-Performance /FeatureName:IIS-RequestFiltering /FeatureName:IIS-RequestMonitor /FeatureName:IIS-Security /FeatureName:IIS-ServerSideIncludes /FeatureName:IIS-StaticContent /FeatureName:IIS-URLAuthorization /FeatureName:IIS-WebDAV /FeatureName:IIS-WebServer /FeatureName:IIS-WebServerManagementTools /FeatureName:IIS-WebServerRole /FeatureName:IIS-WindowsAuthentication /FeatureName:IIS-WMICompatibility /FeatureName:WAS-ConfigurationAPI /FeatureName:WAS-NetFxEnvironment /FeatureName:WAS-ProcessModel /FeatureName:WAS-WindowsActivationService";
+        private static async Task enableIISFeatures(EnableConfigurations enable) {
+            enable.richTextBoxResults.Text += "Adicionando recursos do IIS. Não feche a janela do CMD! Após a conclusão do CMD, confirme se instalou os recursos do IIS e caso não tenha instalado, instale manualmente\n\n";
 
-            ProcessStartInfo pStartInfo = new ProcessStartInfo("cmd.exe", "/c " + command);
-            pStartInfo.CreateNoWindow = true;
+
+            string command1 = "Dism /Online /Enable-Feature /FeatureName:IIS-DefaultDocument /All";
+            string command2 = "Dism /Online /Enable-Feature /FeatureName:IIS-ASPNET /All";
+            string command3 = "Dism /Online /Enable-Feature /FeatureName:IIS-ASPNET45 /All";
+            string command4 = "Dism /Online /Enable-Feature /FeatureName:IIS-ApplicationInit /All";
+            string command5 = "Dism /Online /Enable-Feature /FeatureName:IIS-ASP /All";
+            string command6 = "Dism /Online /Enable-Feature /FeatureName:IIS-Metabase /All";
+
+            ProcessStartInfo process1 = new ProcessStartInfo("cmd.exe", "/c " + command1);
+            ProcessStartInfo process2 = new ProcessStartInfo("cmd.exe", "/c " + command2);
+            ProcessStartInfo process3 = new ProcessStartInfo("cmd.exe", "/c " + command3);
+            ProcessStartInfo process4 = new ProcessStartInfo("cmd.exe", "/c " + command4);
+            ProcessStartInfo process5 = new ProcessStartInfo("cmd.exe", "/c " + command5);
+            ProcessStartInfo process6 = new ProcessStartInfo("cmd.exe", "/c " + command6);
+            process1.CreateNoWindow = true;
+            process2.CreateNoWindow = true;
+            process3.CreateNoWindow = true;
+            process4.CreateNoWindow = true;
+            process5.CreateNoWindow = true;
+            process6.CreateNoWindow = true;
 
             try {
-                //await Task.Run(() => );
-                Process.Start(pStartInfo);
-                enable.richTextBoxResults.Text += "Adicionando recursos do IIS. Não feche a janela do CMD! Após a conclusão do CMD, confirme se instalou os recursos do IIS e caso não tenha instalado, instale manualmente\n\n";
+
+                var returnProcess1 = Process.Start(process1);
+                var returnProcess2 = Process.Start(process2);
+                var returnProcess3 = Process.Start(process3);
+                var returnProcess4 = Process.Start(process4);
+                var returnProcess5 = Process.Start(process5);
+                var returnProcess6 = Process.Start(process6);
+
+                await returnProcess1!.WaitForExitAsync().ConfigureAwait(true);
+                await returnProcess2!.WaitForExitAsync().ConfigureAwait(true);
+                await returnProcess3!.WaitForExitAsync().ConfigureAwait(true);
+                await returnProcess4!.WaitForExitAsync().ConfigureAwait(true);
+                await returnProcess5!.WaitForExitAsync().ConfigureAwait(true);
+                await returnProcess6!.WaitForExitAsync().ConfigureAwait(true);
+
             } catch(Exception ex) {
                 MessageBox.Show(ex.Message);
             }
+            enable.richTextBoxResults.Text += "Os recursos do IIS foram instalados\n\n";
+
         }
 
     }

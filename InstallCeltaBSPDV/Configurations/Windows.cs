@@ -21,52 +21,25 @@ namespace InstallCeltaBSPDV.Configurations {
             createTempPath(enable);
         }
         public static async Task enableAllPermissionsForPath(string path, EnableConfigurations enable) {
-
-
-            const FileSystemRights rights = FileSystemRights.FullControl;
-
-            var allUsers = new SecurityIdentifier(WellKnownSidType.BuiltinUsersSid, null);
-
-            // Add Access Rule to the actual directory itself
-            var accessRule = new FileSystemAccessRule(
-                allUsers,
-                rights,
-                InheritanceFlags.None,
-                PropagationFlags.NoPropagateInherit,
-                AccessControlType.Allow);
-
             if(!Directory.Exists(path)) {
                 enable.richTextBoxResults.Text += $"O caminho {path} não foi encontrado para habilitar a permissão para todos usuários\n\n";
                 return;
             }
 
-            var info = new DirectoryInfo(path);
-            var security = info.GetAccessControl(AccessControlSections.Access);
+            var enableForEveryone = new ProcessStartInfo("cmd", $"/c icacls {path} /remove:d Everyone /grant:r Everyone:(OI)(CI)F /T");
+            var enableForTodos = new ProcessStartInfo("cmd", $"/c icacls {path} /remove:d Todos /grant:r Todos:(OI)(CI)F /T");
 
-            bool result;
-            security.ModifyAccessRule(AccessControlModification.Set, accessRule, out result);
+            enableForEveryone.CreateNoWindow = true;
+            enableForTodos.CreateNoWindow = true;
 
-            if(!result) {
-                throw new InvalidOperationException("Failed to give full-control permission to all users for path " + path);
-            } else {
-                enable.richTextBoxResults.Text += $"Adicionado permissão para todos usuários na pasta {path}\n\n";
+            try {
+                await Task.Run(() => Process.Start(enableForEveryone));
+                await Task.Run(() => Process.Start(enableForTodos));
+            } catch(Exception ex) {
+                MessageBox.Show($"Erro para adicionar permissão para todos usuários na pasta {path}");
             }
 
-            // add inheritance
-            var inheritedAccessRule = new FileSystemAccessRule(
-                allUsers,
-                rights,
-                InheritanceFlags.ContainerInherit | InheritanceFlags.ObjectInherit,
-                PropagationFlags.InheritOnly,
-                AccessControlType.Allow);
-
-            bool inheritedResult;
-            security.ModifyAccessRule(AccessControlModification.Add, inheritedAccessRule, out inheritedResult);
-
-            if(!inheritedResult) {
-                throw new InvalidOperationException("Failed to give full-control permission inheritance to all users for " + path);
-            }
-            await Task.Run(() => info.SetAccessControl(security));
+            enable.richTextBoxResults.Text += $"Adicionado permissão total para todos usuários na pasta {path}\n\n";
         }
 
         public static async Task movePath(string sourcePath, string destinyPath, EnableConfigurations enable) {
@@ -80,24 +53,27 @@ namespace InstallCeltaBSPDV.Configurations {
                 return;
             }
 
-
             try {
+                await enableAllPermissionsForPath(sourcePath, enable); //coloquei pra habilitar permissão pra todos nessa pasta porque em um teste que eu fiz, deu erro pra acessar essa pasta
+                await enableAllPermissionsForPath(destinyPath, enable); //coloquei pra habilitar permissão pra todos nessa pasta porque em um teste que eu fiz, deu erro pra acessar essa pasta
+
                 //Directory.Move(sourcePath, destinyPath);
+                Directory.Move(sourcePath, destinyPath);
                 Task.Delay(7000).Wait();
-                await Task.Run(() => Directory.Move(sourcePath, destinyPath));
+                //await Task.Run(() => Directory.Move(sourcePath, destinyPath));
                 enable.richTextBoxResults.Text += $"{sourcePath} movido com sucesso para o caminho {destinyPath}\n\n";
             } catch(Exception ex) {
                 MessageBox.Show(ex.Message);
             }
         }
 
-        public static async Task extractFile(string sourceFilePath, string destinyPath, string fileName, CheckBox checkBoxToMark = null) {
+        public static async Task extractFile(string sourceFilePath, string destinyPath, string fileName, EnableConfigurations enable, CheckBox checkBoxToMark = null) {
             if(!File.Exists(sourceFilePath)) {
                 DialogResult dialogResult = MessageBox.Show($"O {sourceFilePath} não existe. Deseja baixá-lo?", "Aviso!", MessageBoxButtons.YesNo, MessageBoxIcon.Warning, MessageBoxDefaultButton.Button1);
 
                 if(dialogResult == DialogResult.Yes) {
                     try {
-                        await Download.downloadFileTaskAsync(fileName);
+                        await Download.downloadFileTaskAsync(fileName, enable);
                     } catch(Exception ex) {
                         MessageBox.Show($"Erro para baixar o {fileName}: {ex.Message}");
                     }
@@ -110,7 +86,9 @@ namespace InstallCeltaBSPDV.Configurations {
                 try {
                     await Task.Run(() => ZipFile.ExtractToDirectory(sourceFilePath, destinyPath, true));
                     //mesmo colocando o await acima, parece que estava indo pro próximo passo sem terminar a execução da extração dos arquivos
-                    checkBoxToMark.Checked = true;
+                    if(checkBoxToMark != null) {
+                        checkBoxToMark.Checked = true;
+                    }
                     //checkBoxToMark.ForeColor = Color.Green;
                 } catch(Exception ex) {
                     MessageBox.Show($"Erro para extrair o {fileName}: {ex.Message}");
@@ -135,7 +113,7 @@ namespace InstallCeltaBSPDV.Configurations {
                     RedirectStandardOutput = true
                 }
             };
-
+            removePING.StartInfo.CreateNoWindow = true;
             try {
                 await Task.Run(() => removePING.Start());
             } catch(Exception ex) {
