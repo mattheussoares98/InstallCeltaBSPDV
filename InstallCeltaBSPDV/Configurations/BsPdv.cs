@@ -31,7 +31,7 @@ namespace InstallCeltaBSPDV.Configurations {
             //    MessageBox.Show($"Erro para criar o atalho do PDV: {ex.Message}");
             //}
 
-
+            installMongoDb();
 
             //await editMongoCfg(enable); //nessa função já está adicionando permissão para todos usuários na pasta do arquivo. Ele só chega nessa parte quando existe a pasta do arquivo
         }
@@ -111,30 +111,46 @@ namespace InstallCeltaBSPDV.Configurations {
             }
             return mongoIsInstalled;
         }
-        private static void installMongoDb(EnableConfigurations enable) {
+        private static void installMongoDb() {
+            //pra funcionar esse instalador, precisa ter o BAT da instalação do banco de dados dentro da pasta onde vai executar o aplicativo com o nome "installMongoDB.bat"
+            //também precisa ter o arquivo C:\Install\PDV\Database\mongodb-win32-x86_64-2008plus-ssl-4.0.22-signed
+
+            string mongoDbFilePath = "C:\\Install\\PDV\\Database\\mongodb-win32-x86_64-2008plus-ssl-4.0.22-signed.msi";
+            if(!File.Exists(mongoDbFilePath)) {
+                MessageBox.Show($"Não foi possível instalar o banco de dados porque o caminho{mongoDbFilePath} não existe");
+                return;
+            }
 
             string appPath = System.Reflection.Assembly.GetExecutingAssembly().Location;
             string appDirectory = Path.GetDirectoryName(appPath)!;
-
             var installMongo = new ProcessStartInfo("cmd", $"/c cd {appDirectory}&installMongoDB.bat");
             installMongo.CreateNoWindow = true;
+
+            if(!File.Exists(appDirectory + "installMongoDB.bat")) {
+                MessageBox.Show("Não foi possível encontrar o bat de instalação do PDV na pasta do aplicativo. Abortando a instalação do banco de dados");
+                return;
+            }
+
             try {
+
+                //Task.Delay(45000).Wait(); //tempo que acredito que dará para terminar a instalação do mongo e continuar as configurações
                 bool isInstalled = verifyMongoIsInstalled();
                 if(!isInstalled) {
+                    MessageBox.Show("Iniciou a instação");
                     Process.Start(installMongo);
                 }
-
-                Task.Delay(60000).Wait(); //tempo que acredito que dará para terminar a instalação do mongo e continuar as configurações
-                isInstalled = verifyMongoIsInstalled();
-                if(!isInstalled) {
-                    installMongoDb(enable);
+                while(!isInstalled) {
+                    isInstalled = verifyMongoIsInstalled();
+                    if(isInstalled) {
+                        MessageBox.Show("agora está instalado!");
+                        break;
+                    }
                 }
+                MessageBox.Show("Saiu do while");
 
             } catch(Exception ex) {
                 MessageBox.Show("Erro para instalar o MongoDB: " + ex.Message);
             }
-
-            MessageBox.Show("Application location: " + appDirectory);
         }
         private static async Task editMongoCfg(EnableConfigurations enable) {
             string programFiles = Environment.ExpandEnvironmentVariables("%ProgramW6432%");
@@ -144,7 +160,7 @@ namespace InstallCeltaBSPDV.Configurations {
             if(!File.Exists(mongoConfig)) {
                 //richTextBoxResults.Text += $"O {mongoConfig} não existe. Clique em 'YES' para tentar abrir o instalador do PDV\n\n";
 
-                installMongoDb(enable);
+                installMongoDb();
                 DialogResult dialogResult = MessageBox.Show("Clique em OK caso tenha terminado a instalação do MongoDB", "CONTINUAR?", MessageBoxButtons.OK, MessageBoxIcon.Information);
 
                 if(dialogResult == DialogResult.OK) {
