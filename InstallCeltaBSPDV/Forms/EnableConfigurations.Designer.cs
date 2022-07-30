@@ -34,14 +34,14 @@
             this.checkBoxPdvLink = new System.Windows.Forms.CheckBox();
             this.checkBoxInstallMongo = new System.Windows.Forms.CheckBox();
             this.checkBoxEnableRemoteAcces = new System.Windows.Forms.CheckBox();
+            this.checkBoxInstallComponentsReport = new System.Windows.Forms.CheckBox();
+            this.checkBoxEnableIISComponents = new System.Windows.Forms.CheckBox();
             this.checkBoxSharedPath = new System.Windows.Forms.CheckBox();
+            this.checkBoxCreateSharedSatSite = new System.Windows.Forms.CheckBox();
             this.checkBox3 = new System.Windows.Forms.CheckBox();
             this.checkBox8 = new System.Windows.Forms.CheckBox();
-            this.checkBox9 = new System.Windows.Forms.CheckBox();
-            this.checkBox14 = new System.Windows.Forms.CheckBox();
             this.checkBox17 = new System.Windows.Forms.CheckBox();
             this.checkBox16 = new System.Windows.Forms.CheckBox();
-            this.checkBox18 = new System.Windows.Forms.CheckBox();
             this.checkBox12 = new System.Windows.Forms.CheckBox();
             this.checkBox19 = new System.Windows.Forms.CheckBox();
             this.checkBox20 = new System.Windows.Forms.CheckBox();
@@ -73,14 +73,14 @@
             this.flowLayoutPanel1.Controls.Add(this.checkBoxPdvLink);
             this.flowLayoutPanel1.Controls.Add(this.checkBoxInstallMongo);
             this.flowLayoutPanel1.Controls.Add(this.checkBoxEnableRemoteAcces);
+            this.flowLayoutPanel1.Controls.Add(this.checkBoxInstallComponentsReport);
+            this.flowLayoutPanel1.Controls.Add(this.checkBoxEnableIISComponents);
             this.flowLayoutPanel1.Controls.Add(this.checkBoxSharedPath);
+            this.flowLayoutPanel1.Controls.Add(this.checkBoxCreateSharedSatSite);
             this.flowLayoutPanel1.Controls.Add(this.checkBox3);
             this.flowLayoutPanel1.Controls.Add(this.checkBox8);
-            this.flowLayoutPanel1.Controls.Add(this.checkBox9);
-            this.flowLayoutPanel1.Controls.Add(this.checkBox14);
             this.flowLayoutPanel1.Controls.Add(this.checkBox17);
             this.flowLayoutPanel1.Controls.Add(this.checkBox16);
-            this.flowLayoutPanel1.Controls.Add(this.checkBox18);
             this.flowLayoutPanel1.Controls.Add(this.checkBox12);
             this.flowLayoutPanel1.Controls.Add(this.checkBox19);
             this.flowLayoutPanel1.Controls.Add(this.checkBox20);
@@ -184,20 +184,50 @@
             this.checkBoxEnableRemoteAcces.Text = "Habilitar acesso remoto ao banco de dados";
             this.checkBoxEnableRemoteAcces.UseVisualStyleBackColor = true;
             // 
+            // checkBoxInstallComponentsReport
+            // 
+            this.checkBoxInstallComponentsReport.AutoSize = true;
+            this.checkBoxInstallComponentsReport.Location = new System.Drawing.Point(3, 228);
+            this.checkBoxInstallComponentsReport.Name = "checkBoxInstallComponentsReport";
+            this.checkBoxInstallComponentsReport.Size = new System.Drawing.Size(174, 19);
+            this.checkBoxInstallComponentsReport.TabIndex = 33;
+            this.checkBoxInstallComponentsReport.Text = "Instalar Components Report";
+            this.checkBoxInstallComponentsReport.UseVisualStyleBackColor = true;
+            // 
+            // checkBoxEnableIISComponents
+            // 
+            this.checkBoxEnableIISComponents.AutoSize = true;
+            this.checkBoxEnableIISComponents.Location = new System.Drawing.Point(3, 253);
+            this.checkBoxEnableIISComponents.Name = "checkBoxEnableIISComponents";
+            this.checkBoxEnableIISComponents.Size = new System.Drawing.Size(172, 19);
+            this.checkBoxEnableIISComponents.TabIndex = 27;
+            this.checkBoxEnableIISComponents.Text = "Instalar componentes do IIS";
+            this.checkBoxEnableIISComponents.UseVisualStyleBackColor = true;
+            // 
             // checkBoxSharedPath
             // 
             this.checkBoxSharedPath.AutoSize = true;
-            this.checkBoxSharedPath.Location = new System.Drawing.Point(3, 228);
+            this.checkBoxSharedPath.Location = new System.Drawing.Point(3, 278);
             this.checkBoxSharedPath.Name = "checkBoxSharedPath";
             this.checkBoxSharedPath.Size = new System.Drawing.Size(266, 19);
             this.checkBoxSharedPath.TabIndex = 30;
             this.checkBoxSharedPath.Text = "Criar o diretório de compartilhamento do SAT";
             this.checkBoxSharedPath.UseVisualStyleBackColor = true;
             // 
+            // checkBoxCreateSharedSatSite
+            // 
+            this.checkBoxCreateSharedSatSite.AutoSize = true;
+            this.checkBoxCreateSharedSatSite.Location = new System.Drawing.Point(3, 303);
+            this.checkBoxCreateSharedSatSite.Name = "checkBoxCreateSharedSatSite";
+            this.checkBoxCreateSharedSatSite.Size = new System.Drawing.Size(239, 19);
+            this.checkBoxCreateSharedSatSite.TabIndex = 31;
+            this.checkBoxCreateSharedSatSite.Text = "Criar o site de compartilhamento do SAT";
+            this.checkBoxCreateSharedSatSite.UseVisualStyleBackColor = true;
+            // 
             // checkBox3
             // 
             this.checkBox3.AutoSize = true;
-            this.checkBox3.Location = new System.Drawing.Point(3, 253);
+            this.checkBox3.Location = new System.Drawing.Point(3, 328);
             this.checkBox3.Name = "checkBox3";
             this.checkBox3.Size = new System.Drawing.Size(302, 19);
             this.checkBox3.TabIndex = 21;
@@ -207,37 +237,17 @@
             // checkBox8
             // 
             this.checkBox8.AutoSize = true;
-            this.checkBox8.Location = new System.Drawing.Point(3, 278);
+            this.checkBox8.Location = new System.Drawing.Point(3, 353);
             this.checkBox8.Name = "checkBox8";
             this.checkBox8.Size = new System.Drawing.Size(379, 19);
             this.checkBox8.TabIndex = 24;
             this.checkBox8.Text = "Selecionar opções de desempenho para obter melhor desempenho";
             this.checkBox8.UseVisualStyleBackColor = true;
             // 
-            // checkBox9
-            // 
-            this.checkBox9.AutoSize = true;
-            this.checkBox9.Location = new System.Drawing.Point(3, 303);
-            this.checkBox9.Name = "checkBox9";
-            this.checkBox9.Size = new System.Drawing.Size(172, 19);
-            this.checkBox9.TabIndex = 27;
-            this.checkBox9.Text = "Instalar componentes do IIS";
-            this.checkBox9.UseVisualStyleBackColor = true;
-            // 
-            // checkBox14
-            // 
-            this.checkBox14.AutoSize = true;
-            this.checkBox14.Location = new System.Drawing.Point(3, 328);
-            this.checkBox14.Name = "checkBox14";
-            this.checkBox14.Size = new System.Drawing.Size(239, 19);
-            this.checkBox14.TabIndex = 31;
-            this.checkBox14.Text = "Criar o site de compartilhamento do SAT";
-            this.checkBox14.UseVisualStyleBackColor = true;
-            // 
             // checkBox17
             // 
             this.checkBox17.AutoSize = true;
-            this.checkBox17.Location = new System.Drawing.Point(3, 353);
+            this.checkBox17.Location = new System.Drawing.Point(3, 378);
             this.checkBox17.Name = "checkBox17";
             this.checkBox17.Size = new System.Drawing.Size(256, 19);
             this.checkBox17.TabIndex = 34;
@@ -247,23 +257,13 @@
             // checkBox16
             // 
             this.checkBox16.AutoSize = true;
-            this.checkBox16.Location = new System.Drawing.Point(3, 378);
+            this.checkBox16.Location = new System.Drawing.Point(3, 403);
             this.checkBox16.Name = "checkBox16";
             this.checkBox16.Size = new System.Drawing.Size(477, 19);
             this.checkBox16.TabIndex = 35;
             this.checkBox16.Text = "Desativar a inicialização automática de APPs desnecessários no gerenciador de tar" +
     "efas";
             this.checkBox16.UseVisualStyleBackColor = true;
-            // 
-            // checkBox18
-            // 
-            this.checkBox18.AutoSize = true;
-            this.checkBox18.Location = new System.Drawing.Point(3, 403);
-            this.checkBox18.Name = "checkBox18";
-            this.checkBox18.Size = new System.Drawing.Size(174, 19);
-            this.checkBox18.TabIndex = 33;
-            this.checkBox18.Text = "Instalar Components Report";
-            this.checkBox18.UseVisualStyleBackColor = true;
             // 
             // checkBox12
             // 
@@ -362,10 +362,7 @@
         private Button buttonConfigurations;
         private CheckBox checkBox16;
         private CheckBox checkBox17;
-        private CheckBox checkBox18;
-        private CheckBox checkBox14;
         private CheckBox checkBox12;
-        private CheckBox checkBox9;
         private CheckBox checkBox8;
         private CheckBox checkBox3;
         private CheckBox checkBox19;
@@ -385,5 +382,8 @@
         public CheckBox checkBoxSuspendMonitorAndPC;
         public CheckBox checkBoxTemp;
         public CheckBox checkBoxSharedPath;
+        public CheckBox checkBoxEnableIISComponents;
+        public CheckBox checkBoxInstallComponentsReport;
+        public CheckBox checkBoxCreateSharedSatSite;
     }
 }

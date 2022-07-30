@@ -11,18 +11,35 @@ namespace InstallCeltaBSPDV.Configurations {
 
         static public async Task configureBsPdv(EnableConfigurations enable) {
 
+   
+
             await Download.downloadFileTaskAsync(Download.installBsPdvZip, enable);
-            Task.Delay(700).Wait(); //só pra confirmar que realmente terminou o download do arquivo
+            Task.Delay(700).Wait(); //só pra confirmar que realmente terminou o download do arquivo. Se o download já foi realizado, não vai tentar baixar novamente
 
             await Windows.extractFile(Download.cInstallBsPdvZip, Download.cInstall, Download.installBsPdvZip, enable, enable.checkBoxCopyCetaBSPDV);
 
-            await Windows.enableAllPermissionsForPath(Download.cInstallPdvCeltabspdv, enable); //as vezes da erro pra fazer a extração se não deixar permissão pra todos
             Task.Delay(700).Wait(); //para ter certeza que já terá extraído a pasta e que já terá dado permissão para todos usuários na pasta. Se não fizer isso, da erro as vezes
+
+            await Windows.enableAllPermissionsForPath("C:\\install", enable);
+            await Windows.enableAllPermissionsForPath(Download.cCeltabspdv, enable);
 
             await Windows.movePath(Download.cInstallPdvCeltabspdv, Download.cCeltabspdv, enable); //essencial fazer esse processo depois de baixaro arquivo installBsPdv.zip
 
             await verifyPdvPathExists(enable);
 
+            await createPdvLinks(enable);
+
+            installMongoDb(enable);
+
+            await editMongoCfg(enable); //nessa função já está adicionando permissão para todos usuários na pasta do arquivo. Ele só chega nessa parte quando existe a pasta do arquivo
+
+            installComponentsReport(enable);
+        }
+
+        private static async Task createPdvLinks(EnableConfigurations enable) {
+            if(enable.checkBoxPdvLink.Checked == true) {
+                return;
+            }
             try {
                 await createStartupLink();
                 await createDesktopLink();
@@ -30,12 +47,7 @@ namespace InstallCeltaBSPDV.Configurations {
             } catch(Exception ex) {
                 MessageBox.Show($"Erro para criar o atalho do PDV: {ex.Message}");
             }
-
-            installMongoDb(enable);
-
-            await editMongoCfg(enable); //nessa função já está adicionando permissão para todos usuários na pasta do arquivo. Ele só chega nessa parte quando existe a pasta do arquivo
         }
-
         private static async Task verifyPdvPathExists(EnableConfigurations enable) {
             if(!File.Exists(pdvPath)) {
                 enable.richTextBoxResults.Text += $"Não foi possível encontrar o arquivo {pdvPath}. Iniciando download do installbspdv.zip para fazer as configurações das pastas\n";
@@ -87,7 +99,7 @@ namespace InstallCeltaBSPDV.Configurations {
             }
         }
 
-        public static bool verifyMongoIsInstalled() {
+        public static bool verifyAppIsInstalled(string displayName) {
             // consulta no regedit se contém o Mongo instalado
             List<String> programsDisplayName = new() {
             };
@@ -103,20 +115,22 @@ namespace InstallCeltaBSPDV.Configurations {
                 }
             }
 
-            bool mongoIsInstalled = false;
+            bool appInstalled = false;
             foreach(var installed in programsDisplayName) {
-                if(installed.Contains("Mongo")) {
-                    mongoIsInstalled = true;
+                if(installed.Contains(displayName)) {
+                    appInstalled = true;
                 }
             }
-            return mongoIsInstalled;
+            return appInstalled;
         }
         private static void installMongoDb(EnableConfigurations enable) {
-
+            if(enable.checkBoxInstallMongo.Checked == true) {
+                return;
+            }
             string mongoDbFilePath = "C:\\Install\\PDV\\Database\\mongodb-win32-x86_64-2008plus-ssl-4.0.22-signed.msi";
             //precisa ter o arquivo C:\Install\PDV\Database\mongodb-win32-x86_64-2008plus-ssl-4.0.22-signed
             if(!File.Exists(mongoDbFilePath)) {
-                MessageBox.Show($"Não foi possível instalar o banco de dados porque o caminho{mongoDbFilePath} não existe");
+                MessageBox.Show($"Não foi possível instalar o banco de dados porque o arquivo{mongoDbFilePath} não existe");
                 return;
             }
 
@@ -133,13 +147,13 @@ namespace InstallCeltaBSPDV.Configurations {
 
             try {
 
-                bool isInstalled = verifyMongoIsInstalled(); //ele verifica pelo regedit se o mongo já foi instalado
+                bool isInstalled = verifyAppIsInstalled("Mongo"); //ele verifica pelo regedit se o mongo já foi instalado
                 if(!isInstalled) {
                     Process.Start(installMongo);
                 }
                 while(!isInstalled) {
                     //vai ficar verificando se o aplicativo já foi instalado pra somente depois que terminar a instalação, continuar a execução dos códigos
-                    isInstalled = verifyMongoIsInstalled();
+                    isInstalled = verifyAppIsInstalled("Mongo");
 
                     Task.Delay(3000).Wait();
                     //coloquei pra aguardar 3 segundos pra executar novamente senão o aplicativo fica executando com muita frequência essa execução
@@ -157,6 +171,10 @@ namespace InstallCeltaBSPDV.Configurations {
             }
         }
         private static async Task editMongoCfg(EnableConfigurations enable) {
+            if(enable.checkBoxEnableRemoteAcces.Checked == true) {
+                return;
+            }
+
             string programFiles = Environment.ExpandEnvironmentVariables("%ProgramW6432%");
             string mongoBin = programFiles += "\\MongoDB\\Server\\4.0\\bin";
             string mongoConfig = mongoBin + "\\mongod.cfg";
@@ -208,13 +226,75 @@ namespace InstallCeltaBSPDV.Configurations {
 
         }
 
-        private static void openInstallMongoDb() {
-            if(File.Exists(@"C:\Install\PDV\Database\mongodb-win32-x86_64-2008plus-ssl-4.0.22-signed.msi")) {
-                var mongoPath = new ProcessStartInfo("cmd", "/c C:\\Install\\PDV\\Database\\mongodb-win32-x86_64-2008plus-ssl-4.0.22-signed.msi");
-
-                mongoPath.CreateNoWindow = true;
-                Process.Start(mongoPath);
+        private static void installComponentsReport(EnableConfigurations enable) {
+            if(enable.checkBoxInstallComponentsReport.Checked == true) {
+                return;
             }
+
+            #region Directoryes y fileNames
+            string componentsDirectory = "C:\\Install\\PDV\\ComponentesReport\\x64\\";
+            string componentOne = "SQLSysClrTypes.msi";
+            string componentTwo = "ReportViewer.msi";
+            #endregion
+
+            #region Processes
+            var installComponentOne = new ProcessStartInfo("cmd", $"/c cd {componentsDirectory}&msiexec /i SQLSysClrTypes.msi /qn");
+            installComponentOne.CreateNoWindow = true;
+
+            var installComponentTwo = new ProcessStartInfo("cmd", $"/c cd {componentsDirectory}&msiexec /i ReportViewer.msi /qn");
+            installComponentTwo.CreateNoWindow = true;
+            #endregion
+
+            #region install CLR Types 2014
+            if(!File.Exists(componentsDirectory + componentOne)) {
+                MessageBox.Show($"Não foi possível instalar o component {componentOne} porque o arquivo{componentsDirectory + componentOne} não existe");
+                return;
+            } else {
+
+                try {
+                    bool isInstalledComponentOne = verifyAppIsInstalled("Microsoft System CLR Types para SQL Server 2014"); //ele verifica pelo regedit se o mongo já foi instalado
+                    if(!isInstalledComponentOne) {
+                        Process.Start(installComponentOne);
+                    }
+                    while(!isInstalledComponentOne) {
+                        //vai ficar verificando se o aplicativo já foi instalado pra somente depois que terminar a instalação, continuar a execução dos códigos
+                        isInstalledComponentOne = verifyAppIsInstalled("Microsoft System CLR Types para SQL Server 2014");
+
+                        Task.Delay(3000).Wait();
+                        //coloquei pra aguardar 3 segundos pra executar novamente senão o aplicativo fica executando com muita frequência essa verificação
+                        if(isInstalledComponentOne) {
+                            //quando o aplicativo finalmente está instalado, ele sai do laço while e continua a execução dos códigos
+                            break;
+                        }
+
+                    }
+                } catch(Exception ex) {
+                    MessageBox.Show($"Erro para instalar o {componentOne}: " + ex.Message);
+                }
+            }
+            #endregion
+
+            #region install ReportViewer
+            //motivos para não validar se esse aplicativo já foi instalado conforme o anterior para tentar instalar:
+            //1: só é possível instalar ele quando o anterior é instaldo
+            //2: só vai tentar instalar esse quando o anterior já foi instalado
+            //3: a instalação vai funcionar
+            //4: como vai funcionar a instalação, não precisa esperar o término dela
+            if(!File.Exists(componentsDirectory + componentTwo)) {
+                MessageBox.Show($"Não foi possível instalar o component {componentTwo} porque o arquivo{componentsDirectory + componentTwo} não existe");
+                return;
+            } else {
+
+                try {
+                    Process.Start(installComponentTwo);
+                } catch(Exception ex) {
+                    MessageBox.Show($"Erro para instalar o {componentTwo}: " + ex.Message);
+                }
+            }
+            #endregion
+
+            //se chegar aqui é porque não deu erro em nenhuma instalação e por isso pode marcar como instalado os dois components
+            enable.checkBoxInstallComponentsReport.Checked = true;
         }
     }
 }

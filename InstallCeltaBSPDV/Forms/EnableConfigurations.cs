@@ -35,9 +35,11 @@ namespace InstallCeltaBSPDV {
             ControlBox = false;
             #endregion
 
-            //await Windows.configureWindows(this);
+            SharedSat.askInstallSharedSat(); //coloquei pra perguntar no início da instalação porque a criação do site de compartilhamento do SAT não é tão importante e demora um pouco pra ser feita
 
-            //await BsPdv.configureBsPdv(this);
+            await Windows.configureWindows(this);
+
+            await BsPdv.configureBsPdv(this);
 
             await SharedSat.createSharedSat(this);
 

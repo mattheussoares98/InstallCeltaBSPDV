@@ -9,18 +9,31 @@ using System.Threading.Tasks;
 namespace InstallCeltaBSPDV.Configurations {
     internal static class SharedSat {
         public static async Task createSharedSat(EnableConfigurations enable) {
-
-            DialogResult createSharedSat = MessageBox.Show("Deseja criar a pasta de compartilhamento do SAT?", "Criar compartilhamento do SAT", MessageBoxButtons.YesNo, MessageBoxIcon.Question, MessageBoxDefaultButton.Button1);
-
-            if(createSharedSat.Equals(DialogResult.Yes)) {
-                await Download.downloadFileTaskAsync("deployment.zip", enable);
-                await createPathSharedSat(enable);
-                await enableIISFeatures(enable);
-                await createSiteIIS();
+            //no início da instalação a aplicação já pergunta se o usuário quer instalar o site de compartilhamento do SAT e caso queira, altera o valor da variável "canInstallSharedSat" para true
+            if(canInstallSharedSat == false) {
+                return;
             }
 
+            await Download.downloadFileTaskAsync("deployment.zip", enable);
+            await createPathSharedSat(enable);
+            await enableIISFeatures(enable);
+            await createSiteIIS(enable);
         }
-        private static async Task createSiteIIS() {
+
+        private static bool canInstallSharedSat = false;
+
+        internal static void askInstallSharedSat() {
+            DialogResult dialog = MessageBox.Show("Deseja instalar o site de compartilhamento do SAT no final da instalação?", "Instalar site de compartilhamento", MessageBoxButtons.YesNo, MessageBoxIcon.Information, MessageBoxDefaultButton.Button1);
+
+            if(dialog == DialogResult.Yes) {
+                canInstallSharedSat = true;
+            } else {
+                canInstallSharedSat = false;
+            }
+        }
+        private static async Task createSiteIIS(EnableConfigurations enable) {
+            enable.richTextBoxResults.Text += "Criando o site de compartilhamento do SAT no IIS\n\n";
+
             string joinPathIisCommands = "cd c:\\Windows\\System32\\inetsrv";
             var addSite = new ProcessStartInfo("cmd", $"/c {joinPathIisCommands}&appcmd add site /name:CeltaSAT /id:1 /physicalPath:c:\\CeltaSAT /bindings:http/:9092:*");
 
@@ -51,25 +64,29 @@ namespace InstallCeltaBSPDV.Configurations {
             } catch(Exception ex) {
                 MessageBox.Show($"Erro para criar o site de compartilhamento do SAT no IIS");
             }
+
+            enable.checkBoxCreateSharedSatSite.Checked = true;
+            enable.richTextBoxResults.Text += "O site foi criado com sucesso\n\n";
         }
         private static async Task createPathSharedSat(EnableConfigurations enable) {
             #region directoryes
-            string celtaSatPdvBin = "C:\\Celta SAT\\PDV\\Bin";
-            string celtaSatPdv = "C:\\Celta SAT\\PDV";
-            string celtaSat = "C:\\Celta SAT";
+            string celtaSatPdvBin = "C:\\CeltaSAT\\PDV\\Bin";
+            string celtaSatPdv = "C:\\CeltaSAT\\PDV";
+            string celtaSat = "C:\\CeltaSAT";
             string installDeployment = "C:\\Install\\Deployment";
             string installDeploymentPdv = "C:\\Install\\Deployment\\PDV";
             string installDeploymentZip = "C:\\Install\\Deployment.zip";
-            string celtaSatSale = "C:\\Celta Sat\\PDV\\Sale";
-            string celtaSatSat = "C:\\Celta Sat\\PDV\\Sat";
+            string celtaSatSale = "C:\\CeltaSAT\\PDV\\Sale";
+            string celtaSatSat = "C:\\CeltaSAT\\PDV\\Sat";
 
-            string celtaSatPdvSalesalePath = "C:\\Celta SAT\\PDV\\Sale\\Release\\WebService";
-            string celtaSatPdvSalePathBin = "C:\\Celta SAT\\PDV\\Sale\\Release\\WebService\\Bin";
+            string celtaSatPdvSalesalePath = "C:\\CeltaSAT\\PDV\\Sale\\Release\\WebService";
+            string celtaSatPdvSalePathBin = "C:\\CeltaSAT\\PDV\\Sale\\Release\\WebService\\Bin";
 
-            string CeltaSatPdvSatPath = "C:\\Celta SAT\\PDV\\SAT\\Release\\WebService";
-            string CeltaSatPdvSatPathBin = "C:\\Celta SAT\\PDV\\SAT\\Release\\WebService\\Bin";
+            string CeltaSatPdvSatPath = "C:\\CeltaSAT\\PDV\\SAT\\Release\\WebService";
+            string CeltaSatPdvSatPathBin = "C:\\CeltaSAT\\PDV\\SAT\\Release\\WebService\\Bin";
             #endregion
 
+            await Windows.enableAllPermissionsForPath(celtaSat, enable); //pra garantir que vai poder fazer tudo na pasta de compartilhamento do SAT
 
             if(!File.Exists(installDeploymentZip)) {
                 //se não houver o deployment na pasta install, baixa ele novamente e chama o mesmo método para efetuar a extração dos arquivos e criação da pasta de compartilhamento do SAT
@@ -81,6 +98,9 @@ namespace InstallCeltaBSPDV.Configurations {
 
             } else {
                 //se houver o arquivo do deployment.zip na pasta install, a aplicação extrai os arquivos, exclui a pasta de compartilhamento (se houver) e cria tudo novamente com os arquivos novos
+                enable.richTextBoxResults.Text += $"O {installDeployment} já existe. Iniciando as configurações de criação da pasta de compartilhamento do SAT\n\n";
+
+                await Windows.enableAllPermissionsForPath(celtaSatPdv, enable);
                 try {
 
                     if(Directory.Exists(installDeployment)) {
@@ -126,10 +146,12 @@ namespace InstallCeltaBSPDV.Configurations {
 
                     await Download.downloadFileTaskAsync("web.config", enable, "https://drive.google.com/u/1/uc?id=19D1bDda6HU4qa7tdbVppHFRmh0SsAoem&export=download");
 
-                    await Task.Run(() => File.Move("C:\\Install\\web.config", "C:\\Celta SAT\\PDV\\web.config", true));
+                    await Task.Run(() => File.Move("C:\\Install\\web.config", "C:\\CeltaSAT\\PDV\\web.config", true));
                 } catch(Exception ex) {
                     MessageBox.Show($"Erro para baixar o webConfig do compartilhamento do SAT: {ex.Message}");
                 }
+
+                enable.richTextBoxResults.Text += "Diretório de compartilhamento do SAT criado com sucesso\n\n";
             }
         }
         private static async Task overrideFilesInPath(string pathToRead, string destiny) {
@@ -150,7 +172,7 @@ namespace InstallCeltaBSPDV.Configurations {
         }
 
         private static async Task enableIISFeatures(EnableConfigurations enable) {
-            enable.richTextBoxResults.Text += "Adicionando recursos do IIS. Não feche a janela do CMD! Após a conclusão do CMD, confirme se instalou os recursos do IIS e caso não tenha instalado, instale manualmente\n\n";
+            enable.richTextBoxResults.Text += "Adicionando os recursos do IIS\n\n";
 
 
             string command1 = "Dism /Online /Enable-Feature /FeatureName:IIS-DefaultDocument /All";
@@ -193,8 +215,7 @@ namespace InstallCeltaBSPDV.Configurations {
                 MessageBox.Show(ex.Message);
             }
             enable.richTextBoxResults.Text += "Os recursos do IIS foram instalados\n\n";
-
+            enable.checkBoxEnableIISComponents.Checked = true;
         }
-
     }
 }
