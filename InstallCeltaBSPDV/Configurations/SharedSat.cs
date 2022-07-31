@@ -32,6 +32,9 @@ namespace InstallCeltaBSPDV.Configurations {
             }
         }
         private static async Task createSiteIIS(EnableConfigurations enable) {
+            if(enable.checkBoxCreateSharedSatSite.Checked) {
+                return;
+            }
             enable.richTextBoxResults.Text += "Criando o site de compartilhamento do SAT no IIS\n\n";
 
             string joinPathIisCommands = "cd c:\\Windows\\System32\\inetsrv";
@@ -69,6 +72,9 @@ namespace InstallCeltaBSPDV.Configurations {
             enable.richTextBoxResults.Text += "O site foi criado com sucesso\n\n";
         }
         private static async Task createPathSharedSat(EnableConfigurations enable) {
+            if(enable.checkBoxCreateSharedSatPath.Checked) {
+                return;
+            }
             #region directoryes
             string celtaSatPdvBin = "C:\\CeltaSAT\\PDV\\Bin";
             string celtaSatPdv = "C:\\CeltaSAT\\PDV";
@@ -136,7 +142,7 @@ namespace InstallCeltaBSPDV.Configurations {
                         Directory.Delete(celtaSatSat, true);
                     }
 
-                    enable.checkBoxSharedPath.Checked = true;
+                    enable.checkBoxCreateSharedSatPath.Checked = true;
                     //checkBoxSharedPath.ForeColor = Color.Green;
                 } catch(Exception ex) {
                     MessageBox.Show(ex.Message);
@@ -172,6 +178,9 @@ namespace InstallCeltaBSPDV.Configurations {
         }
 
         private static async Task enableIISFeatures(EnableConfigurations enable) {
+            if(enable.checkBoxEnableIISComponents.Checked == true) {
+                return;
+            }
             enable.richTextBoxResults.Text += "Adicionando os recursos do IIS\n\n";
 
 

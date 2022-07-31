@@ -15,9 +15,9 @@ namespace InstallCeltaBSPDV.Configurations {
         public static async Task configureWindows(EnableConfigurations enable) {
             await configureFirewall(enable);
             await disableSuspendUSB(enable);
-            openAdjustVisualEffects();
-            neverNotifyUser();
-            setMachineName(enable);
+            openAdjustVisualEffects(enable);
+            neverNotifyUser(enable);
+            setHostName(enable);
             createTempPath(enable);
         }
         public static async Task enableAllPermissionsForPath(string path, EnableConfigurations enable) {
@@ -97,6 +97,9 @@ namespace InstallCeltaBSPDV.Configurations {
         }
 
         public static async Task configureFirewall(EnableConfigurations enable) {
+            if(enable.checkBoxFirewall.Checked == true) {
+                return;
+            }
             bool pingVerify = false;
             bool sitePortVerify = false;
             bool mongoPortVerify = false;
@@ -216,6 +219,9 @@ namespace InstallCeltaBSPDV.Configurations {
             }
         }
         private static async Task disableSuspendUSB(EnableConfigurations enable) {
+            if(enable.checkBoxSuspendUSB.Checked == true && enable.checkBoxSuspendMonitorAndPC.Checked == true) {
+                return;
+            }
             #region commands
             var hibernateAC = new ProcessStartInfo("cmd", "/c powercfg /x -hibernate-timeout-ac 0");
             var hibernateDC = new ProcessStartInfo("cmd", "/c powercfg /x -hibernate-timeout-dc 0");
@@ -266,21 +272,26 @@ namespace InstallCeltaBSPDV.Configurations {
                 await Task.Run(() => Process.Start(neverHibernate));
                 await Task.Run(() => Process.Start(disableUsbStandbyBattery));
                 await Task.Run(() => Process.Start(disableUsbStandbyPlugged));
-                enable.checkBoxSuspendUSB.Checked = true;
-                //enable.checkBoxSuspendUSB.ForeColor = Color.Green;
-                enable.checkBoxSuspendMonitorAndPC.Checked = true;
-                //enable.checkBoxSuspendMonitorAndPC.ForeColor = Color.Green;
-                //richTextBoxResults.Text += "Configurações de energia da USB, monitor e PCI efetuadas com sucesso\n\n";
             } catch(Exception ex) {
                 MessageBox.Show(ex.Message);
             }
+            enable.checkBoxSuspendUSB.Checked = true;
+            enable.checkBoxSuspendMonitorAndPC.Checked = true;
+            //enable.checkBoxSuspendMonitorAndPC.ForeColor = Color.Green;
+            //richTextBoxResults.Text += "Configurações de energia da USB, monitor e PCI efetuadas com sucesso\n\n";
         }
-        private static void openAdjustVisualEffects() {
+        private static void openAdjustVisualEffects(EnableConfigurations enable) {
+            if(enable.checkBoxAdjustVisualEffects.Checked == true) {
+                return;
+            }
             var adjustVisualEffects = new ProcessStartInfo("cmd", "/c %windir%\\system32\\SystemPropertiesPerformance.exe");
             adjustVisualEffects.CreateNoWindow = true;
             Process.Start(adjustVisualEffects);
         }
-        private static void neverNotifyUser() {
+        private static void neverNotifyUser(EnableConfigurations enable) {
+            if(enable.checkBoxNeverNotifyUser.Checked == true) {
+                return;
+            }
             var info = new ProcessStartInfo("cmd", @"/c C:\Windows\System32\UserAccountControlSettings.exe");
             info.CreateNoWindow = true;
             try {
@@ -291,25 +302,18 @@ namespace InstallCeltaBSPDV.Configurations {
             } catch(Exception ex) {
                 MessageBox.Show(ex.Message);
             }
-            //dessa forma abaixo desabilita automaticamente para não pedir permissão de admin quando executar algo como admin, mas precisa reiniciar a CPU pra aplicar as alterações. Por isso coloquei pra abrir a tela pra desabilitar manualmente conforme acima
-
-            //try {
-            //    RegistryKey key =
-            //    Registry.LocalMachine.OpenSubKey(@"SOFTWARE\Microsoft\Windows\CurrentVersion\Policies\System", true);
-            //    key.SetValue("EnableLUA", "0", RegistryValueKind.DWord);
-            //    key.Close();
-
-
-            //} catch(Exception e) {
-            //    MessageBox.Show("Error: " + e);
-            //}
-
         }
-        private static void setMachineName(EnableConfigurations enable) {
+        private static void setHostName(EnableConfigurations enable) {
+            if(enable.checkBoxSetHostName.Checked == true) {
+                return;
+            }
             ComputerName FormComputerName = new ComputerName(enable);
             FormComputerName.Show();
         }
         private static void createTempPath(EnableConfigurations enable) {
+            if(enable.checkBoxTemp.Checked == true) {
+                return;
+            }
             if(!Directory.Exists("C:\\Temp")) {
                 DirectoryInfo info = Directory.CreateDirectory("C:\\Temp");
                 bool exists = info.Exists;

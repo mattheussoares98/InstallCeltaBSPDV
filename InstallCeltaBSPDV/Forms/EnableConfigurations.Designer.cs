@@ -29,17 +29,17 @@
             this.checkBoxSuspendUSB = new System.Windows.Forms.CheckBox();
             this.checkBoxSuspendMonitorAndPC = new System.Windows.Forms.CheckBox();
             this.checkBoxTemp = new System.Windows.Forms.CheckBox();
-            this.checkBox5 = new System.Windows.Forms.CheckBox();
+            this.checkBoxSetHostName = new System.Windows.Forms.CheckBox();
             this.checkBoxCopyCetaBSPDV = new System.Windows.Forms.CheckBox();
             this.checkBoxPdvLink = new System.Windows.Forms.CheckBox();
             this.checkBoxInstallMongo = new System.Windows.Forms.CheckBox();
             this.checkBoxEnableRemoteAcces = new System.Windows.Forms.CheckBox();
             this.checkBoxInstallComponentsReport = new System.Windows.Forms.CheckBox();
             this.checkBoxEnableIISComponents = new System.Windows.Forms.CheckBox();
-            this.checkBoxSharedPath = new System.Windows.Forms.CheckBox();
+            this.checkBoxCreateSharedSatPath = new System.Windows.Forms.CheckBox();
             this.checkBoxCreateSharedSatSite = new System.Windows.Forms.CheckBox();
-            this.checkBox3 = new System.Windows.Forms.CheckBox();
-            this.checkBox8 = new System.Windows.Forms.CheckBox();
+            this.checkBoxNeverNotifyUser = new System.Windows.Forms.CheckBox();
+            this.checkBoxAdjustVisualEffects = new System.Windows.Forms.CheckBox();
             this.checkBox17 = new System.Windows.Forms.CheckBox();
             this.checkBox16 = new System.Windows.Forms.CheckBox();
             this.checkBox12 = new System.Windows.Forms.CheckBox();
@@ -68,17 +68,17 @@
             this.flowLayoutPanel1.Controls.Add(this.checkBoxSuspendUSB);
             this.flowLayoutPanel1.Controls.Add(this.checkBoxSuspendMonitorAndPC);
             this.flowLayoutPanel1.Controls.Add(this.checkBoxTemp);
-            this.flowLayoutPanel1.Controls.Add(this.checkBox5);
+            this.flowLayoutPanel1.Controls.Add(this.checkBoxSetHostName);
             this.flowLayoutPanel1.Controls.Add(this.checkBoxCopyCetaBSPDV);
             this.flowLayoutPanel1.Controls.Add(this.checkBoxPdvLink);
             this.flowLayoutPanel1.Controls.Add(this.checkBoxInstallMongo);
             this.flowLayoutPanel1.Controls.Add(this.checkBoxEnableRemoteAcces);
             this.flowLayoutPanel1.Controls.Add(this.checkBoxInstallComponentsReport);
             this.flowLayoutPanel1.Controls.Add(this.checkBoxEnableIISComponents);
-            this.flowLayoutPanel1.Controls.Add(this.checkBoxSharedPath);
+            this.flowLayoutPanel1.Controls.Add(this.checkBoxCreateSharedSatPath);
             this.flowLayoutPanel1.Controls.Add(this.checkBoxCreateSharedSatSite);
-            this.flowLayoutPanel1.Controls.Add(this.checkBox3);
-            this.flowLayoutPanel1.Controls.Add(this.checkBox8);
+            this.flowLayoutPanel1.Controls.Add(this.checkBoxNeverNotifyUser);
+            this.flowLayoutPanel1.Controls.Add(this.checkBoxAdjustVisualEffects);
             this.flowLayoutPanel1.Controls.Add(this.checkBox17);
             this.flowLayoutPanel1.Controls.Add(this.checkBox16);
             this.flowLayoutPanel1.Controls.Add(this.checkBox12);
@@ -133,15 +133,15 @@
             this.checkBoxTemp.Text = "Criar a pasta C:\\Temp";
             this.checkBoxTemp.UseVisualStyleBackColor = true;
             // 
-            // checkBox5
+            // checkBoxSetHostName
             // 
-            this.checkBox5.AutoSize = true;
-            this.checkBox5.Location = new System.Drawing.Point(3, 103);
-            this.checkBox5.Name = "checkBox5";
-            this.checkBox5.Size = new System.Drawing.Size(238, 19);
-            this.checkBox5.TabIndex = 23;
-            this.checkBox5.Text = "Hostname conforme o número do caixa";
-            this.checkBox5.UseVisualStyleBackColor = true;
+            this.checkBoxSetHostName.AutoSize = true;
+            this.checkBoxSetHostName.Location = new System.Drawing.Point(3, 103);
+            this.checkBoxSetHostName.Name = "checkBoxSetHostName";
+            this.checkBoxSetHostName.Size = new System.Drawing.Size(238, 19);
+            this.checkBoxSetHostName.TabIndex = 23;
+            this.checkBoxSetHostName.Text = "Hostname conforme o número do caixa";
+            this.checkBoxSetHostName.UseVisualStyleBackColor = true;
             // 
             // checkBoxCopyCetaBSPDV
             // 
@@ -204,15 +204,15 @@
             this.checkBoxEnableIISComponents.Text = "Instalar componentes do IIS";
             this.checkBoxEnableIISComponents.UseVisualStyleBackColor = true;
             // 
-            // checkBoxSharedPath
+            // checkBoxCreateSharedSatPath
             // 
-            this.checkBoxSharedPath.AutoSize = true;
-            this.checkBoxSharedPath.Location = new System.Drawing.Point(3, 278);
-            this.checkBoxSharedPath.Name = "checkBoxSharedPath";
-            this.checkBoxSharedPath.Size = new System.Drawing.Size(266, 19);
-            this.checkBoxSharedPath.TabIndex = 30;
-            this.checkBoxSharedPath.Text = "Criar o diretório de compartilhamento do SAT";
-            this.checkBoxSharedPath.UseVisualStyleBackColor = true;
+            this.checkBoxCreateSharedSatPath.AutoSize = true;
+            this.checkBoxCreateSharedSatPath.Location = new System.Drawing.Point(3, 278);
+            this.checkBoxCreateSharedSatPath.Name = "checkBoxCreateSharedSatPath";
+            this.checkBoxCreateSharedSatPath.Size = new System.Drawing.Size(266, 19);
+            this.checkBoxCreateSharedSatPath.TabIndex = 30;
+            this.checkBoxCreateSharedSatPath.Text = "Criar o diretório de compartilhamento do SAT";
+            this.checkBoxCreateSharedSatPath.UseVisualStyleBackColor = true;
             // 
             // checkBoxCreateSharedSatSite
             // 
@@ -224,25 +224,25 @@
             this.checkBoxCreateSharedSatSite.Text = "Criar o site de compartilhamento do SAT";
             this.checkBoxCreateSharedSatSite.UseVisualStyleBackColor = true;
             // 
-            // checkBox3
+            // checkBoxNeverNotifyUser
             // 
-            this.checkBox3.AutoSize = true;
-            this.checkBox3.Location = new System.Drawing.Point(3, 328);
-            this.checkBox3.Name = "checkBox3";
-            this.checkBox3.Size = new System.Drawing.Size(302, 19);
-            this.checkBox3.TabIndex = 21;
-            this.checkBox3.Text = "Configurar controle de usuários para nunca notificar";
-            this.checkBox3.UseVisualStyleBackColor = true;
+            this.checkBoxNeverNotifyUser.AutoSize = true;
+            this.checkBoxNeverNotifyUser.Location = new System.Drawing.Point(3, 328);
+            this.checkBoxNeverNotifyUser.Name = "checkBoxNeverNotifyUser";
+            this.checkBoxNeverNotifyUser.Size = new System.Drawing.Size(302, 19);
+            this.checkBoxNeverNotifyUser.TabIndex = 21;
+            this.checkBoxNeverNotifyUser.Text = "Configurar controle de usuários para nunca notificar";
+            this.checkBoxNeverNotifyUser.UseVisualStyleBackColor = true;
             // 
-            // checkBox8
+            // checkBoxAdjustVisualEffects
             // 
-            this.checkBox8.AutoSize = true;
-            this.checkBox8.Location = new System.Drawing.Point(3, 353);
-            this.checkBox8.Name = "checkBox8";
-            this.checkBox8.Size = new System.Drawing.Size(379, 19);
-            this.checkBox8.TabIndex = 24;
-            this.checkBox8.Text = "Selecionar opções de desempenho para obter melhor desempenho";
-            this.checkBox8.UseVisualStyleBackColor = true;
+            this.checkBoxAdjustVisualEffects.AutoSize = true;
+            this.checkBoxAdjustVisualEffects.Location = new System.Drawing.Point(3, 353);
+            this.checkBoxAdjustVisualEffects.Name = "checkBoxAdjustVisualEffects";
+            this.checkBoxAdjustVisualEffects.Size = new System.Drawing.Size(379, 19);
+            this.checkBoxAdjustVisualEffects.TabIndex = 24;
+            this.checkBoxAdjustVisualEffects.Text = "Selecionar opções de desempenho para obter melhor desempenho";
+            this.checkBoxAdjustVisualEffects.UseVisualStyleBackColor = true;
             // 
             // checkBox17
             // 
@@ -363,14 +363,11 @@
         private CheckBox checkBox16;
         private CheckBox checkBox17;
         private CheckBox checkBox12;
-        private CheckBox checkBox8;
-        private CheckBox checkBox3;
         private CheckBox checkBox19;
         private CheckBox checkBox20;
         private CheckBox checkBox21;
         private CheckBox checkBox22;
         private ProgressBar progressBarInstall;
-        internal CheckBox checkBox5;
         internal FlowLayoutPanel flowLayoutPanel1;
         public RichTextBox richTextBoxResults;
         public CheckBox checkBoxCopyCetaBSPDV;
@@ -381,9 +378,12 @@
         public CheckBox checkBoxSuspendUSB;
         public CheckBox checkBoxSuspendMonitorAndPC;
         public CheckBox checkBoxTemp;
-        public CheckBox checkBoxSharedPath;
+        public CheckBox checkBoxCreateSharedSatPath;
         public CheckBox checkBoxEnableIISComponents;
         public CheckBox checkBoxInstallComponentsReport;
         public CheckBox checkBoxCreateSharedSatSite;
+        public CheckBox checkBoxAdjustVisualEffects;
+        public CheckBox checkBoxNeverNotifyUser;
+        public CheckBox checkBoxSetHostName;
     }
 }

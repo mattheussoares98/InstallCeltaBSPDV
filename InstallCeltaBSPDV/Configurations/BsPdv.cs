@@ -11,7 +11,6 @@ namespace InstallCeltaBSPDV.Configurations {
 
         static public async Task configureBsPdv(EnableConfigurations enable) {
 
-   
 
             await Download.downloadFileTaskAsync(Download.installBsPdvZip, enable);
             Task.Delay(700).Wait(); //só pra confirmar que realmente terminou o download do arquivo. Se o download já foi realizado, não vai tentar baixar novamente
@@ -23,7 +22,9 @@ namespace InstallCeltaBSPDV.Configurations {
             await Windows.enableAllPermissionsForPath("C:\\install", enable);
             await Windows.enableAllPermissionsForPath(Download.cCeltabspdv, enable);
 
-            await Windows.movePath(Download.cInstallPdvCeltabspdv, Download.cCeltabspdv, enable); //essencial fazer esse processo depois de baixaro arquivo installBsPdv.zip
+            if(!enable.checkBoxCopyCetaBSPDV.Checked) {
+                await Windows.movePath(Download.cInstallPdvCeltabspdv, Download.cCeltabspdv, enable); //essencial fazer esse processo depois de baixaro arquivo installBsPdv.zip
+            }
 
             await verifyPdvPathExists(enable);
 
@@ -43,10 +44,10 @@ namespace InstallCeltaBSPDV.Configurations {
             try {
                 await createStartupLink();
                 await createDesktopLink();
-                enable.checkBoxPdvLink.Checked = true;
             } catch(Exception ex) {
                 MessageBox.Show($"Erro para criar o atalho do PDV: {ex.Message}");
             }
+            enable.checkBoxPdvLink.Checked = true;
         }
         private static async Task verifyPdvPathExists(EnableConfigurations enable) {
             if(!File.Exists(pdvPath)) {
