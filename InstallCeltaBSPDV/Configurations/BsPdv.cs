@@ -11,7 +11,6 @@ namespace InstallCeltaBSPDV.Configurations {
 
         static public async Task configureBsPdv(EnableConfigurations enable) {
 
-
             await Download.downloadFileTaskAsync(Download.installBsPdvZip, enable);
             Task.Delay(700).Wait(); //só pra confirmar que realmente terminou o download do arquivo. Se o download já foi realizado, não vai tentar baixar novamente
 
@@ -22,31 +21,28 @@ namespace InstallCeltaBSPDV.Configurations {
             await Windows.enableAllPermissionsForPath("C:\\install", enable);
             await Windows.enableAllPermissionsForPath(Download.cCeltabspdv, enable);
 
+            installMongoDb(enable);
+
             if(!enable.checkBoxCopyCetaBSPDV.Checked) {
                 await Windows.movePath(Download.cInstallPdvCeltabspdv, Download.cCeltabspdv, enable); //essencial fazer esse processo depois de baixaro arquivo installBsPdv.zip
             }
 
             await verifyPdvPathExists(enable);
 
-            await createPdvLinks(enable);
-
-            installMongoDb(enable);
+            createPdvLinks(enable);
 
             await editMongoCfg(enable); //nessa função já está adicionando permissão para todos usuários na pasta do arquivo. Ele só chega nessa parte quando existe a pasta do arquivo
 
             installComponentsReport(enable);
         }
 
-        private static async Task createPdvLinks(EnableConfigurations enable) {
+        private static void createPdvLinks(EnableConfigurations enable) {
             if(enable.checkBoxPdvLink.Checked == true) {
                 return;
             }
-            try {
-                await createStartupLink();
-                await createDesktopLink();
-            } catch(Exception ex) {
-                MessageBox.Show($"Erro para criar o atalho do PDV: {ex.Message}");
-            }
+            createStartupLink();
+            createDesktopLink();
+
             enable.checkBoxPdvLink.Checked = true;
         }
         private static async Task verifyPdvPathExists(EnableConfigurations enable) {
@@ -62,41 +58,29 @@ namespace InstallCeltaBSPDV.Configurations {
             }
         }
         #region directories
-        private static string pdvPath = "C:\\CeltaBSPDV\\CeltaWare.CBS.PDV.UI.exe";
-        private static string startupUiPath = "C:\\ProgramData\\Microsoft\\Windows\\Start Menu\\Programs\\Startup\\CeltaWare.CBS.PDV.UI.exe";
-        private static string startupPath = "C:\\ProgramData\\Microsoft\\Windows\\Start Menu\\Programs\\Startup\\CeltaWare.CBS.PDV.exe";
-        private static string desktopPath = Environment.GetFolderPath(Environment.SpecialFolder.Desktop) + "\\CeltaWare.CBS.PDV.exe";
-        private static string desktopUiPath = Environment.GetFolderPath(Environment.SpecialFolder.Desktop) + "\\CeltaWare.CBS.PDV.UI.exe";
+        private static string pdvPath = @"C:\CeltaBSPDV\CeltaWare.CBS.PDV.UI.exe";
+        private static string startupPath = @"C:\ProgramData\Microsoft\Windows\Start Menu\Programs\Startup\CeltaPDV.lnk";
+        private static string desktopPath = Environment.GetFolderPath(Environment.SpecialFolder.Desktop) + @"\CeltaPDV.lnk";
         #endregion
-        private static async Task createStartupLink() {
-            if(File.Exists(startupPath) && File.Exists(startupUiPath)) {
-                File.Delete(startupUiPath);
-                //enable.checkBoxPdvLink.ForeColor = Color.Green;
-            } else if(File.Exists(startupPath) || File.Exists(startupUiPath)) {
-                //enable.checkBoxPdvLink.ForeColor = Color.Green;
+        private static void createStartupLink() {
+            if(File.Exists(startupPath)) {
+                return;
             } else {
-                try {
-                    await Task.Run(() => File.CreateSymbolicLink(startupPath, pdvPath));
-                    //enable.checkBoxPdvLink.ForeColor = Color.Green;
-                } catch(Exception ex) {
-                    MessageBox.Show($"Erro para criar o atalho do PDV: {ex.Message}");
-                }
+                IWshRuntimeLibrary.WshShell shell = new IWshRuntimeLibrary.WshShell();
+                IWshRuntimeLibrary.IWshShortcut shortcut = shell.CreateShortcut(startupPath);
+                shortcut.TargetPath = pdvPath;
+                shortcut.Save();
             }
         }
-        private static async Task createDesktopLink() {
+        private static void createDesktopLink() {
 
-            if(File.Exists(desktopPath) && File.Exists(desktopUiPath)) {
-                File.Delete(startupUiPath);
-                //enable.checkBoxPdvLink.ForeColor = Color.Green;
-            } else if(File.Exists(desktopPath) || File.Exists(desktopUiPath)) {
-                //enable.checkBoxPdvLink.ForeColor = Color.Green;
+            if(File.Exists(desktopPath)) {
+                return;
             } else {
-                try {
-                    await Task.Run(() => File.CreateSymbolicLink(desktopPath, pdvPath));
-                } catch(Exception ex) {
-                    MessageBox.Show($"Erro para criar o atalho na área de trabalho: {ex.Message}");
-                }
-                //enable.checkBoxPdvLink.ForeColor = Color.Green;
+                IWshRuntimeLibrary.WshShell shell = new IWshRuntimeLibrary.WshShell();
+                IWshRuntimeLibrary.IWshShortcut shortcut = shell.CreateShortcut(desktopPath);
+                shortcut.TargetPath = pdvPath;
+                shortcut.Save();
             }
         }
 
