@@ -11,23 +11,11 @@ namespace InstallCeltaBSPDV.Configurations {
 
         static public async Task configureBsPdv(EnableConfigurations enable) {
 
-            await Download.downloadFileTaskAsync(Download.installBsPdvZip, enable);
-            Task.Delay(700).Wait(); //só pra confirmar que realmente terminou o download do arquivo. Se o download já foi realizado, não vai tentar baixar novamente
-
-            await Windows.extractFile(Download.cInstallBsPdvZip, Download.cInstall, Download.installBsPdvZip, enable, enable.checkBoxCopyCetaBSPDV);
-
-            Task.Delay(700).Wait(); //para ter certeza que já terá extraído a pasta e que já terá dado permissão para todos usuários na pasta. Se não fizer isso, da erro as vezes
-
-            await Windows.enableAllPermissionsForPath("C:\\install", enable);
-            await Windows.enableAllPermissionsForPath(Download.cCeltabspdv, enable);
+            await downloadPdvAndConfigurePaths(enable);
 
             installMongoDb(enable);
 
-            if(!enable.checkBoxCopyCetaBSPDV.Checked) {
-                await Windows.movePath(Download.cInstallPdvCeltabspdv, Download.cCeltabspdv, enable); //essencial fazer esse processo depois de baixaro arquivo installBsPdv.zip
-            }
-
-            await verifyPdvPathExists(enable);
+            await Windows.enableAllPermissionsForPath("C:\\install", enable);
 
             createPdvLinks(enable);
 
@@ -45,17 +33,13 @@ namespace InstallCeltaBSPDV.Configurations {
 
             enable.checkBoxPdvLink.Checked = true;
         }
-        private static async Task verifyPdvPathExists(EnableConfigurations enable) {
-            if(!File.Exists(pdvPath)) {
-                enable.richTextBoxResults.Text += $"Não foi possível encontrar o arquivo {pdvPath}. Iniciando download do installbspdv.zip para fazer as configurações das pastas\n";
+        private static async Task downloadPdvAndConfigurePaths(EnableConfigurations enable) {
+            await Download.downloadFileTaskAsync(Download.installBsPdvZip, enable, "http://177.103.179.36/downloads/lastversion/installbspdv.zip");
+            await Windows.extractFile(Download.cInstallBsPdvZip, Download.cInstall, "installbspdv.zip", enable, uriDownload: "http://177.103.179.36/downloads/lastversion/installbspdv.zip");
 
-                await Download.downloadFileTaskAsync(Download.installBsPdvZip, enable);
-                await Windows.extractFile(Download.cInstallBsPdvZip, Download.cInstall, "installbspdv.zip", enable);
-
-                Task.Delay(7000).Wait();
-                await Windows.movePath(Download.cInstallPdvCeltabspdv, Download.cCeltabspdv, enable);
-                Task.Delay(7000).Wait();
-            }
+            Task.Delay(7000).Wait();
+            await Windows.movePdvPath(Download.cInstallPdvCeltabspdv, Download.cCeltabspdv, enable); //essencial fazer esse processo depois de baixaro arquivo installBsPdv.zip
+            Task.Delay(7000).Wait();
         }
         #region directories
         private static string pdvPath = @"C:\CeltaBSPDV\CeltaWare.CBS.PDV.UI.exe";

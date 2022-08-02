@@ -14,7 +14,7 @@ namespace InstallCeltaBSPDV.Configurations {
                 return;
             }
 
-            await Download.downloadFileTaskAsync("deployment.zip", enable);
+            await Download.downloadFileTaskAsync("deployment.zip", enable, "http://177.103.179.36/downloads/lastversion/deployment.zip");
             await createPathSharedSat(enable);
             await enableIISFeatures(enable);
             await createSiteIIS(enable);
@@ -34,6 +34,11 @@ namespace InstallCeltaBSPDV.Configurations {
         private static async Task createSiteIIS(EnableConfigurations enable) {
             if(enable.checkBoxCreateSharedSatSite.Checked) {
                 return;
+            }
+
+            if(!Directory.Exists(@"C:\CeltaSAT\PDV")) {
+                enable.richTextBoxResults.Text += "Como o diretório C:\\CeltaSAT\\PDV não existe, não tentará criar o site de compartilhamento do SAT\n\n";
+
             }
             enable.richTextBoxResults.Text += "Criando o site de compartilhamento do SAT no IIS\n\n";
 
@@ -92,12 +97,14 @@ namespace InstallCeltaBSPDV.Configurations {
             string CeltaSatPdvSatPathBin = "C:\\CeltaSAT\\PDV\\SAT\\Release\\WebService\\Bin";
             #endregion
 
-            await Windows.enableAllPermissionsForPath(celtaSat, enable); //pra garantir que vai poder fazer tudo na pasta de compartilhamento do SAT
+
+            bool sharedPath = false;
+            bool webConfig = false;
 
             if(!File.Exists(installDeploymentZip)) {
                 //se não houver o deployment na pasta install, baixa ele novamente e chama o mesmo método para efetuar a extração dos arquivos e criação da pasta de compartilhamento do SAT
                 enable.richTextBoxResults.Text += $"Como o {installDeploymentZip} não existe, a aplicação fará o download do arquivo para criar a pasta de compartilhamento do SAT atualizada\n\n";
-                await Download.downloadFileTaskAsync("deployment.zip", enable);
+                await Download.downloadFileTaskAsync("deployment.zip", enable, "http://177.103.179.36/downloads/lastversion/deployment.zip");
 
                 await createPathSharedSat(enable);
                 return;
@@ -142,8 +149,8 @@ namespace InstallCeltaBSPDV.Configurations {
                         Directory.Delete(celtaSatSat, true);
                     }
 
-                    enable.checkBoxCreateSharedSatPath.Checked = true;
                     //checkBoxSharedPath.ForeColor = Color.Green;
+                    sharedPath = true;
                 } catch(Exception ex) {
                     MessageBox.Show(ex.Message);
                 }
@@ -153,11 +160,19 @@ namespace InstallCeltaBSPDV.Configurations {
                     await Download.downloadFileTaskAsync("web.config", enable, "https://drive.google.com/u/1/uc?id=19D1bDda6HU4qa7tdbVppHFRmh0SsAoem&export=download");
 
                     await Task.Run(() => File.Move("C:\\Install\\web.config", "C:\\CeltaSAT\\PDV\\web.config", true));
+                    webConfig = true;
                 } catch(Exception ex) {
                     MessageBox.Show($"Erro para baixar o webConfig do compartilhamento do SAT: {ex.Message}");
                 }
 
-                enable.richTextBoxResults.Text += "Diretório de compartilhamento do SAT criado com sucesso\n\n";
+                if(webConfig && sharedPath) {
+                    enable.checkBoxCreateSharedSatPath.Checked = true;
+                    enable.richTextBoxResults.Text += "Diretório de compartilhamento do SAT criado com sucesso\n\n";
+                } else {
+                    enable.richTextBoxResults.Text += "Ocorreu erro para criar o site de compartilhamento do SAT\n\n";
+
+                }
+
             }
         }
         private static async Task overrideFilesInPath(string pathToRead, string destiny) {
@@ -181,7 +196,7 @@ namespace InstallCeltaBSPDV.Configurations {
             if(enable.checkBoxEnableIISComponents.Checked == true) {
                 return;
             }
-            enable.richTextBoxResults.Text += "Adicionando os recursos do IIS\n\n";
+            enable.richTextBoxResults.Text += "Adicionando os recursos do IIS. Esse processo pode ser demorado\n\n";
 
 
             string command1 = "Dism /Online /Enable-Feature /FeatureName:IIS-DefaultDocument /All";

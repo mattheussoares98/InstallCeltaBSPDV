@@ -42,7 +42,11 @@ namespace InstallCeltaBSPDV.Configurations {
             enable.richTextBoxResults.Text += $"Adicionado permissão total para todos usuários na pasta {path}\n\n";
         }
 
-        public static async Task movePath(string sourcePath, string destinyPath, EnableConfigurations enable) {
+        public static async Task movePdvPath(string sourcePath, string destinyPath, EnableConfigurations enable) {
+            if(enable.checkBoxCopyCetaBSPDV.Checked == true) {
+                return;
+            }
+
             if(!Directory.Exists(sourcePath)) {
                 MessageBox.Show($"Não foi possível encontrar o caminho {sourcePath}");
                 return;
@@ -50,6 +54,7 @@ namespace InstallCeltaBSPDV.Configurations {
 
             if(Directory.Exists(destinyPath)) {
                 enable.richTextBoxResults.Text += $"Como o diretório {destinyPath} já existe, não fará a cópia da pasta para o diretório\n\n";
+                enable.checkBoxCopyCetaBSPDV.Checked = true;
                 return;
             }
 
@@ -62,27 +67,21 @@ namespace InstallCeltaBSPDV.Configurations {
                 Task.Delay(7000).Wait();
                 //await Task.Run(() => Directory.Move(sourcePath, destinyPath));
                 enable.richTextBoxResults.Text += $"{sourcePath} movido com sucesso para o caminho {destinyPath}\n\n";
+                enable.checkBoxCopyCetaBSPDV.Checked = true;
             } catch(Exception ex) {
                 MessageBox.Show(ex.Message);
             }
         }
 
-        public static async Task extractFile(string sourceFilePath, string destinyPath, string fileName, EnableConfigurations enable, CheckBox checkBoxToMark = null) {
+        public static async Task extractFile(string sourceFilePath, string destinyPath, string fileName, EnableConfigurations enable, CheckBox checkBoxToMark = null, string uriDownload = null) {
+            //coloquei o uriDownload pra se não houver o arquivo, a aplicação fazer o download dele
             if(!File.Exists(sourceFilePath)) {
-                DialogResult dialogResult = MessageBox.Show($"O {sourceFilePath} não existe. Deseja baixá-lo?", "Aviso!", MessageBoxButtons.YesNo, MessageBoxIcon.Warning, MessageBoxDefaultButton.Button1);
-
-                if(dialogResult == DialogResult.Yes) {
-                    try {
-                        await Download.downloadFileTaskAsync(fileName, enable);
-                    } catch(Exception ex) {
-                        MessageBox.Show($"Erro para baixar o {fileName}: {ex.Message}");
-                    }
-                } else {
-                    return;
+                try {
+                    await Download.downloadFileTaskAsync(fileName, enable, uriDownload);
+                } catch(Exception ex) {
+                    MessageBox.Show($"Erro para baixar o {fileName}: {ex.Message}");
                 }
-            }
-
-            if(File.Exists(sourceFilePath)) {
+            } else {
                 try {
                     await Task.Run(() => ZipFile.ExtractToDirectory(sourceFilePath, destinyPath, true));
                     //mesmo colocando o await acima, parece que estava indo pro próximo passo sem terminar a execução da extração dos arquivos
