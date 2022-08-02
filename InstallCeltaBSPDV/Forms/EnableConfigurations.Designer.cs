@@ -49,14 +49,15 @@
             this.checkBox22 = new System.Windows.Forms.CheckBox();
             this.richTextBoxResults = new System.Windows.Forms.RichTextBox();
             this.progressBarInstall = new System.Windows.Forms.ProgressBar();
+            this.button1 = new System.Windows.Forms.Button();
             this.flowLayoutPanel1.SuspendLayout();
             this.SuspendLayout();
             // 
             // buttonConfigurations
             // 
-            this.buttonConfigurations.Location = new System.Drawing.Point(599, 497);
+            this.buttonConfigurations.Location = new System.Drawing.Point(599, 499);
             this.buttonConfigurations.Name = "buttonConfigurations";
-            this.buttonConfigurations.Size = new System.Drawing.Size(386, 71);
+            this.buttonConfigurations.Size = new System.Drawing.Size(386, 69);
             this.buttonConfigurations.TabIndex = 0;
             this.buttonConfigurations.Text = "Iniciar configurações";
             this.buttonConfigurations.UseVisualStyleBackColor = true;
@@ -325,18 +326,28 @@
             this.richTextBoxResults.Name = "richTextBoxResults";
             this.richTextBoxResults.ReadOnly = true;
             this.richTextBoxResults.ScrollBars = System.Windows.Forms.RichTextBoxScrollBars.Vertical;
-            this.richTextBoxResults.Size = new System.Drawing.Size(386, 397);
+            this.richTextBoxResults.Size = new System.Drawing.Size(386, 347);
             this.richTextBoxResults.TabIndex = 23;
             this.richTextBoxResults.Text = "";
             this.richTextBoxResults.TextChanged += new System.EventHandler(this.richTextBoxResults_TextChanged);
             // 
             // progressBarInstall
             // 
-            this.progressBarInstall.Location = new System.Drawing.Point(599, 436);
+            this.progressBarInstall.Location = new System.Drawing.Point(599, 376);
             this.progressBarInstall.Name = "progressBarInstall";
             this.progressBarInstall.Size = new System.Drawing.Size(386, 42);
             this.progressBarInstall.TabIndex = 3;
             this.progressBarInstall.Visible = false;
+            // 
+            // button1
+            // 
+            this.button1.Location = new System.Drawing.Point(599, 429);
+            this.button1.Name = "button1";
+            this.button1.Size = new System.Drawing.Size(386, 57);
+            this.button1.TabIndex = 24;
+            this.button1.Text = "Baixar arquivos";
+            this.button1.UseVisualStyleBackColor = true;
+            this.button1.Click += new System.EventHandler(this.button1_Click);
             // 
             // EnableConfigurations
             // 
@@ -344,6 +355,7 @@
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.AutoSize = true;
             this.ClientSize = new System.Drawing.Size(997, 580);
+            this.Controls.Add(this.button1);
             this.Controls.Add(this.progressBarInstall);
             this.Controls.Add(this.flowLayoutPanel1);
             this.Controls.Add(this.richTextBoxResults);
@@ -385,5 +397,6 @@
         public CheckBox checkBoxAdjustVisualEffects;
         public CheckBox checkBoxNeverNotifyUser;
         public CheckBox checkBoxSetHostName;
+        private Button button1;
     }
 }

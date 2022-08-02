@@ -14,7 +14,6 @@ namespace InstallCeltaBSPDV.Configurations {
         public static readonly string cCeltabspdv = "C:\\CeltaBSPDV";
 
         public static async Task downloadFileTaskAsync(string fileName, EnableConfigurations enable, string uriDownload) {
-            MessageBox.Show("teste");
             HttpClient client = new HttpClient();
 
             string destinyPath = "C:\\Install";

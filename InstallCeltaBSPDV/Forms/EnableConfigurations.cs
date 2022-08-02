@@ -9,6 +9,7 @@ using System.Security.AccessControl;
 using System.Security.Principal;
 using System.IO.Compression;
 using InstallCeltaBSPDV.Configurations;
+using InstallCeltaBSPDV.Forms;
 
 namespace InstallCeltaBSPDV {
     public partial class EnableConfigurations: Form {
@@ -52,6 +53,12 @@ namespace InstallCeltaBSPDV {
             flowLayoutPanel1.Enabled = true;
             ControlBox = true;
             #endregion
+        }
+
+        private void button1_Click(object sender, EventArgs e) {
+            //this.Hide();
+            DownloadFiles downloadFiles = new(this);
+            downloadFiles.ShowDialog();
         }
     }
 }
