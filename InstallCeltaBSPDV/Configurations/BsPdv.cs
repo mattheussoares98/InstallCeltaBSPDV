@@ -37,6 +37,8 @@ namespace InstallCeltaBSPDV.Configurations {
             await Download.downloadFileTaskAsync(Download.installBsPdvZip, enable, "http://177.103.179.36/downloads/lastversion/installbspdv.zip");
             await Windows.extractFile(Download.cInstallBsPdvZip, Download.cInstall, "installbspdv.zip", enable, uriDownload: "http://177.103.179.36/downloads/lastversion/installbspdv.zip");
 
+            await Windows.enableAllPermissionsForPath(Download.cInstall, enable);
+
             Task.Delay(7000).Wait();
             await Windows.movePdvPath(Download.cInstallPdvCeltabspdv, Download.cCeltabspdv, enable); //essencial fazer esse processo depois de baixaro arquivo installBsPdv.zip
             Task.Delay(7000).Wait();
