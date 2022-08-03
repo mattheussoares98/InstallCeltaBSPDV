@@ -38,22 +38,15 @@
             this.groupBoxPinPad = new System.Windows.Forms.GroupBox();
             this.pinpadIpp320 = new System.Windows.Forms.RadioButton();
             this.pinpadPPC930 = new System.Windows.Forms.RadioButton();
-            this.flowLayoutPanel1 = new System.Windows.Forms.FlowLayoutPanel();
-            this.utilityUltraVnc = new System.Windows.Forms.CheckBox();
-            this.utilityWnb = new System.Windows.Forms.CheckBox();
-            this.utilityTeamViewer = new System.Windows.Forms.CheckBox();
-            this.utilityWebConfig = new System.Windows.Forms.CheckBox();
-            this.utilityLayoutKeyboard = new System.Windows.Forms.CheckBox();
-            this.utilityManual = new System.Windows.Forms.CheckBox();
             this.groupBox1 = new System.Windows.Forms.GroupBox();
             this.keyboardSmak = new System.Windows.Forms.RadioButton();
             this.keyboardGertec = new System.Windows.Forms.RadioButton();
             this.buttonDownloadFiles = new System.Windows.Forms.Button();
-            this.richTextBoxResults = new System.Windows.Forms.RichTextBox();
+            this.checkedListBoxUtilities = new System.Windows.Forms.CheckedListBox();
+            this.checkedListBoxPrinters = new System.Windows.Forms.CheckedListBox();
             this.groupBoxSAT.SuspendLayout();
             this.groupBoxPrinters.SuspendLayout();
             this.groupBoxPinPad.SuspendLayout();
-            this.flowLayoutPanel1.SuspendLayout();
             this.groupBox1.SuspendLayout();
             this.SuspendLayout();
             // 
@@ -228,81 +221,6 @@
             this.pinpadPPC930.Text = "PPC930";
             this.pinpadPPC930.UseVisualStyleBackColor = true;
             // 
-            // flowLayoutPanel1
-            // 
-            this.flowLayoutPanel1.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            this.flowLayoutPanel1.Controls.Add(this.utilityUltraVnc);
-            this.flowLayoutPanel1.Controls.Add(this.utilityWnb);
-            this.flowLayoutPanel1.Controls.Add(this.utilityTeamViewer);
-            this.flowLayoutPanel1.Controls.Add(this.utilityWebConfig);
-            this.flowLayoutPanel1.Controls.Add(this.utilityLayoutKeyboard);
-            this.flowLayoutPanel1.Controls.Add(this.utilityManual);
-            this.flowLayoutPanel1.FlowDirection = System.Windows.Forms.FlowDirection.TopDown;
-            this.flowLayoutPanel1.Location = new System.Drawing.Point(12, 12);
-            this.flowLayoutPanel1.Name = "flowLayoutPanel1";
-            this.flowLayoutPanel1.Size = new System.Drawing.Size(170, 161);
-            this.flowLayoutPanel1.TabIndex = 0;
-            // 
-            // utilityUltraVnc
-            // 
-            this.utilityUltraVnc.AutoSize = true;
-            this.utilityUltraVnc.Location = new System.Drawing.Point(3, 3);
-            this.utilityUltraVnc.Name = "utilityUltraVnc";
-            this.utilityUltraVnc.Size = new System.Drawing.Size(78, 19);
-            this.utilityUltraVnc.TabIndex = 0;
-            this.utilityUltraVnc.Text = "Ultra VNC";
-            this.utilityUltraVnc.UseVisualStyleBackColor = true;
-            // 
-            // utilityWnb
-            // 
-            this.utilityWnb.AutoSize = true;
-            this.utilityWnb.Location = new System.Drawing.Point(3, 28);
-            this.utilityWnb.Name = "utilityWnb";
-            this.utilityWnb.Size = new System.Drawing.Size(53, 19);
-            this.utilityWnb.TabIndex = 1;
-            this.utilityWnb.Text = "WNB";
-            this.utilityWnb.UseVisualStyleBackColor = true;
-            // 
-            // utilityTeamViewer
-            // 
-            this.utilityTeamViewer.AutoSize = true;
-            this.utilityTeamViewer.Location = new System.Drawing.Point(3, 53);
-            this.utilityTeamViewer.Name = "utilityTeamViewer";
-            this.utilityTeamViewer.Size = new System.Drawing.Size(92, 19);
-            this.utilityTeamViewer.TabIndex = 4;
-            this.utilityTeamViewer.Text = "Team Viewer";
-            this.utilityTeamViewer.UseVisualStyleBackColor = true;
-            // 
-            // utilityWebConfig
-            // 
-            this.utilityWebConfig.AutoSize = true;
-            this.utilityWebConfig.Location = new System.Drawing.Point(3, 78);
-            this.utilityWebConfig.Name = "utilityWebConfig";
-            this.utilityWebConfig.Size = new System.Drawing.Size(108, 19);
-            this.utilityWebConfig.TabIndex = 2;
-            this.utilityWebConfig.Text = "WebConfig SAT";
-            this.utilityWebConfig.UseVisualStyleBackColor = true;
-            // 
-            // utilityLayoutKeyboard
-            // 
-            this.utilityLayoutKeyboard.AutoSize = true;
-            this.utilityLayoutKeyboard.Location = new System.Drawing.Point(3, 103);
-            this.utilityLayoutKeyboard.Name = "utilityLayoutKeyboard";
-            this.utilityLayoutKeyboard.Size = new System.Drawing.Size(104, 19);
-            this.utilityLayoutKeyboard.TabIndex = 5;
-            this.utilityLayoutKeyboard.Text = "Layout teclado";
-            this.utilityLayoutKeyboard.UseVisualStyleBackColor = true;
-            // 
-            // utilityManual
-            // 
-            this.utilityManual.AutoSize = true;
-            this.utilityManual.Location = new System.Drawing.Point(3, 128);
-            this.utilityManual.Name = "utilityManual";
-            this.utilityManual.Size = new System.Drawing.Size(108, 19);
-            this.utilityManual.TabIndex = 3;
-            this.utilityManual.Text = "Manual do PDV";
-            this.utilityManual.UseVisualStyleBackColor = true;
-            // 
             // groupBox1
             // 
             this.groupBox1.Controls.Add(this.keyboardSmak);
@@ -346,38 +264,62 @@
             this.buttonDownloadFiles.UseVisualStyleBackColor = true;
             this.buttonDownloadFiles.Click += new System.EventHandler(this.buttonDownloadFiles_Click);
             // 
-            // richTextBoxResults
+            // checkedListBoxUtilities
             // 
-            this.richTextBoxResults.Location = new System.Drawing.Point(401, 21);
-            this.richTextBoxResults.Name = "richTextBoxResults";
-            this.richTextBoxResults.Size = new System.Drawing.Size(273, 282);
-            this.richTextBoxResults.TabIndex = 5;
-            this.richTextBoxResults.Text = "";
+            this.checkedListBoxUtilities.CheckOnClick = true;
+            this.checkedListBoxUtilities.FormattingEnabled = true;
+            this.checkedListBoxUtilities.Items.AddRange(new object[] {
+            "Ultra VNC",
+            "WNB",
+            "Team Viewer",
+            "WebConfig SAT",
+            "Layout teclado",
+            "Manual do PDV"});
+            this.checkedListBoxUtilities.Location = new System.Drawing.Point(12, 12);
+            this.checkedListBoxUtilities.Name = "checkedListBoxUtilities";
+            this.checkedListBoxUtilities.Size = new System.Drawing.Size(170, 112);
+            this.checkedListBoxUtilities.TabIndex = 0;
+            // 
+            // checkedListBoxPrinters
+            // 
+            this.checkedListBoxPrinters.CheckOnClick = true;
+            this.checkedListBoxPrinters.FormattingEnabled = true;
+            this.checkedListBoxPrinters.Items.AddRange(new object[] {
+            "Epson TMT20",
+            "EpsonTMT20x",
+            "Epson TMT88v",
+            "Bematech MP4200",
+            "Sweda SI300 S",
+            "Sweda SI300 SIX",
+            "Daruma DR700",
+            "Daruma DR800"});
+            this.checkedListBoxPrinters.Location = new System.Drawing.Point(399, 13);
+            this.checkedListBoxPrinters.Name = "checkedListBoxPrinters";
+            this.checkedListBoxPrinters.Size = new System.Drawing.Size(170, 166);
+            this.checkedListBoxPrinters.TabIndex = 5;
+            this.checkedListBoxPrinters.ItemCheck += new System.Windows.Forms.ItemCheckEventHandler(this.checkedListBox1_ItemCheck);
             // 
             // DownloadFiles
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 15F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(684, 410);
-            this.Controls.Add(this.richTextBoxResults);
+            this.Controls.Add(this.checkedListBoxPrinters);
+            this.Controls.Add(this.checkedListBoxUtilities);
             this.Controls.Add(this.buttonDownloadFiles);
             this.Controls.Add(this.groupBox1);
-            this.Controls.Add(this.flowLayoutPanel1);
             this.Controls.Add(this.groupBoxPinPad);
             this.Controls.Add(this.groupBoxPrinters);
             this.Controls.Add(this.groupBoxSAT);
             this.Name = "DownloadFiles";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "Form1";
-            this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.DownloadFiles_FormClosing);
             this.groupBoxSAT.ResumeLayout(false);
             this.groupBoxSAT.PerformLayout();
             this.groupBoxPrinters.ResumeLayout(false);
             this.groupBoxPrinters.PerformLayout();
             this.groupBoxPinPad.ResumeLayout(false);
             this.groupBoxPinPad.PerformLayout();
-            this.flowLayoutPanel1.ResumeLayout(false);
-            this.flowLayoutPanel1.PerformLayout();
             this.groupBox1.ResumeLayout(false);
             this.groupBox1.PerformLayout();
             this.ResumeLayout(false);
@@ -396,22 +338,16 @@
         private GroupBox groupBoxPinPad;
         private RadioButton pinpadIpp320;
         private RadioButton pinpadPPC930;
-        private FlowLayoutPanel flowLayoutPanel1;
-        private CheckBox utilityUltraVnc;
-        private CheckBox utilityWnb;
         private RadioButton printerSi300Six;
         private RadioButton printerDarumaDR800;
         private RadioButton printerDarumaDR700;
         private RadioButton printerSi300S;
         private RadioButton printerTMT88v;
-        private CheckBox utilityWebConfig;
-        private CheckBox utilityManual;
-        private CheckBox utilityTeamViewer;
-        private CheckBox utilityLayoutKeyboard;
         private GroupBox groupBox1;
         private RadioButton keyboardSmak;
         private RadioButton keyboardGertec;
         private Button buttonDownloadFiles;
-        private RichTextBox richTextBoxResults;
+        private CheckedListBox checkedListBoxUtilities;
+        private CheckedListBox checkedListBoxPrinters;
     }
 }
