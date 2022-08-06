@@ -6,14 +6,20 @@ using System.Text;
 using System.Threading.Tasks;
 
 namespace InstallCeltaBSPDV.Configurations {
-    public static class Download {
+    public class Download {
+        private readonly EnableConfigurations enable = new();
+
+        public Download(EnableConfigurations enable) {
+            this.enable = enable;
+        }
+
         public static readonly string cInstall = "C:\\Install";
         public static readonly string cInstallBsPdvZip = "C:\\Install\\installbspdv.zip";
         public static readonly string installBsPdvZip = "installbspdv.zip";
         public static readonly string cInstallPdvCeltabspdv = "C:\\Install\\PDV\\CeltaBSPDV";
         public static readonly string cCeltabspdv = "C:\\CeltaBSPDV";
 
-        public static async Task downloadFileTaskAsync(string fileName, EnableConfigurations enable, string uriDownload) {
+        public async Task downloadFileTaskAsync(string fileName, string uriDownload) {
             HttpClient client = new HttpClient();
 
             string destinyPath = "C:\\Install";
@@ -44,7 +50,7 @@ namespace InstallCeltaBSPDV.Configurations {
                     if(File.Exists(cInstall + $"\\{fileName}")) { //teoricamente iniciou o download mas deu erro, por isso precisa apagar o arquivo pra tentar efetuar o download novamente
                         File.Delete(cInstall + $"\\{fileName}");
                     }
-                    await downloadFileTaskAsync(fileName, enable, uriDownload);
+                    await downloadFileTaskAsync(fileName, uriDownload);
                 }
             } else {
                 enable.richTextBoxResults.Text += $"O {fileName} já foi baixado\n\n";

@@ -10,19 +10,34 @@ using System.Text;
 using System.Threading.Tasks;
 
 namespace InstallCeltaBSPDV.Configurations {
-    public static class Windows {
-
-        public static async Task configureWindows(EnableConfigurations enable) {
-            await configureFirewall(enable);
-            await disableSuspendUSB(enable);
-            openAdjustVisualEffects(enable);
-            neverNotifyUser(enable);
-            setHostName(enable);
-            createTempPath(enable);
+    public class Windows {
+        private readonly EnableConfigurations enable = new();
+        public Windows(EnableConfigurations enableConfigurations) {
+            this.enable = enableConfigurations;
         }
-        public static async Task enableAllPermissionsForPath(string path, EnableConfigurations enable) {
+
+
+        public async Task configureWindows() {
+            await configureFirewall();
+            await configureEnergyPlan();
+            openAdjustVisualEffects();
+            neverNotifyUser();
+            setHostName();
+            createTempPath();
+            openPowerCfg();
+        }
+
+        public void openPowerCfg() {
+            if(enable.checkBoxDisableSuspendPCI.Checked) {
+                return;
+            }
+            var openCommand = new ProcessStartInfo("cmd", $"/c control.exe powercfg.cpl,,3");
+            openCommand.CreateNoWindow = true;
+            Process.Start(openCommand);
+        }
+        public async Task enableAllPermissionsForPath(string path) {
             if(!Directory.Exists(path)) {
-                enable.richTextBoxResults.Text += $"O caminho {path} não foi encontrado para habilitar a permissão para todos usuários\n\n";
+                //enable.richTextBoxResults.Text += $"O caminho {path} não foi encontrado para habilitar a permissão para todos usuários\n\n";
                 return;
             }
 
@@ -42,8 +57,8 @@ namespace InstallCeltaBSPDV.Configurations {
             enable.richTextBoxResults.Text += $"Adicionado permissão total para todos usuários na pasta {path}\n\n";
         }
 
-        public static async Task movePdvPath(string sourcePath, string destinyPath, EnableConfigurations enable) {
-            if(enable.checkBoxCopyCetaBSPDV.Checked == true) {
+        public async Task movePdvPath(string sourcePath, string destinyPath) {
+            if(enable.checkBoxCopyCetaBSPDV.Checked) {
                 return;
             }
 
@@ -59,12 +74,13 @@ namespace InstallCeltaBSPDV.Configurations {
             }
 
             try {
-                await enableAllPermissionsForPath(sourcePath, enable); //coloquei pra habilitar permissão pra todos nessa pasta porque em um teste que eu fiz, deu erro pra acessar essa pasta
-                await enableAllPermissionsForPath(destinyPath, enable); //coloquei pra habilitar permissão pra todos nessa pasta porque em um teste que eu fiz, deu erro pra acessar essa pasta
+                await enableAllPermissionsForPath(sourcePath); //coloquei pra habilitar permissão pra todos nessa pasta porque em um teste que eu fiz, deu erro pra acessar essa pasta
+                await enableAllPermissionsForPath(destinyPath); //coloquei pra habilitar permissão pra todos nessa pasta porque em um teste que eu fiz, deu erro pra acessar essa pasta
 
                 //Directory.Move(sourcePath, destinyPath);
                 Directory.Move(sourcePath, destinyPath);
                 Task.Delay(7000).Wait();
+
                 //await Task.Run(() => Directory.Move(sourcePath, destinyPath));
                 enable.richTextBoxResults.Text += $"{sourcePath} movido com sucesso para o caminho {destinyPath}\n\n";
                 enable.checkBoxCopyCetaBSPDV.Checked = true;
@@ -73,11 +89,11 @@ namespace InstallCeltaBSPDV.Configurations {
             }
         }
 
-        public static async Task extractFile(string sourceFilePath, string destinyPath, string fileName, EnableConfigurations enable, CheckBox checkBoxToMark = null, string uriDownload = null) {
+        public async Task extractFile(string sourceFilePath, string destinyPath, string fileName, CheckBox checkBoxToMark = null, string uriDownload = null) {
             //coloquei o uriDownload pra se não houver o arquivo, a aplicação fazer o download dele
             if(!File.Exists(sourceFilePath)) {
                 try {
-                    await Download.downloadFileTaskAsync(fileName, enable, uriDownload);
+                    await new Download(enable).downloadFileTaskAsync(fileName, uriDownload);
                 } catch(Exception ex) {
                     MessageBox.Show($"Erro para baixar o {fileName}: {ex.Message}");
                 }
@@ -95,8 +111,8 @@ namespace InstallCeltaBSPDV.Configurations {
             }
         }
 
-        public static async Task configureFirewall(EnableConfigurations enable) {
-            if(enable.checkBoxFirewall.Checked == true) {
+        public async Task configureFirewall() {
+            if(enable.checkBoxFirewall.Checked) {
                 return;
             }
             bool pingVerify = false;
@@ -217,13 +233,12 @@ namespace InstallCeltaBSPDV.Configurations {
                 enable.checkBoxFirewall.Checked = true;
             }
         }
-        private static async Task disableSuspendUSB(EnableConfigurations enable) {
-            if(enable.checkBoxSuspendUSB.Checked == true && enable.checkBoxSuspendMonitorAndPC.Checked == true) {
+        private async Task configureEnergyPlan() {
+            if(enable.checkBoxDisableSuspendUSB.Checked && enable.checkBoxSuspendMonitorAndPC.Checked && enable.checkBoxEnableFastBoot.Checked) {
                 return;
             }
             #region commands
-            var hibernateAC = new ProcessStartInfo("cmd", "/c powercfg /x -hibernate-timeout-ac 0");
-            var hibernateDC = new ProcessStartInfo("cmd", "/c powercfg /x -hibernate-timeout-dc 0");
+            var turnOnFastStartup = new ProcessStartInfo("cmd", "/c REG ADD \"HKLM\\SYSTEM\\CurrentControlSet\\Control\\Session Manager\\Power\" / V HiberbootEnabled / T REG_dWORD / D 1 / F");
             var diskTimeOutAC = new ProcessStartInfo("cmd", "/c powercfg /x -disk-timeout-ac 0");
             var diskTimeOutDC = new ProcessStartInfo("cmd", "/c powercfg /x -disk-timeout-dc 0");
             var monitorTimeOutAC = new ProcessStartInfo("cmd", "/c powercfg /x -monitor-timeout-ac 0");
@@ -234,15 +249,9 @@ namespace InstallCeltaBSPDV.Configurations {
             var disableUsbStandbyBattery = new ProcessStartInfo("cmd", "/c powercfg /SETDCVALUEINDEX SCHEME_CURRENT 2a737441-1930-4402-8d77-b2bebba308a3 48e6b7a6-50f5-4782-a5d4-53bb8f07e226 0"); //desabilitar suspensão da USB
             var disableUsbStandbyPlugged = new ProcessStartInfo("cmd", "/c powercfg /SETACVALUEINDEX SCHEME_CURRENT 2a737441-1930-4402-8d77-b2bebba308a3 48e6b7a6-50f5-4782-a5d4-53bb8f07e226 0"); //desabilitar suspensão da USB
 
-            var enableMaxPerformance = new ProcessStartInfo("cmd", "/c powercfg -duplicatescheme e9a42b02-d5df-448d-aa00-03f14749eb61"); //habilita o plano de desempenho máximo
-
-            var selectMaxPerformance = new ProcessStartInfo("cmd", "/c powercfg /setactive a69d9b1c-b6ca-4e5d-a983-a3e9d2497239"); //torna o plano de desempenho máximo como ativo
-
             #endregion
 
             #region dont show a command line
-            hibernateAC.CreateNoWindow = true;
-            hibernateDC.CreateNoWindow = true;
             diskTimeOutAC.CreateNoWindow = true;
             diskTimeOutDC.CreateNoWindow = true;
             monitorTimeOutAC.CreateNoWindow = true;
@@ -252,43 +261,46 @@ namespace InstallCeltaBSPDV.Configurations {
             neverHibernate.CreateNoWindow = true;
             disableUsbStandbyBattery.CreateNoWindow = true;
             disableUsbStandbyPlugged.CreateNoWindow = true;
-            enableMaxPerformance.CreateNoWindow = true;
-            selectMaxPerformance.CreateNoWindow = true;
+            turnOnFastStartup.CreateNoWindow = true;
             #endregion
 
             try {
-                await Task.Run(() => Process.Start(enableMaxPerformance));
-                await Task.Run(() => Process.Start(selectMaxPerformance));
-                //esses dois comandos acima precisam ser chamados antes dos posteriores, porque eles mudam o plano selecionado pro de desempenho máximo
-                await Task.Run(() => Process.Start(hibernateAC));
-                await Task.Run(() => Process.Start(hibernateDC));
                 await Task.Run(() => Process.Start(diskTimeOutAC));
+                Task.Delay(2000).Wait();
                 await Task.Run(() => Process.Start(diskTimeOutDC));
+                Task.Delay(2000).Wait();
                 await Task.Run(() => Process.Start(monitorTimeOutAC));
+                Task.Delay(2000).Wait();
                 await Task.Run(() => Process.Start(monitorTimeOutDC));
+                Task.Delay(2000).Wait();
                 await Task.Run(() => Process.Start(standybyTimeoutAC));
+                Task.Delay(2000).Wait();
                 await Task.Run(() => Process.Start(standybyTimeoutDC));
+                Task.Delay(2000).Wait();
                 await Task.Run(() => Process.Start(neverHibernate));
+                Task.Delay(2000).Wait();
                 await Task.Run(() => Process.Start(disableUsbStandbyBattery));
+                Task.Delay(2000).Wait();
                 await Task.Run(() => Process.Start(disableUsbStandbyPlugged));
+                Task.Delay(2000).Wait();
+                await Task.Run(() => Process.Start(turnOnFastStartup));
             } catch(Exception ex) {
                 MessageBox.Show(ex.Message);
             }
-            enable.checkBoxSuspendUSB.Checked = true;
+            enable.checkBoxDisableSuspendUSB.Checked = true;
             enable.checkBoxSuspendMonitorAndPC.Checked = true;
-            //enable.checkBoxSuspendMonitorAndPC.ForeColor = Color.Green;
-            //richTextBoxResults.Text += "Configurações de energia da USB, monitor e PCI efetuadas com sucesso\n\n";
+            enable.checkBoxEnableFastBoot.Checked = true;
         }
-        private static void openAdjustVisualEffects(EnableConfigurations enable) {
-            if(enable.checkBoxAdjustVisualEffects.Checked == true) {
+        private void openAdjustVisualEffects() {
+            if(enable.checkBoxAdjustVisualEffects.Checked) {
                 return;
             }
             var adjustVisualEffects = new ProcessStartInfo("cmd", "/c %windir%\\system32\\SystemPropertiesPerformance.exe");
             adjustVisualEffects.CreateNoWindow = true;
             Process.Start(adjustVisualEffects);
         }
-        private static void neverNotifyUser(EnableConfigurations enable) {
-            if(enable.checkBoxNeverNotifyUser.Checked == true) {
+        private void neverNotifyUser() {
+            if(enable.checkBoxNeverNotifyUser.Checked) {
                 return;
             }
             var info = new ProcessStartInfo("cmd", @"/c C:\Windows\System32\UserAccountControlSettings.exe");
@@ -302,15 +314,15 @@ namespace InstallCeltaBSPDV.Configurations {
                 MessageBox.Show(ex.Message);
             }
         }
-        private static void setHostName(EnableConfigurations enable) {
-            if(enable.checkBoxSetHostName.Checked == true) {
+        private void setHostName() {
+            if(enable.checkBoxSetHostName.Checked) {
                 return;
             }
             ComputerName FormComputerName = new ComputerName(enable);
             FormComputerName.Show();
         }
-        private static void createTempPath(EnableConfigurations enable) {
-            if(enable.checkBoxTemp.Checked == true) {
+        private void createTempPath() {
+            if(enable.checkBoxTemp.Checked) {
                 return;
             }
             if(!Directory.Exists("C:\\Temp")) {

@@ -32,32 +32,51 @@ namespace InstallCeltaBSPDV {
             progressBarInstall.Style = ProgressBarStyle.Marquee;
             progressBarInstall.MarqueeAnimationSpeed = 30;
             progressBarInstall.Visible = true;
-            flowLayoutPanel1.Enabled = false;
-            ControlBox = false;
+            //flowLayoutPanelConfigurations.Enabled = false;
+            checkBoxFirewall.Enabled = false;
+            checkBoxDisableSuspendUSB.Enabled = false;
+            checkBoxSuspendMonitorAndPC.Enabled = false;
+            checkBoxEnableFastBoot.Enabled = false;
+            checkBoxTemp.Enabled = false;
+            checkBoxSetHostName.Enabled = false;
+            checkBoxCopyCetaBSPDV.Enabled = false;
+            checkBoxPdvLink.Enabled = false;
+            checkBoxInstallMongo.Enabled = false;
+            checkBoxEnableRemoteAcces.Enabled = false;
+            checkBoxInstallComponentsReport.Enabled = false;
+            checkBoxCreateSharedSatSite.Enabled = false;
             #endregion
 
-            SharedSat.askInstallSharedSat(); //coloquei pra perguntar no início da instalação porque a criação do site de compartilhamento do SAT não é tão importante e demora um pouco pra ser feita
+            await new Windows(this).configureWindows();
 
-            await Windows.configureWindows(this);
+            await new BsPdv(this).configureBsPdv();
 
-            await BsPdv.configureBsPdv(this);
-
-            await SharedSat.createSharedSat(this);
+            await new SharedSat(this).createSharedSat();
 
             #region enable components
             buttonConfigurations.Text = "Efetuar configurações";
             buttonConfigurations.Enabled = true;
             progressBarInstall.Style = ProgressBarStyle.Continuous;
             progressBarInstall.MarqueeAnimationSpeed = 0;
-            progressBarInstall.Visible = false;
-            flowLayoutPanel1.Enabled = true;
-            ControlBox = true;
+            progressBarInstall.Visible = true;
+            checkBoxFirewall.Enabled = true;
+            checkBoxDisableSuspendUSB.Enabled = true;
+            checkBoxSuspendMonitorAndPC.Enabled = true;
+            checkBoxEnableFastBoot.Enabled = true;
+            checkBoxTemp.Enabled = true;
+            checkBoxSetHostName.Enabled = true;
+            checkBoxCopyCetaBSPDV.Enabled = true;
+            checkBoxPdvLink.Enabled = true;
+            checkBoxInstallMongo.Enabled = true;
+            checkBoxEnableRemoteAcces.Enabled = true;
+            checkBoxInstallComponentsReport.Enabled = true;
+            checkBoxCreateSharedSatSite.Enabled = true;
             #endregion
         }
 
         private void button1_Click(object sender, EventArgs e) {
             //this.Hide();
-            DownloadFiles downloadFiles = new(this);
+            DownloadFilesForm downloadFiles = new(this);
             downloadFiles.ShowDialog();
         }
     }

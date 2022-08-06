@@ -7,15 +7,21 @@ using System.Text;
 using System.Threading.Tasks;
 
 namespace InstallCeltaBSPDV.Configurations {
-    internal static class BsPdv {
+    internal class BsPdv {
 
-        static public async Task configureBsPdv(EnableConfigurations enable) {
+        private readonly EnableConfigurations enable = new();
 
-            await downloadPdvAndConfigurePaths(enable);
+        public BsPdv(EnableConfigurations enable) {
+            this.enable = enable;
+        }
 
-            installMongoDb(enable);
+        public async Task configureBsPdv() {
 
-            await Windows.enableAllPermissionsForPath("C:\\install", enable);
+            await downloadAndConfigurePdvPaths(enable);
+
+            await downloadAndInstallMongoDb(enable);
+
+            await new Windows(enable).enableAllPermissionsForPath("C:\\install");
 
             createPdvLinks(enable);
 
@@ -24,7 +30,7 @@ namespace InstallCeltaBSPDV.Configurations {
             installComponentsReport(enable);
         }
 
-        private static void createPdvLinks(EnableConfigurations enable) {
+        private void createPdvLinks(EnableConfigurations enable) {
             if(enable.checkBoxPdvLink.Checked == true) {
                 return;
             }
@@ -33,22 +39,25 @@ namespace InstallCeltaBSPDV.Configurations {
 
             enable.checkBoxPdvLink.Checked = true;
         }
-        private static async Task downloadPdvAndConfigurePaths(EnableConfigurations enable) {
-            await Download.downloadFileTaskAsync(Download.installBsPdvZip, enable, "http://177.103.179.36/downloads/lastversion/installbspdv.zip");
-            await Windows.extractFile(Download.cInstallBsPdvZip, Download.cInstall, "installbspdv.zip", enable, uriDownload: "http://177.103.179.36/downloads/lastversion/installbspdv.zip");
+        private async Task downloadAndConfigurePdvPaths(EnableConfigurations enable) {
+            if(enable.checkBoxCopyCetaBSPDV.Checked == true) {
+                return;
+            }
+            await new Download(enable).downloadFileTaskAsync(Download.installBsPdvZip, "http://177.103.179.36/downloads/lastversion/installbspdv.zip");
+            await new Windows(enable).extractFile(Download.cInstallBsPdvZip, Download.cInstall, "installbspdv.zip", uriDownload: "http://177.103.179.36/downloads/lastversion/installbspdv.zip");
 
-            await Windows.enableAllPermissionsForPath(Download.cInstall, enable);
+            await new Windows(enable).enableAllPermissionsForPath(Download.cInstall);
 
             Task.Delay(7000).Wait();
-            await Windows.movePdvPath(Download.cInstallPdvCeltabspdv, Download.cCeltabspdv, enable); //essencial fazer esse processo depois de baixaro arquivo installBsPdv.zip
+            await new Windows(enable).movePdvPath(Download.cInstallPdvCeltabspdv, Download.cCeltabspdv); //essencial fazer esse processo depois de baixaro arquivo installBsPdv.zip
             Task.Delay(7000).Wait();
         }
         #region directories
-        private static string pdvPath = @"C:\CeltaBSPDV\CeltaWare.CBS.PDV.UI.exe";
-        private static string startupPath = @"C:\ProgramData\Microsoft\Windows\Start Menu\Programs\Startup\CeltaPDV.lnk";
-        private static string desktopPath = Environment.GetFolderPath(Environment.SpecialFolder.Desktop) + @"\CeltaPDV.lnk";
+        private const string pdvPath = @"C:\CeltaBSPDV\CeltaWare.CBS.PDV.UI.exe";
+        private const string startupPath = @"C:\ProgramData\Microsoft\Windows\Start Menu\Programs\Startup\CeltaPDV.lnk";
+        private readonly string desktopPath = Environment.GetFolderPath(Environment.SpecialFolder.Desktop) + @"\CeltaPDV.lnk";
         #endregion
-        private static void createStartupLink() {
+        private void createStartupLink() {
             if(File.Exists(startupPath)) {
                 return;
             } else {
@@ -58,7 +67,7 @@ namespace InstallCeltaBSPDV.Configurations {
                 shortcut.Save();
             }
         }
-        private static void createDesktopLink() {
+        private void createDesktopLink() {
 
             if(File.Exists(desktopPath)) {
                 return;
@@ -70,7 +79,7 @@ namespace InstallCeltaBSPDV.Configurations {
             }
         }
 
-        public static bool verifyAppIsInstalled(string displayName) {
+        public bool verifyAppIsInstalled(string displayName) {
             // consulta no regedit se contém o Mongo instalado
             List<String> programsDisplayName = new() {
             };
@@ -94,7 +103,7 @@ namespace InstallCeltaBSPDV.Configurations {
             }
             return appInstalled;
         }
-        private static void installMongoDb(EnableConfigurations enable) {
+        private async Task downloadAndInstallMongoDb(EnableConfigurations enable) {
             if(enable.checkBoxInstallMongo.Checked == true) {
                 return;
             }
@@ -102,7 +111,9 @@ namespace InstallCeltaBSPDV.Configurations {
             //precisa ter o arquivo C:\Install\PDV\Database\mongodb-win32-x86_64-2008plus-ssl-4.0.22-signed
             if(!File.Exists(mongoDbFilePath)) {
                 MessageBox.Show($"Não foi possível instalar o banco de dados porque o arquivo{mongoDbFilePath} não existe");
-                return;
+                await new Download(enable).downloadFileTaskAsync(Download.installBsPdvZip, "http://177.103.179.36/downloads/lastversion/installbspdv.zip");
+
+                await downloadAndInstallMongoDb(enable);
             }
 
             string appPath = System.Reflection.Assembly.GetExecutingAssembly().Location;
@@ -141,7 +152,7 @@ namespace InstallCeltaBSPDV.Configurations {
                 MessageBox.Show("Erro para instalar o MongoDB: " + ex.Message);
             }
         }
-        private static async Task editMongoCfg(EnableConfigurations enable) {
+        private async Task editMongoCfg(EnableConfigurations enable) {
             if(enable.checkBoxEnableRemoteAcces.Checked == true) {
                 return;
             }
@@ -151,14 +162,10 @@ namespace InstallCeltaBSPDV.Configurations {
             string mongoConfig = mongoBin + "\\mongod.cfg";
 
             if(!File.Exists(mongoConfig)) {
-                //richTextBoxResults.Text += $"O {mongoConfig} não existe. Clique em 'YES' para tentar abrir o instalador do PDV\n\n";
+                enable.richTextBoxResults.Text += $"O {mongoConfig} não existe. A aplicação fará a instalação do banco de dados para editar o acesso remoto ao banco de dados\n\n";
 
-                installMongoDb(enable);
-                DialogResult dialogResult = MessageBox.Show("Clique em OK caso tenha terminado a instalação do MongoDB", "CONTINUAR?", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                await downloadAndInstallMongoDb(enable);
 
-                if(dialogResult == DialogResult.OK) {
-                    await editMongoCfg(enable);
-                }
                 await editMongoCfg(enable);
             }
 
@@ -176,7 +183,7 @@ namespace InstallCeltaBSPDV.Configurations {
                     return;
                 }
 
-                await Windows.enableAllPermissionsForPath(Environment.ExpandEnvironmentVariables("%ProgramW6432%") + "\\MongoDB\\Server\\4.0\\bin", enable);
+                await new Windows(enable).enableAllPermissionsForPath(Environment.ExpandEnvironmentVariables("%ProgramW6432%") + "\\MongoDB\\Server\\4.0\\bin");
 
                 string newText = textoDoArquivo.Replace("127.0.0.1", "0.0.0.0");
 
@@ -197,7 +204,7 @@ namespace InstallCeltaBSPDV.Configurations {
 
         }
 
-        private static void installComponentsReport(EnableConfigurations enable) {
+        private void installComponentsReport(EnableConfigurations enable) {
             if(enable.checkBoxInstallComponentsReport.Checked == true) {
                 return;
             }
