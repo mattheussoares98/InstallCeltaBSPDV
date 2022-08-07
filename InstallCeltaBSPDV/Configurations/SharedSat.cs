@@ -9,8 +9,10 @@ using System.Threading.Tasks;
 namespace InstallCeltaBSPDV.Configurations {
     internal class SharedSat {
         private readonly EnableConfigurations enable = new();
+        private readonly Download download;
         public SharedSat(EnableConfigurations enable) {
             this.enable = enable;
+            download = new(enable);
         }
         public async Task createSharedSat() {
             //no início da instalação a aplicação já pergunta se o usuário quer instalar o site de compartilhamento do SAT e caso queira, altera o valor da variável "canInstallSharedSat" para true
@@ -18,7 +20,7 @@ namespace InstallCeltaBSPDV.Configurations {
                 return;
             }
 
-            await new Download(enable).downloadFileTaskAsync("deployment.zip", "http://177.103.179.36/downloads/lastversion/deployment.zip");
+            await download.downloadFileTaskAsync("deployment.zip", "http://177.103.179.36/downloads/lastversion/deployment.zip");
             await createPathSharedSat();
             await enableIISFeatures();
             await createSiteIIS();
@@ -97,7 +99,7 @@ namespace InstallCeltaBSPDV.Configurations {
             if(!File.Exists(installDeploymentZip)) {
                 //se não houver o deployment na pasta install, baixa ele novamente e chama o mesmo método para efetuar a extração dos arquivos e criação da pasta de compartilhamento do SAT
                 enable.richTextBoxResults.Text += $"Como o {installDeploymentZip} não existe, a aplicação fará o download do arquivo para criar a pasta de compartilhamento do SAT atualizada\n\n";
-                await new Download(enable).downloadFileTaskAsync("deployment.zip", "http://177.103.179.36/downloads/lastversion/deployment.zip");
+                await download.downloadFileTaskAsync("deployment.zip", "http://177.103.179.36/downloads/lastversion/deployment.zip");
 
                 await createPathSharedSat();
                 return;
@@ -150,7 +152,7 @@ namespace InstallCeltaBSPDV.Configurations {
 
                 try {
 
-                    await new Download(enable).downloadFileTaskAsync("web.config", "https://drive.google.com/u/1/uc?id=19D1bDda6HU4qa7tdbVppHFRmh0SsAoem&export=download");
+                    await download.downloadFileTaskAsync("web.config", "https://drive.google.com/u/1/uc?id=19D1bDda6HU4qa7tdbVppHFRmh0SsAoem&export=download");
 
                     await Task.Run(() => File.Move("C:\\Install\\web.config", "C:\\CeltaSAT\\PDV\\web.config", true));
                     webConfig = true;

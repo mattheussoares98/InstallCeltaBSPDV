@@ -23,88 +23,20 @@
         /// the contents of this method with the code editor.
         /// </summary>
         private void InitializeComponent() {
-            this.groupBoxSAT = new System.Windows.Forms.GroupBox();
-            this.radioButton1 = new System.Windows.Forms.RadioButton();
-            this.satSweda = new System.Windows.Forms.RadioButton();
-            this.groupBox1 = new System.Windows.Forms.GroupBox();
-            this.keyboardSmak = new System.Windows.Forms.RadioButton();
-            this.keyboardGertec = new System.Windows.Forms.RadioButton();
             this.buttonDownloadFiles = new System.Windows.Forms.Button();
             this.checkedListBoxUtilities = new System.Windows.Forms.CheckedListBox();
             this.checkedListBoxPrinters = new System.Windows.Forms.CheckedListBox();
-            this.groupBoxSAT.SuspendLayout();
-            this.groupBox1.SuspendLayout();
+            this.checkedListBoxSats = new System.Windows.Forms.CheckedListBox();
+            this.label1 = new System.Windows.Forms.Label();
+            this.label2 = new System.Windows.Forms.Label();
+            this.label3 = new System.Windows.Forms.Label();
+            this.checkedListBoxPinPads = new System.Windows.Forms.CheckedListBox();
+            this.label4 = new System.Windows.Forms.Label();
             this.SuspendLayout();
-            // 
-            // groupBoxSAT
-            // 
-            this.groupBoxSAT.Controls.Add(this.radioButton1);
-            this.groupBoxSAT.Controls.Add(this.satSweda);
-            this.groupBoxSAT.Location = new System.Drawing.Point(188, 12);
-            this.groupBoxSAT.Name = "groupBoxSAT";
-            this.groupBoxSAT.Size = new System.Drawing.Size(190, 167);
-            this.groupBoxSAT.TabIndex = 2;
-            this.groupBoxSAT.TabStop = false;
-            this.groupBoxSAT.Text = "SATs";
-            // 
-            // radioButton1
-            // 
-            this.radioButton1.AutoSize = true;
-            this.radioButton1.Location = new System.Drawing.Point(9, 53);
-            this.radioButton1.Name = "radioButton1";
-            this.radioButton1.Size = new System.Drawing.Size(55, 19);
-            this.radioButton1.TabIndex = 1;
-            this.radioButton1.TabStop = true;
-            this.radioButton1.Text = "Tanca";
-            this.radioButton1.UseVisualStyleBackColor = true;
-            // 
-            // satSweda
-            // 
-            this.satSweda.AutoSize = true;
-            this.satSweda.Location = new System.Drawing.Point(9, 28);
-            this.satSweda.Name = "satSweda";
-            this.satSweda.Size = new System.Drawing.Size(59, 19);
-            this.satSweda.TabIndex = 0;
-            this.satSweda.TabStop = true;
-            this.satSweda.Text = "Sweda";
-            this.satSweda.UseVisualStyleBackColor = true;
-            // 
-            // groupBox1
-            // 
-            this.groupBox1.Controls.Add(this.keyboardSmak);
-            this.groupBox1.Controls.Add(this.keyboardGertec);
-            this.groupBox1.Location = new System.Drawing.Point(188, 309);
-            this.groupBox1.Name = "groupBox1";
-            this.groupBox1.Size = new System.Drawing.Size(190, 89);
-            this.groupBox1.TabIndex = 2;
-            this.groupBox1.TabStop = false;
-            this.groupBox1.Text = "Teclados";
-            // 
-            // keyboardSmak
-            // 
-            this.keyboardSmak.AutoSize = true;
-            this.keyboardSmak.Location = new System.Drawing.Point(9, 53);
-            this.keyboardSmak.Name = "keyboardSmak";
-            this.keyboardSmak.Size = new System.Drawing.Size(54, 19);
-            this.keyboardSmak.TabIndex = 1;
-            this.keyboardSmak.TabStop = true;
-            this.keyboardSmak.Text = "Smak";
-            this.keyboardSmak.UseVisualStyleBackColor = true;
-            // 
-            // keyboardGertec
-            // 
-            this.keyboardGertec.AutoSize = true;
-            this.keyboardGertec.Location = new System.Drawing.Point(9, 28);
-            this.keyboardGertec.Name = "keyboardGertec";
-            this.keyboardGertec.Size = new System.Drawing.Size(59, 19);
-            this.keyboardGertec.TabIndex = 0;
-            this.keyboardGertec.TabStop = true;
-            this.keyboardGertec.Text = "Gertec";
-            this.keyboardGertec.UseVisualStyleBackColor = true;
             // 
             // buttonDownloadFiles
             // 
-            this.buttonDownloadFiles.Location = new System.Drawing.Point(399, 327);
+            this.buttonDownloadFiles.Location = new System.Drawing.Point(201, 236);
             this.buttonDownloadFiles.Name = "buttonDownloadFiles";
             this.buttonDownloadFiles.Size = new System.Drawing.Size(275, 66);
             this.buttonDownloadFiles.TabIndex = 4;
@@ -116,7 +48,7 @@
             // 
             this.checkedListBoxUtilities.CheckOnClick = true;
             this.checkedListBoxUtilities.FormattingEnabled = true;
-            this.checkedListBoxUtilities.Location = new System.Drawing.Point(12, 12);
+            this.checkedListBoxUtilities.Location = new System.Drawing.Point(12, 36);
             this.checkedListBoxUtilities.Name = "checkedListBoxUtilities";
             this.checkedListBoxUtilities.Size = new System.Drawing.Size(170, 22);
             this.checkedListBoxUtilities.TabIndex = 0;
@@ -125,43 +57,99 @@
             // 
             this.checkedListBoxPrinters.CheckOnClick = true;
             this.checkedListBoxPrinters.FormattingEnabled = true;
-            this.checkedListBoxPrinters.Location = new System.Drawing.Point(399, 13);
+            this.checkedListBoxPrinters.Location = new System.Drawing.Point(385, 36);
             this.checkedListBoxPrinters.Name = "checkedListBoxPrinters";
             this.checkedListBoxPrinters.Size = new System.Drawing.Size(170, 22);
             this.checkedListBoxPrinters.TabIndex = 5;
             this.checkedListBoxPrinters.ItemCheck += new System.Windows.Forms.ItemCheckEventHandler(this.checkedListBox1_ItemCheck);
             // 
-            // DownloadFiles
+            // checkedListBoxSats
+            // 
+            this.checkedListBoxSats.CheckOnClick = true;
+            this.checkedListBoxSats.FormattingEnabled = true;
+            this.checkedListBoxSats.Location = new System.Drawing.Point(201, 36);
+            this.checkedListBoxSats.Name = "checkedListBoxSats";
+            this.checkedListBoxSats.Size = new System.Drawing.Size(170, 22);
+            this.checkedListBoxSats.TabIndex = 6;
+            this.checkedListBoxSats.ItemCheck += new System.Windows.Forms.ItemCheckEventHandler(this.checkedListBoxSats_ItemCheck);
+            // 
+            // label1
+            // 
+            this.label1.AutoSize = true;
+            this.label1.Location = new System.Drawing.Point(12, 18);
+            this.label1.Name = "label1";
+            this.label1.Size = new System.Drawing.Size(57, 15);
+            this.label1.TabIndex = 7;
+            this.label1.Text = "Utilitários";
+            // 
+            // label2
+            // 
+            this.label2.AutoSize = true;
+            this.label2.Location = new System.Drawing.Point(201, 18);
+            this.label2.Name = "label2";
+            this.label2.Size = new System.Drawing.Size(30, 15);
+            this.label2.TabIndex = 8;
+            this.label2.Text = "SATs";
+            // 
+            // label3
+            // 
+            this.label3.AutoSize = true;
+            this.label3.Location = new System.Drawing.Point(385, 18);
+            this.label3.Name = "label3";
+            this.label3.Size = new System.Drawing.Size(70, 15);
+            this.label3.TabIndex = 9;
+            this.label3.Text = "Impressoras";
+            // 
+            // checkedListBoxPinPads
+            // 
+            this.checkedListBoxPinPads.CheckOnClick = true;
+            this.checkedListBoxPinPads.FormattingEnabled = true;
+            this.checkedListBoxPinPads.Location = new System.Drawing.Point(574, 36);
+            this.checkedListBoxPinPads.Name = "checkedListBoxPinPads";
+            this.checkedListBoxPinPads.Size = new System.Drawing.Size(170, 22);
+            this.checkedListBoxPinPads.TabIndex = 10;
+            this.checkedListBoxPinPads.ItemCheck += new System.Windows.Forms.ItemCheckEventHandler(this.checkedListBoxPinPads_ItemCheck);
+            // 
+            // label4
+            // 
+            this.label4.AutoSize = true;
+            this.label4.Location = new System.Drawing.Point(574, 18);
+            this.label4.Name = "label4";
+            this.label4.Size = new System.Drawing.Size(49, 15);
+            this.label4.TabIndex = 11;
+            this.label4.Text = "PinPads";
+            // 
+            // DownloadFilesForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 15F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(684, 410);
-            this.Controls.Add(this.checkedListBoxPrinters);
+            this.ClientSize = new System.Drawing.Size(751, 314);
+            this.Controls.Add(this.label1);
             this.Controls.Add(this.checkedListBoxUtilities);
+            this.Controls.Add(this.label4);
+            this.Controls.Add(this.label2);
+            this.Controls.Add(this.checkedListBoxPinPads);
+            this.Controls.Add(this.checkedListBoxSats);
             this.Controls.Add(this.buttonDownloadFiles);
-            this.Controls.Add(this.groupBox1);
-            this.Controls.Add(this.groupBoxSAT);
-            this.Name = "DownloadFiles";
+            this.Controls.Add(this.label3);
+            this.Controls.Add(this.checkedListBoxPrinters);
+            this.Name = "DownloadFilesForm";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "Form1";
-            this.groupBoxSAT.ResumeLayout(false);
-            this.groupBoxSAT.PerformLayout();
-            this.groupBox1.ResumeLayout(false);
-            this.groupBox1.PerformLayout();
             this.ResumeLayout(false);
+            this.PerformLayout();
 
         }
 
         #endregion
-
-        private GroupBox groupBoxSAT;
-        private RadioButton radioButton1;
-        private RadioButton satSweda;
-        private GroupBox groupBox1;
-        private RadioButton keyboardSmak;
-        private RadioButton keyboardGertec;
         private Button buttonDownloadFiles;
-        private CheckedListBox checkedListBoxUtilities;
-        private CheckedListBox checkedListBoxPrinters;
+        public CheckedListBox checkedListBoxUtilities;
+        public CheckedListBox checkedListBoxPrinters;
+        public CheckedListBox checkedListBoxSats;
+        private Label label1;
+        private Label label2;
+        private Label label3;
+        public CheckedListBox checkedListBoxPinPads;
+        private Label label4;
     }
 }

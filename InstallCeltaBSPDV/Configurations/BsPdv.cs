@@ -21,8 +21,6 @@ namespace InstallCeltaBSPDV.Configurations {
 
             await downloadAndInstallMongoDb(enable);
 
-            await new Windows(enable).enableAllPermissionsForPath("C:\\install");
-
             createPdvLinks(enable);
 
             await editMongoCfg(enable); //nessa função já está adicionando permissão para todos usuários na pasta do arquivo. Ele só chega nessa parte quando existe a pasta do arquivo
@@ -44,13 +42,16 @@ namespace InstallCeltaBSPDV.Configurations {
                 return;
             }
             await new Download(enable).downloadFileTaskAsync(Download.installBsPdvZip, "http://177.103.179.36/downloads/lastversion/installbspdv.zip");
+            await new Windows(enable).enableAllPermissionsForPath("C:\\install");
+            await new Windows(enable).enableAllPermissionsForPath("C:\\install\\pdv\\celtabspdv");
+            //await new Windows(enable).enableAllPermissionsForPath(Download.cInstallBsPdvZip);
+            //await new Windows(enable).enableAllPermissionsForPath(Download.cInstall);
+
             await new Windows(enable).extractFile(Download.cInstallBsPdvZip, Download.cInstall, "installbspdv.zip", uriDownload: "http://177.103.179.36/downloads/lastversion/installbspdv.zip");
 
-            await new Windows(enable).enableAllPermissionsForPath(Download.cInstall);
 
             Task.Delay(7000).Wait();
-            await new Windows(enable).movePdvPath(Download.cInstallPdvCeltabspdv, Download.cCeltabspdv); //essencial fazer esse processo depois de baixaro arquivo installBsPdv.zip
-            Task.Delay(7000).Wait();
+            await new Windows(enable).movePdvPath(); //essencial fazer esse processo depois de baixaro arquivo installBsPdv.zip
         }
         #region directories
         private const string pdvPath = @"C:\CeltaBSPDV\CeltaWare.CBS.PDV.UI.exe";

@@ -57,32 +57,32 @@ namespace InstallCeltaBSPDV.Configurations {
             enable.richTextBoxResults.Text += $"Adicionado permissão total para todos usuários na pasta {path}\n\n";
         }
 
-        public async Task movePdvPath(string sourcePath, string destinyPath) {
+        public async Task movePdvPath() {
             if(enable.checkBoxCopyCetaBSPDV.Checked) {
                 return;
             }
 
-            if(!Directory.Exists(sourcePath)) {
-                MessageBox.Show($"Não foi possível encontrar o caminho {sourcePath}");
+            if(!Directory.Exists(Download.cInstallPdvCeltabspdv)) {
+                MessageBox.Show($"Não foi possível encontrar o caminho {Download.cInstallPdvCeltabspdv}");
                 return;
             }
 
-            if(Directory.Exists(destinyPath)) {
-                enable.richTextBoxResults.Text += $"Como o diretório {destinyPath} já existe, não fará a cópia da pasta para o diretório\n\n";
+            if(Directory.Exists(Download.cCeltabspdv)) {
+                enable.richTextBoxResults.Text += $"Como o diretório {Download.cCeltabspdv} já existe, não fará a cópia da pasta para o diretório\n\n";
                 enable.checkBoxCopyCetaBSPDV.Checked = true;
                 return;
             }
 
-            try {
-                await enableAllPermissionsForPath(sourcePath); //coloquei pra habilitar permissão pra todos nessa pasta porque em um teste que eu fiz, deu erro pra acessar essa pasta
-                await enableAllPermissionsForPath(destinyPath); //coloquei pra habilitar permissão pra todos nessa pasta porque em um teste que eu fiz, deu erro pra acessar essa pasta
+            await enableAllPermissionsForPath(Download.cCeltabspdv); //coloquei pra habilitar permissão pra todos nessa pasta porque em um teste que eu fiz, deu erro pra acessar essa pasta
+            await enableAllPermissionsForPath(Download.cInstallPdvCeltabspdv); //coloquei pra habilitar permissão pra todos nessa pasta porque em um teste que eu fiz, deu erro pra acessar essa pasta
 
-                //Directory.Move(sourcePath, destinyPath);
-                Directory.Move(sourcePath, destinyPath);
+            Task.Delay(5000).Wait();
+            try {
+
+                Directory.Move(Download.cInstallPdvCeltabspdv, Download.cCeltabspdv);
                 Task.Delay(7000).Wait();
 
-                //await Task.Run(() => Directory.Move(sourcePath, destinyPath));
-                enable.richTextBoxResults.Text += $"{sourcePath} movido com sucesso para o caminho {destinyPath}\n\n";
+                enable.richTextBoxResults.Text += $"{Download.cInstallPdvCeltabspdv} movido com sucesso para o caminho {Download.cCeltabspdv}\n\n";
                 enable.checkBoxCopyCetaBSPDV.Checked = true;
             } catch(Exception ex) {
                 MessageBox.Show(ex.Message);
