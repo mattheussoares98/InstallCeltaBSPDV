@@ -135,7 +135,7 @@
             this.Controls.Add(this.checkedListBoxPrinters);
             this.Name = "DownloadFilesForm";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
-            this.Text = "Form1";
+            this.Text = "Downloads";
             this.ResumeLayout(false);
             this.PerformLayout();
 

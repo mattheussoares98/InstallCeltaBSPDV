@@ -32,7 +32,6 @@ namespace InstallCeltaBSPDV {
             progressBarInstall.Style = ProgressBarStyle.Marquee;
             progressBarInstall.MarqueeAnimationSpeed = 30;
             progressBarInstall.Visible = true;
-            //flowLayoutPanelConfigurations.Enabled = false;
             checkBoxFirewall.Enabled = false;
             checkBoxDisableSuspendUSB.Enabled = false;
             checkBoxSuspendMonitorAndPC.Enabled = false;
@@ -45,6 +44,7 @@ namespace InstallCeltaBSPDV {
             checkBoxEnableRemoteAcces.Enabled = false;
             checkBoxInstallComponentsReport.Enabled = false;
             checkBoxCreateSharedSatSite.Enabled = false;
+            checkBoxInstallRoboMongo.Enabled = false;
             #endregion
 
             await new Windows(this).configureWindows();
@@ -71,11 +71,11 @@ namespace InstallCeltaBSPDV {
             checkBoxEnableRemoteAcces.Enabled = true;
             checkBoxInstallComponentsReport.Enabled = true;
             checkBoxCreateSharedSatSite.Enabled = true;
+            checkBoxInstallRoboMongo.Enabled = true;
             #endregion
         }
 
         private void button1_Click(object sender, EventArgs e) {
-            //this.Hide();
             DownloadFilesForm downloadFiles = new(this);
             downloadFiles.ShowDialog();
         }

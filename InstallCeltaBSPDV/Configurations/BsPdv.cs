@@ -17,18 +17,20 @@ namespace InstallCeltaBSPDV.Configurations {
 
         public async Task configureBsPdv() {
 
-            await downloadAndConfigurePdvPaths(enable);
+            await downloadAndConfigurePdvPaths();
 
-            await downloadAndInstallMongoDb(enable);
+            await downloadAndInstallMongoDb();
 
-            createPdvLinks(enable);
+            createPdvLinks();
 
-            await editMongoCfg(enable); //nessa função já está adicionando permissão para todos usuários na pasta do arquivo. Ele só chega nessa parte quando existe a pasta do arquivo
+            await editMongoCfg(); //nessa função já está adicionando permissão para todos usuários na pasta do arquivo. Ele só chega nessa parte quando existe a pasta do arquivo
 
-            installComponentsReport(enable);
+            installComponentsReport();
+
+            installRoboMongo();
         }
 
-        private void createPdvLinks(EnableConfigurations enable) {
+        private void createPdvLinks() {
             if(enable.checkBoxPdvLink.Checked == true) {
                 return;
             }
@@ -37,7 +39,7 @@ namespace InstallCeltaBSPDV.Configurations {
 
             enable.checkBoxPdvLink.Checked = true;
         }
-        private async Task downloadAndConfigurePdvPaths(EnableConfigurations enable) {
+        private async Task downloadAndConfigurePdvPaths() {
             if(enable.checkBoxCopyCetaBSPDV.Checked == true) {
                 return;
             }
@@ -54,7 +56,8 @@ namespace InstallCeltaBSPDV.Configurations {
             await new Windows(enable).movePdvPath(); //essencial fazer esse processo depois de baixaro arquivo installBsPdv.zip
         }
         #region directories
-        private const string pdvPath = @"C:\CeltaBSPDV\CeltaWare.CBS.PDV.UI.exe";
+        private const string pdvFilePath = @"C:\CeltaBSPDV\CeltaWare.CBS.PDV.exe";
+        private const string pdvPath = @"C:\CeltaBSPDV";
         private const string startupPath = @"C:\ProgramData\Microsoft\Windows\Start Menu\Programs\Startup\CeltaPDV.lnk";
         private readonly string desktopPath = Environment.GetFolderPath(Environment.SpecialFolder.Desktop) + @"\CeltaPDV.lnk";
         #endregion
@@ -64,7 +67,7 @@ namespace InstallCeltaBSPDV.Configurations {
             } else {
                 IWshRuntimeLibrary.WshShell shell = new IWshRuntimeLibrary.WshShell();
                 IWshRuntimeLibrary.IWshShortcut shortcut = shell.CreateShortcut(startupPath);
-                shortcut.TargetPath = pdvPath;
+                shortcut.TargetPath = pdvFilePath;
                 shortcut.Save();
             }
         }
@@ -74,15 +77,17 @@ namespace InstallCeltaBSPDV.Configurations {
                 return;
             } else {
                 IWshRuntimeLibrary.WshShell shell = new IWshRuntimeLibrary.WshShell();
-                IWshRuntimeLibrary.IWshShortcut shortcut = shell.CreateShortcut(desktopPath);
-                shortcut.TargetPath = pdvPath;
+                IWshRuntimeLibrary.IWshShortcut shortcut = shell.CreateShortcut(pdvPath + "\\CeltaPDV.lnk");
+                shortcut.TargetPath = pdvFilePath;
                 shortcut.Save();
+
+                File.Move(pdvPath + "\\CeltaPDV.lnk", desktopPath);
             }
         }
 
         public bool verifyAppIsInstalled(string displayName) {
             // consulta no regedit se contém o Mongo instalado
-            List<String> programsDisplayName = new() {
+            List<string> programsDisplayName = new() {
             };
 
             string registry_key = @"SOFTWARE\Microsoft\Windows\CurrentVersion\Uninstall";
@@ -104,7 +109,7 @@ namespace InstallCeltaBSPDV.Configurations {
             }
             return appInstalled;
         }
-        private async Task downloadAndInstallMongoDb(EnableConfigurations enable) {
+        private async Task downloadAndInstallMongoDb() {
             if(enable.checkBoxInstallMongo.Checked == true) {
                 return;
             }
@@ -114,7 +119,7 @@ namespace InstallCeltaBSPDV.Configurations {
                 MessageBox.Show($"Não foi possível instalar o banco de dados porque o arquivo{mongoDbFilePath} não existe");
                 await new Download(enable).downloadFileTaskAsync(Download.installBsPdvZip, "http://177.103.179.36/downloads/lastversion/installbspdv.zip");
 
-                await downloadAndInstallMongoDb(enable);
+                await downloadAndInstallMongoDb();
             }
 
             string appPath = System.Reflection.Assembly.GetExecutingAssembly().Location;
@@ -153,7 +158,7 @@ namespace InstallCeltaBSPDV.Configurations {
                 MessageBox.Show("Erro para instalar o MongoDB: " + ex.Message);
             }
         }
-        private async Task editMongoCfg(EnableConfigurations enable) {
+        private async Task editMongoCfg() {
             if(enable.checkBoxEnableRemoteAcces.Checked == true) {
                 return;
             }
@@ -165,9 +170,9 @@ namespace InstallCeltaBSPDV.Configurations {
             if(!File.Exists(mongoConfig)) {
                 enable.richTextBoxResults.Text += $"O {mongoConfig} não existe. A aplicação fará a instalação do banco de dados para editar o acesso remoto ao banco de dados\n\n";
 
-                await downloadAndInstallMongoDb(enable);
+                await downloadAndInstallMongoDb();
 
-                await editMongoCfg(enable);
+                await editMongoCfg();
             }
 
             try {
@@ -205,7 +210,28 @@ namespace InstallCeltaBSPDV.Configurations {
 
         }
 
-        private void installComponentsReport(EnableConfigurations enable) {
+        private void installRoboMongo() {
+            if(enable.checkBoxInstallRoboMongo.Checked == true) {
+                return;
+            }
+
+            string cProgramFilesRobo = "C:\\Program Files\\Robo 3T 1.4.2";
+            string cInstallPdvDatabase = "C:\\Install\\PDV\\Database";
+            string roboFileName = "robo3t-1.4.2-windows-x86_64-8650949.exe";
+            var openInstallRoboMongo = new ProcessStartInfo("cmd", $"/c cd {cInstallPdvDatabase}&{roboFileName}");
+            openInstallRoboMongo.CreateNoWindow = true;
+
+            if(!Directory.Exists(cProgramFilesRobo)) {
+                enable.richTextBoxResults.Text += "Como o RoboMongo não está instalado, a aplicação abrirá o instalador \n\n";
+                enable.checkBoxInstallRoboMongo.Checked = false;
+                if(File.Exists(cInstallPdvDatabase + "\\" + roboFileName)) {
+                    Process.Start(openInstallRoboMongo);
+                }
+            } else {
+                enable.checkBoxInstallRoboMongo.Checked = true;
+            }
+        }
+        private void installComponentsReport() {
             if(enable.checkBoxInstallComponentsReport.Checked == true) {
                 return;
             }

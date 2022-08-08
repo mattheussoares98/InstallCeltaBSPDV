@@ -55,6 +55,7 @@ namespace InstallCeltaBSPDV.Configurations {
             enableDirectoryBrowser.CreateNoWindow = true;
 
             try {
+                Task.Delay(30000).Wait(); //se tenta criar o site logo que cria os recursos do windows, não cria o site. Por isso coloquei esse tempo de espera
                 await Task.Run(() => Process.Start(setPoolLocal));
                 Task.Delay(3000).Wait();
                 await Task.Run(() => Process.Start(enable32BitsPool));
