@@ -32,6 +32,8 @@
             this.label3 = new System.Windows.Forms.Label();
             this.checkedListBoxPinPads = new System.Windows.Forms.CheckedListBox();
             this.label4 = new System.Windows.Forms.Label();
+            this.label5 = new System.Windows.Forms.Label();
+            this.checkedListBoxKeyboards = new System.Windows.Forms.CheckedListBox();
             this.SuspendLayout();
             // 
             // buttonDownloadFiles
@@ -119,11 +121,32 @@
             this.label4.TabIndex = 11;
             this.label4.Text = "PinPads";
             // 
+            // label5
+            // 
+            this.label5.AutoSize = true;
+            this.label5.Location = new System.Drawing.Point(574, 118);
+            this.label5.Name = "label5";
+            this.label5.Size = new System.Drawing.Size(52, 15);
+            this.label5.TabIndex = 13;
+            this.label5.Text = "Teclados";
+            // 
+            // checkedListBoxKeyboards
+            // 
+            this.checkedListBoxKeyboards.CheckOnClick = true;
+            this.checkedListBoxKeyboards.FormattingEnabled = true;
+            this.checkedListBoxKeyboards.Location = new System.Drawing.Point(574, 136);
+            this.checkedListBoxKeyboards.Name = "checkedListBoxKeyboards";
+            this.checkedListBoxKeyboards.Size = new System.Drawing.Size(170, 22);
+            this.checkedListBoxKeyboards.TabIndex = 12;
+            this.checkedListBoxKeyboards.ItemCheck += new System.Windows.Forms.ItemCheckEventHandler(this.checkedListBoxKeyboards_ItemCheck);
+            // 
             // DownloadFilesForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 15F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(751, 314);
+            this.Controls.Add(this.label5);
+            this.Controls.Add(this.checkedListBoxKeyboards);
             this.Controls.Add(this.label1);
             this.Controls.Add(this.checkedListBoxUtilities);
             this.Controls.Add(this.label4);
@@ -151,5 +174,7 @@
         private Label label3;
         public CheckedListBox checkedListBoxPinPads;
         private Label label4;
+        private Label label5;
+        public CheckedListBox checkedListBoxKeyboards;
     }
 }

@@ -76,10 +76,11 @@ namespace InstallCeltaBSPDV.Configurations {
             if(File.Exists(desktopPath)) {
                 return;
             } else {
-                IWshRuntimeLibrary.WshShell shell = new IWshRuntimeLibrary.WshShell();
-                IWshRuntimeLibrary.IWshShortcut shortcut = shell.CreateShortcut(pdvPath + "\\CeltaPDV.lnk");
-                shortcut.TargetPath = pdvFilePath;
-                shortcut.Save();
+                //////////////////
+                //IWshRuntimeLibrary.WshShell shell = new IWshRuntimeLibrary.WshShell();
+                //IWshRuntimeLibrary.IWshShortcut shortcut = shell.CreateShortcut(desktopPath);
+                //shortcut.TargetPath = pdvFilePath;
+                //shortcut.Save();
 
                 File.Move(pdvPath + "\\CeltaPDV.lnk", desktopPath);
             }

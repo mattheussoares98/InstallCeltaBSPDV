@@ -20,6 +20,7 @@ namespace InstallCeltaBSPDV.Forms {
             new SATs(this);
             new Utilities(this);
             new PinPads(this);
+            new Keyboards(this);
         }
         private void buttonDownloadFiles_Click(object sender, EventArgs e) {
             selectedItemsToDownload.Clear();
@@ -28,6 +29,7 @@ namespace InstallCeltaBSPDV.Forms {
             addPrinterSelected();
             addSatSelected();
             addPinPadSelected();
+            addKeyboardsSelected();
 
             downloadSelectedItems();
         }
@@ -57,6 +59,12 @@ namespace InstallCeltaBSPDV.Forms {
         private void addUtilitiesSelected() {
             //adiciona o nome do "utility" que foi selecionado. Esse nome é o mesmo que aparece pro usuário selecionar
             foreach(var item in checkedListBoxUtilities.CheckedItems) {
+                selectedItemsToDownload.Add(item.ToString());
+            }
+        }
+        private void addKeyboardsSelected() {
+            //adiciona o nome do "Keyboard" que foi selecionado. Esse nome é o mesmo que aparece pro usuário selecionar
+            foreach(var item in checkedListBoxKeyboards.CheckedItems) {
                 selectedItemsToDownload.Add(item.ToString());
             }
         }
@@ -102,6 +110,13 @@ namespace InstallCeltaBSPDV.Forms {
             for(int ix = 0; ix < checkedListBoxPinPads.Items.Count; ++ix)
                 if(ix != e.Index)
                     checkedListBoxPinPads.SetItemChecked(ix, false);
+        }
+
+
+        private void checkedListBoxKeyboards_ItemCheck(object sender, ItemCheckEventArgs e) {
+            for(int ix = 0; ix < checkedListBoxKeyboards.Items.Count; ++ix)
+                if(ix != e.Index)
+                    checkedListBoxKeyboards.SetItemChecked(ix, false);
         }
     }
 }

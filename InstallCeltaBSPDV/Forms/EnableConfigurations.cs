@@ -58,7 +58,7 @@ namespace InstallCeltaBSPDV {
             buttonConfigurations.Enabled = true;
             progressBarInstall.Style = ProgressBarStyle.Continuous;
             progressBarInstall.MarqueeAnimationSpeed = 0;
-            progressBarInstall.Visible = true;
+            progressBarInstall.Visible = false;
             checkBoxFirewall.Enabled = true;
             checkBoxDisableSuspendUSB.Enabled = true;
             checkBoxSuspendMonitorAndPC.Enabled = true;
