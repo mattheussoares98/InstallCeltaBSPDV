@@ -72,13 +72,13 @@ namespace InstallCeltaBSPDV.Forms {
         private void downloadSelectedItems() {
             foreach(var item in selectedItemsToDownload) {
                 //pega o nome do item selecionado pra consultar o nome do arquivo (com extensão) e url de downlaod pra conseguir iniciar o download
-                Dictionary<string, string> urls;
-                urlsDownloadDictionary.TryGetValue(item, out urls);
+                Dictionary<string, string> namesAndUrls;
+                urlsDownloadDictionary.TryGetValue(item, out namesAndUrls);
 
                 //precisei fazer mais um foreach pra conseguir pegar a chave (fileName) e valor (url de download) do dictionary que foi selecionado
-                foreach(var url in urls) {
-                    string fileName = url.Key;
-                    string fileUrl = url.Value;
+                foreach(var nameAndUrl in namesAndUrls) {
+                    string fileName = nameAndUrl.Key;
+                    string fileUrl = nameAndUrl.Value;
                     new Download(enable).downloadFileTaskAsync(fileName, fileUrl);
                 }
             }
