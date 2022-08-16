@@ -78,8 +78,8 @@
             this.flowLayoutPanelConfigurations.Controls.Add(this.checkBoxTemp);
             this.flowLayoutPanelConfigurations.Controls.Add(this.checkBoxSetHostName);
             this.flowLayoutPanelConfigurations.Controls.Add(this.checkBoxCopyCetaBSPDV);
-            this.flowLayoutPanelConfigurations.Controls.Add(this.checkBoxPdvLink);
             this.flowLayoutPanelConfigurations.Controls.Add(this.checkBoxInstallMongo);
+            this.flowLayoutPanelConfigurations.Controls.Add(this.checkBoxPdvLink);
             this.flowLayoutPanelConfigurations.Controls.Add(this.checkBoxEnableRemoteAcces);
             this.flowLayoutPanelConfigurations.Controls.Add(this.checkBoxInstallComponentsReport);
             this.flowLayoutPanelConfigurations.Controls.Add(this.checkBoxInstallRoboMongo);
@@ -205,10 +205,10 @@
             // checkBoxPdvLink
             // 
             this.checkBoxPdvLink.AutoSize = true;
-            this.checkBoxPdvLink.Location = new System.Drawing.Point(3, 253);
+            this.checkBoxPdvLink.Location = new System.Drawing.Point(3, 278);
             this.checkBoxPdvLink.Name = "checkBoxPdvLink";
             this.checkBoxPdvLink.Size = new System.Drawing.Size(465, 19);
-            this.checkBoxPdvLink.TabIndex = 10;
+            this.checkBoxPdvLink.TabIndex = 11;
             this.checkBoxPdvLink.Text = "Adicionar atalho do PDV na pasta de inicialização do windows e na área de trabalh" +
     "o";
             this.checkBoxPdvLink.UseVisualStyleBackColor = true;
@@ -216,10 +216,10 @@
             // checkBoxInstallMongo
             // 
             this.checkBoxInstallMongo.AutoSize = true;
-            this.checkBoxInstallMongo.Location = new System.Drawing.Point(3, 278);
+            this.checkBoxInstallMongo.Location = new System.Drawing.Point(3, 253);
             this.checkBoxInstallMongo.Name = "checkBoxInstallMongo";
             this.checkBoxInstallMongo.Size = new System.Drawing.Size(131, 19);
-            this.checkBoxInstallMongo.TabIndex = 11;
+            this.checkBoxInstallMongo.TabIndex = 10;
             this.checkBoxInstallMongo.Text = "Instalar o MongoDB";
             this.checkBoxInstallMongo.UseVisualStyleBackColor = true;
             // 

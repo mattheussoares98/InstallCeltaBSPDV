@@ -7,6 +7,7 @@
     <UseWindowsForms>true</UseWindowsForms>
     <ImplicitUsings>enable</ImplicitUsings>
     <Platforms>AnyCPU;x86;ARM64</Platforms>
+    <ApplicationManifest>Configurations\app.manifest</ApplicationManifest>
   </PropertyGroup>
 
   <ItemGroup>
