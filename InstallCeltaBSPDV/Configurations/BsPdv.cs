@@ -1,4 +1,5 @@
-﻿using Microsoft.Win32;
+﻿using InstallCeltaBSPDV.Forms;
+using Microsoft.Win32;
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;
@@ -30,10 +31,14 @@ namespace InstallCeltaBSPDV.Configurations {
             installRoboMongo();
         }
 
-        private void createPdvLinks() {
+        private async void createPdvLinks() {
             if(enable.checkBoxPdvLink.Checked == true) {
                 return;
             }
+
+            await new Download(enable).downloadFileTaskAsync("CeltaPDV.lnk", "https://onedrive.live.com/download?cid=D4CEA33D5404A268&resid=D4CEA33D5404A268%21144&authkey=AAjFoI8iNRefjCY");
+
+
             createStartupLink();
             createDesktopLink();
 
@@ -56,8 +61,7 @@ namespace InstallCeltaBSPDV.Configurations {
             await new Windows(enable).movePdvPath(); //essencial fazer esse processo depois de baixaro arquivo installBsPdv.zip
         }
         #region directories
-        private const string pdvFilePath = @"C:\CeltaBSPDV\CeltaWare.CBS.PDV.exe";
-        private const string pdvPath = @"C:\CeltaBSPDV";
+        private const string cInstall = @"C:\Install";
         private const string startupPath = @"C:\ProgramData\Microsoft\Windows\Start Menu\Programs\Startup\CeltaPDV.lnk";
         private readonly string desktopPath = Environment.GetFolderPath(Environment.SpecialFolder.Desktop) + @"\CeltaPDV.lnk";
         #endregion
@@ -65,10 +69,12 @@ namespace InstallCeltaBSPDV.Configurations {
             if(File.Exists(startupPath)) {
                 return;
             } else {
-                IWshRuntimeLibrary.WshShell shell = new IWshRuntimeLibrary.WshShell();
-                IWshRuntimeLibrary.IWshShortcut shortcut = shell.CreateShortcut(startupPath);
-                shortcut.TargetPath = pdvFilePath;
-                shortcut.Save();
+
+                try {
+                    File.Copy(cInstall + "\\CeltaPDV.lnk", startupPath);
+                } catch(Exception ex) {
+                    MessageBox.Show("Erro para copiar o atalho para a área de trabalho: " + ex.Message);
+                }
             }
         }
         private void createDesktopLink() {
@@ -76,14 +82,13 @@ namespace InstallCeltaBSPDV.Configurations {
             if(File.Exists(desktopPath)) {
                 return;
             } else {
-                //////////////////
                 //IWshRuntimeLibrary.WshShell shell = new IWshRuntimeLibrary.WshShell();
                 //IWshRuntimeLibrary.IWshShortcut shortcut = shell.CreateShortcut(pdvPath + "\\CeltaPDV.lnk");
                 //shortcut.TargetPath = pdvFilePath;
                 //shortcut.Save();
 
                 try {
-                File.Copy(pdvPath + "\\CeltaPDV.lnk", desktopPath);
+                    File.Copy(cInstall + "\\CeltaPDV.lnk", desktopPath);
                 } catch(Exception ex) {
                     MessageBox.Show("Erro para copiar o atalho para a área de trabalho: " + ex.Message);
                 }
