@@ -39,6 +39,8 @@ namespace InstallCeltaBSPDV.Configurations {
 
             string joinPathIisCommands = "cd c:\\Windows\\System32\\inetsrv";
 
+            var deleteDefaultSite = new ProcessStartInfo("cmd", $"/c {joinPathIisCommands}&appcmd delete site \"Default Web Site\"");
+
             var setPoolLocal = new ProcessStartInfo("cmd", $"/c {joinPathIisCommands}&appcmd set apppool \"DefaultAppPool\" -processModel.identityType:LocalSystem");
 
             var enable32BitsPool = new ProcessStartInfo("cmd", $"/c {joinPathIisCommands}&appcmd set apppool /apppool.name:\"DefaultAppPool\" /enable32bitapponwin64:true");
@@ -53,14 +55,16 @@ namespace InstallCeltaBSPDV.Configurations {
             setPoolLocal.CreateNoWindow = true;
             enable32BitsPool.CreateNoWindow = true;
             enableDirectoryBrowser.CreateNoWindow = true;
+            deleteDefaultSite.CreateNoWindow = true;
 
             try {
-                Task.Delay(30000).Wait(); //se tenta criar o site logo que cria os recursos do windows, não cria o site. Por isso coloquei esse tempo de espera
                 await Task.Run(() => Process.Start(setPoolLocal));
                 Task.Delay(3000).Wait();
                 await Task.Run(() => Process.Start(enable32BitsPool));
                 Task.Delay(3000).Wait();
                 await Task.Run(() => Process.Start(enableDirectoryBrowser));
+                Task.Delay(3000).Wait();
+                await Task.Run(() => Process.Start(deleteDefaultSite));
                 Task.Delay(3000).Wait();
                 await Task.Run(() => Process.Start(addSite));
                 Task.Delay(3000).Wait();

@@ -78,11 +78,15 @@ namespace InstallCeltaBSPDV.Configurations {
             } else {
                 //////////////////
                 //IWshRuntimeLibrary.WshShell shell = new IWshRuntimeLibrary.WshShell();
-                //IWshRuntimeLibrary.IWshShortcut shortcut = shell.CreateShortcut(desktopPath);
+                //IWshRuntimeLibrary.IWshShortcut shortcut = shell.CreateShortcut(pdvPath + "\\CeltaPDV.lnk");
                 //shortcut.TargetPath = pdvFilePath;
                 //shortcut.Save();
 
-                File.Move(pdvPath + "\\CeltaPDV.lnk", desktopPath);
+                try {
+                File.Copy(pdvPath + "\\CeltaPDV.lnk", desktopPath);
+                } catch(Exception ex) {
+                    MessageBox.Show("Erro para copiar o atalho para a área de trabalho: " + ex.Message);
+                }
             }
         }
 
