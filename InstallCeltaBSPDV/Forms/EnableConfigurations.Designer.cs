@@ -35,8 +35,8 @@
             this.checkBoxTemp = new System.Windows.Forms.CheckBox();
             this.checkBoxSetHostName = new System.Windows.Forms.CheckBox();
             this.checkBoxCopyCetaBSPDV = new System.Windows.Forms.CheckBox();
-            this.checkBoxPdvLink = new System.Windows.Forms.CheckBox();
             this.checkBoxInstallMongo = new System.Windows.Forms.CheckBox();
+            this.checkBoxPdvLink = new System.Windows.Forms.CheckBox();
             this.checkBoxEnableRemoteAcces = new System.Windows.Forms.CheckBox();
             this.checkBoxInstallComponentsReport = new System.Windows.Forms.CheckBox();
             this.checkBoxInstallRoboMongo = new System.Windows.Forms.CheckBox();
@@ -202,6 +202,16 @@
             this.checkBoxCopyCetaBSPDV.Text = "Copiar a pasta CeltaBSPDV para o disco C";
             this.checkBoxCopyCetaBSPDV.UseVisualStyleBackColor = true;
             // 
+            // checkBoxInstallMongo
+            // 
+            this.checkBoxInstallMongo.AutoSize = true;
+            this.checkBoxInstallMongo.Location = new System.Drawing.Point(3, 253);
+            this.checkBoxInstallMongo.Name = "checkBoxInstallMongo";
+            this.checkBoxInstallMongo.Size = new System.Drawing.Size(131, 19);
+            this.checkBoxInstallMongo.TabIndex = 10;
+            this.checkBoxInstallMongo.Text = "Instalar o MongoDB";
+            this.checkBoxInstallMongo.UseVisualStyleBackColor = true;
+            // 
             // checkBoxPdvLink
             // 
             this.checkBoxPdvLink.AutoSize = true;
@@ -212,16 +222,6 @@
             this.checkBoxPdvLink.Text = "Adicionar atalho do PDV na pasta de inicialização do windows e na área de trabalh" +
     "o";
             this.checkBoxPdvLink.UseVisualStyleBackColor = true;
-            // 
-            // checkBoxInstallMongo
-            // 
-            this.checkBoxInstallMongo.AutoSize = true;
-            this.checkBoxInstallMongo.Location = new System.Drawing.Point(3, 253);
-            this.checkBoxInstallMongo.Name = "checkBoxInstallMongo";
-            this.checkBoxInstallMongo.Size = new System.Drawing.Size(131, 19);
-            this.checkBoxInstallMongo.TabIndex = 10;
-            this.checkBoxInstallMongo.Text = "Instalar o MongoDB";
-            this.checkBoxInstallMongo.UseVisualStyleBackColor = true;
             // 
             // checkBoxEnableRemoteAcces
             // 
@@ -408,8 +408,6 @@
         }
 
         #endregion
-
-        private Button buttonConfigurations;
         private CheckBox checkBox16;
         private CheckBox checkBox17;
         private CheckBox checkBox12;
@@ -417,7 +415,6 @@
         private CheckBox checkBox20;
         private CheckBox checkBox21;
         private CheckBox checkBox22;
-        private ProgressBar progressBarInstall;
         internal FlowLayoutPanel flowLayoutPanelConfigurations;
         public RichTextBox richTextBoxResults;
         public CheckBox checkBoxCopyCetaBSPDV;
@@ -439,5 +436,7 @@
         public CheckBox checkBoxEnableFastBoot;
         public CheckBox checkBoxDisableSuspendPCI;
         public CheckBox checkBoxInstallRoboMongo;
+        public ProgressBar progressBarInstall;
+        public Button buttonConfigurations;
     }
 }

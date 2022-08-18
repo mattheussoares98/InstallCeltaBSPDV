@@ -14,16 +14,35 @@ namespace InstallCeltaBSPDV.Configurations {
             this.enable = enable;
             download = new(enable);
         }
-        public async Task createSharedSat() {
+        public async void createSharedSat() {
             //no início da instalação a aplicação já pergunta se o usuário quer instalar o site de compartilhamento do SAT e caso queira, altera o valor da variável "canInstallSharedSat" para true
-            if(enable.checkBoxCreateSharedSatSite.Checked == true) {
-                return;
-            }
 
             await download.downloadFileTaskAsync("deployment.zip", "http://177.103.179.36/downloads/lastversion/deployment.zip");
             await createPathSharedSat();
             await enableIISFeatures();
             await createSiteIIS();
+
+            #region enable components
+            enable.buttonConfigurations.Text = "Efetuar configurações";
+            enable.buttonConfigurations.Enabled = true;
+            enable.progressBarInstall.Style = ProgressBarStyle.Continuous;
+            enable.progressBarInstall.MarqueeAnimationSpeed = 0;
+            enable.progressBarInstall.Visible = false;
+            enable.checkBoxFirewall.Enabled = true;
+            enable.checkBoxDisableSuspendUSB.Enabled = true;
+            enable.checkBoxSuspendMonitorAndPC.Enabled = true;
+            enable.checkBoxEnableFastBoot.Enabled = true;
+            enable.checkBoxTemp.Enabled = true;
+            enable.checkBoxSetHostName.Enabled = true;
+            enable.checkBoxCopyCetaBSPDV.Enabled = true;
+            enable.checkBoxPdvLink.Enabled = true;
+            enable.checkBoxInstallMongo.Enabled = true;
+            enable.checkBoxEnableRemoteAcces.Enabled = true;
+            enable.checkBoxInstallComponentsReport.Enabled = true;
+            enable.checkBoxCreateSharedSatSite.Enabled = true;
+            enable.checkBoxInstallRoboMongo.Enabled = true;
+            #endregion
+
         }
         private async Task createSiteIIS() {
             if(enable.checkBoxCreateSharedSatSite.Checked) {

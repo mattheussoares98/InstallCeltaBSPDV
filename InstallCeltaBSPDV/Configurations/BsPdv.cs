@@ -31,11 +31,20 @@ namespace InstallCeltaBSPDV.Configurations {
             installRoboMongo();
         }
 
+        #region directories
+        private const string cInstall = @"C:\Install";
+        private const string startupPath = @"C:\ProgramData\Microsoft\Windows\Start Menu\Programs\Startup\CeltaPDV.lnk";
+        private readonly string desktopPath = Environment.GetFolderPath(Environment.SpecialFolder.Desktop) + @"\CeltaPDV.lnk";
+        #endregion
+
         private async void createPdvLinks() {
             if(enable.checkBoxPdvLink.Checked == true) {
                 return;
             }
 
+            if(File.Exists(startupPath) || File.Exists(desktopPath)) {
+                return;
+            }
             await new Download(enable).downloadFileTaskAsync("CeltaPDV.lnk", "https://onedrive.live.com/download?cid=D4CEA33D5404A268&resid=D4CEA33D5404A268%21144&authkey=AAjFoI8iNRefjCY");
 
 
@@ -60,11 +69,6 @@ namespace InstallCeltaBSPDV.Configurations {
             Task.Delay(7000).Wait();
             await new Windows(enable).movePdvPath(); //essencial fazer esse processo depois de baixaro arquivo installBsPdv.zip
         }
-        #region directories
-        private const string cInstall = @"C:\Install";
-        private const string startupPath = @"C:\ProgramData\Microsoft\Windows\Start Menu\Programs\Startup\CeltaPDV.lnk";
-        private readonly string desktopPath = Environment.GetFolderPath(Environment.SpecialFolder.Desktop) + @"\CeltaPDV.lnk";
-        #endregion
         private void createStartupLink() {
             if(File.Exists(startupPath)) {
                 return;

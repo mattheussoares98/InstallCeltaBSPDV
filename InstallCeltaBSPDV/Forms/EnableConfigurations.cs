@@ -47,32 +47,36 @@ namespace InstallCeltaBSPDV {
             checkBoxInstallRoboMongo.Enabled = false;
             #endregion
 
+            if(!checkBoxCreateSharedSatSite.Checked) {
+                new SharedSat(this).createSharedSat(); //não coloquei um await nele pra ir fazendo a instalação do site em segundo plano enquanto faz as outras configurações
+            }
+
             await new Windows(this).configureWindows();
 
             await new BsPdv(this).configureBsPdv();
 
-            await new SharedSat(this).createSharedSat();
-
-            #region enable components
-            buttonConfigurations.Text = "Efetuar configurações";
-            buttonConfigurations.Enabled = true;
-            progressBarInstall.Style = ProgressBarStyle.Continuous;
-            progressBarInstall.MarqueeAnimationSpeed = 0;
-            progressBarInstall.Visible = false;
-            checkBoxFirewall.Enabled = true;
-            checkBoxDisableSuspendUSB.Enabled = true;
-            checkBoxSuspendMonitorAndPC.Enabled = true;
-            checkBoxEnableFastBoot.Enabled = true;
-            checkBoxTemp.Enabled = true;
-            checkBoxSetHostName.Enabled = true;
-            checkBoxCopyCetaBSPDV.Enabled = true;
-            checkBoxPdvLink.Enabled = true;
-            checkBoxInstallMongo.Enabled = true;
-            checkBoxEnableRemoteAcces.Enabled = true;
-            checkBoxInstallComponentsReport.Enabled = true;
-            checkBoxCreateSharedSatSite.Enabled = true;
-            checkBoxInstallRoboMongo.Enabled = true;
-            #endregion
+            if(checkBoxCreateSharedSatSite.Checked) {
+                #region enable components
+                buttonConfigurations.Text = "Efetuar configurações";
+                buttonConfigurations.Enabled = true;
+                progressBarInstall.Style = ProgressBarStyle.Continuous;
+                progressBarInstall.MarqueeAnimationSpeed = 0;
+                progressBarInstall.Visible = false;
+                checkBoxFirewall.Enabled = true;
+                checkBoxDisableSuspendUSB.Enabled = true;
+                checkBoxSuspendMonitorAndPC.Enabled = true;
+                checkBoxEnableFastBoot.Enabled = true;
+                checkBoxTemp.Enabled = true;
+                checkBoxSetHostName.Enabled = true;
+                checkBoxCopyCetaBSPDV.Enabled = true;
+                checkBoxPdvLink.Enabled = true;
+                checkBoxInstallMongo.Enabled = true;
+                checkBoxEnableRemoteAcces.Enabled = true;
+                checkBoxInstallComponentsReport.Enabled = true;
+                checkBoxCreateSharedSatSite.Enabled = true;
+                checkBoxInstallRoboMongo.Enabled = true;
+                #endregion
+            }
         }
 
         private void button1_Click(object sender, EventArgs e) {
