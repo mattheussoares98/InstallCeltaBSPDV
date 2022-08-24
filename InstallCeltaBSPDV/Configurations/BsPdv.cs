@@ -42,11 +42,11 @@ namespace InstallCeltaBSPDV.Configurations {
                 return;
             }
 
-            if(File.Exists(startupPath) || File.Exists(desktopPath)) {
+            if(File.Exists(startupPath) && File.Exists(desktopPath)) {
+                enable.checkBoxPdvLink.Checked = true;
                 return;
             }
-            await new Download(enable).downloadFileTaskAsync("CeltaPDV.lnk", "https://onedrive.live.com/download?cid=D4CEA33D5404A268&resid=D4CEA33D5404A268%21144&authkey=AAjFoI8iNRefjCY");
-
+            await new Download(enable).downloadFileTaskAsync("CeltaPDV.lnk", "c");
 
             createStartupLink();
             createDesktopLink();
@@ -86,11 +86,6 @@ namespace InstallCeltaBSPDV.Configurations {
             if(File.Exists(desktopPath)) {
                 return;
             } else {
-                //IWshRuntimeLibrary.WshShell shell = new IWshRuntimeLibrary.WshShell();
-                //IWshRuntimeLibrary.IWshShortcut shortcut = shell.CreateShortcut(pdvPath + "\\CeltaPDV.lnk");
-                //shortcut.TargetPath = pdvFilePath;
-                //shortcut.Save();
-
                 try {
                     File.Copy(cInstall + "\\CeltaPDV.lnk", desktopPath);
                 } catch(Exception ex) {
@@ -100,7 +95,7 @@ namespace InstallCeltaBSPDV.Configurations {
         }
 
         public bool verifyAppIsInstalled(string displayName) {
-            // consulta no regedit se contém o Mongo instalado
+            // consulta no regedit se contém algum aplicativo instalado. O "displayName" será o nome que verá se está instalado
             List<string> programsDisplayName = new() {
             };
 

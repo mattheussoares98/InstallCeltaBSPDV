@@ -238,6 +238,7 @@ namespace InstallCeltaBSPDV.Configurations {
                 return;
             }
             #region commands
+            var enableHibernate = new ProcessStartInfo("cmd", "/c powercfg /hibernate on"); //só é possível iniciar a inicialização rápida do windows se a hibernação estiver habilitada
             var turnOnFastStartup = new ProcessStartInfo("cmd", "/c REG ADD \"HKLM\\SYSTEM\\CurrentControlSet\\Control\\Session Manager\\Power\" / V HiberbootEnabled / T REG_dWORD / D 1 / F");
             var diskTimeOutAC = new ProcessStartInfo("cmd", "/c powercfg /x -disk-timeout-ac 0");
             var diskTimeOutDC = new ProcessStartInfo("cmd", "/c powercfg /x -disk-timeout-dc 0");
@@ -245,7 +246,6 @@ namespace InstallCeltaBSPDV.Configurations {
             var monitorTimeOutDC = new ProcessStartInfo("cmd", "/c powercfg /x -monitor-timeout-dc 0");
             var standybyTimeoutAC = new ProcessStartInfo("cmd", "/c Powercfg /x -standby-timeout-ac 0");
             var standybyTimeoutDC = new ProcessStartInfo("cmd", "/c powercfg /x -standby-timeout-dc 0");
-            var neverHibernate = new ProcessStartInfo("cmd", "/c powercfg /hibernate off");
             var disableUsbStandbyBattery = new ProcessStartInfo("cmd", "/c powercfg /SETDCVALUEINDEX SCHEME_CURRENT 2a737441-1930-4402-8d77-b2bebba308a3 48e6b7a6-50f5-4782-a5d4-53bb8f07e226 0"); //desabilitar suspensão da USB
             var disableUsbStandbyPlugged = new ProcessStartInfo("cmd", "/c powercfg /SETACVALUEINDEX SCHEME_CURRENT 2a737441-1930-4402-8d77-b2bebba308a3 48e6b7a6-50f5-4782-a5d4-53bb8f07e226 0"); //desabilitar suspensão da USB
 
@@ -258,13 +258,17 @@ namespace InstallCeltaBSPDV.Configurations {
             monitorTimeOutDC.CreateNoWindow = true;
             standybyTimeoutAC.CreateNoWindow = true;
             standybyTimeoutDC.CreateNoWindow = true;
-            neverHibernate.CreateNoWindow = true;
+            enableHibernate.CreateNoWindow = true;
             disableUsbStandbyBattery.CreateNoWindow = true;
             disableUsbStandbyPlugged.CreateNoWindow = true;
             turnOnFastStartup.CreateNoWindow = true;
             #endregion
 
             try {
+                await Task.Run(() => Process.Start(enableHibernate));
+                Task.Delay(2000).Wait();
+                await Task.Run(() => Process.Start(turnOnFastStartup));
+                Task.Delay(2000).Wait();
                 await Task.Run(() => Process.Start(diskTimeOutAC));
                 Task.Delay(2000).Wait();
                 await Task.Run(() => Process.Start(diskTimeOutDC));
@@ -277,13 +281,9 @@ namespace InstallCeltaBSPDV.Configurations {
                 Task.Delay(2000).Wait();
                 await Task.Run(() => Process.Start(standybyTimeoutDC));
                 Task.Delay(2000).Wait();
-                await Task.Run(() => Process.Start(neverHibernate));
-                Task.Delay(2000).Wait();
                 await Task.Run(() => Process.Start(disableUsbStandbyBattery));
                 Task.Delay(2000).Wait();
                 await Task.Run(() => Process.Start(disableUsbStandbyPlugged));
-                Task.Delay(2000).Wait();
-                await Task.Run(() => Process.Start(turnOnFastStartup));
             } catch(Exception ex) {
                 MessageBox.Show(ex.Message);
             }

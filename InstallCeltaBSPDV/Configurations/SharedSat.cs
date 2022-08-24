@@ -15,13 +15,12 @@ namespace InstallCeltaBSPDV.Configurations {
             download = new(enable);
         }
         public async void createSharedSat() {
-            //no início da instalação a aplicação já pergunta se o usuário quer instalar o site de compartilhamento do SAT e caso queira, altera o valor da variável "canInstallSharedSat" para true
-
             await download.downloadFileTaskAsync("deployment.zip", "http://177.103.179.36/downloads/lastversion/deployment.zip");
             await createPathSharedSat();
             await enableIISFeatures();
             await createSiteIIS();
 
+            //quando estiver fazendo o site do IIS, precisa habilitar os checkedbox somente depois que terminar de criar o site, por isso coloquei uma condição no enableConfigurations pra só habilitar quando o site estiver criado, ou habilitar por aqui quando terminar de criar o site
             #region enable components
             enable.buttonConfigurations.Text = "Efetuar configurações";
             enable.buttonConfigurations.Enabled = true;
