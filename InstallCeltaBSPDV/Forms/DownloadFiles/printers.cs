@@ -6,6 +6,13 @@ using System.Threading.Tasks;
 
 namespace InstallCeltaBSPDV.Forms.DownloadFiles {
     internal class Printers {
+
+        /// <summary>
+        /// e-mail e senha onde estão os arquivos de download
+        ///email: suporteceltaware@hotmail.com
+        ///senha: Celta@123
+        /// </summary>
+
         DownloadFilesForm downloadFilesForm;
         public Printers(DownloadFilesForm downloadFiles) {
             this.downloadFilesForm = downloadFiles;
@@ -20,7 +27,7 @@ namespace InstallCeltaBSPDV.Forms.DownloadFiles {
         }
 
         #region Printers List and names
-        private List<string> printers = new() { epsonTMT20, epsonTMT20x, epsonTMT88v, bematechMP4200, swedaSI300S, swedaSI300SIX, darumaDR700, darumaDR800, elginI9 };
+        private List<string> printers = new() { epsonTMT20, epsonTMT20x, epsonTMT88v, bematechMP4200, swedaSI300S, swedaSI300SIX, darumaDR700, darumaDR800, elginI9, tancatp550 };
 
         private const string epsonTMT20 = "Epson TMT20";
         private const string epsonTMT20x = "Epson TMT20x";
@@ -31,6 +38,7 @@ namespace InstallCeltaBSPDV.Forms.DownloadFiles {
         private const string darumaDR700 = "Daruma DR700";
         private const string darumaDR800 = "Daruma DR800";
         private const string elginI9 = "Elgin i9";
+        private const string tancatp550 = "Tanca TP550";
         #endregion
 
         /// <summary>
@@ -54,55 +62,61 @@ namespace InstallCeltaBSPDV.Forms.DownloadFiles {
                 epsonTMT20,
                 new Dictionary<string, string>() { {
                         $"{epsonTMT20}.zip",
-                        "https://onedrive.live.com/download?cid=D4CEA33D5404A268&resid=D4CEA33D5404A268%21124&authkey=AM24DHGw-UDma00"} });
+                        "https://onedrive.live.com/download?cid=4ECE55D0B3C830E2&resid=4ECE55D0B3C830E2%21128&authkey=ANLrDR1WEhDx5Ko"} });
 
             downloadFilesForm.urlsDownloadDictionary.Add(
                     epsonTMT20x,
                     new Dictionary<string, string>() { {
                         $"{epsonTMT20x}.zip",
-                        "https://onedrive.live.com/download?cid=D4CEA33D5404A268&resid=D4CEA33D5404A268%21120&authkey=ACQBcba5CJtCBa4"} });
+                        "https://onedrive.live.com/download?cid=4ECE55D0B3C830E2&resid=4ECE55D0B3C830E2%21127&authkey=AHucWdv2kCvnSWk"} });
 
             downloadFilesForm.urlsDownloadDictionary.Add(
                     epsonTMT88v,
                     new Dictionary<string, string>() { {
                         $"{epsonTMT88v}.zip",
-                        "https://onedrive.live.com/download?cid=D4CEA33D5404A268&resid=D4CEA33D5404A268%21122&authkey=AEcSOBdIDVXkUo8"} });
+                        "https://onedrive.live.com/download?cid=4ECE55D0B3C830E2&resid=4ECE55D0B3C830E2%21133&authkey=ADk3X_5MZDr5Y-c"} });
 
             downloadFilesForm.urlsDownloadDictionary.Add(
                     bematechMP4200,
                     new Dictionary<string, string>() { {
                         $"{bematechMP4200}.zip",
-                        "https://onedrive.live.com/download?cid=D4CEA33D5404A268&resid=D4CEA33D5404A268%21118&authkey=AAjUhRX6MZU6Xdw"} });
+                        "https://onedrive.live.com/download?cid=4ECE55D0B3C830E2&resid=4ECE55D0B3C830E2%21135&authkey=ANlYGGRr4hzyt6E"} });
 
             downloadFilesForm.urlsDownloadDictionary.Add(
                     swedaSI300S,
                     new Dictionary<string, string>() { {
                         $"{swedaSI300S}.exe",
-                        "https://onedrive.live.com/download?cid=D4CEA33D5404A268&resid=D4CEA33D5404A268%21119&authkey=AEYn5ohJoI6in0I"} });
+                        "https://onedrive.live.com/download?cid=4ECE55D0B3C830E2&resid=4ECE55D0B3C830E2%21136&authkey=AAlS32lRV6LUgQ0"} });
 
             downloadFilesForm.urlsDownloadDictionary.Add(
                     swedaSI300SIX,
                     new Dictionary<string, string>() { {
                         $"{swedaSI300SIX}.exe",
-                        "https://onedrive.live.com/download?cid=D4CEA33D5404A268&resid=D4CEA33D5404A268%21117&authkey=AFGJ2WdIrwdu4Io"} });
+                        "https://onedrive.live.com/download?cid=4ECE55D0B3C830E2&resid=4ECE55D0B3C830E2%21134&authkey=AISStDKIMVPTj18"} });
 
             downloadFilesForm.urlsDownloadDictionary.Add(
                     darumaDR700,
                     new Dictionary<string, string>() { {
                         $"{darumaDR700}.zip",
-                        "https://onedrive.live.com/download?cid=D4CEA33D5404A268&resid=D4CEA33D5404A268%21123&authkey=AD-V9chy7gauJx0"} });
+                        "https://onedrive.live.com/download?cid=4ECE55D0B3C830E2&resid=4ECE55D0B3C830E2%21131&authkey=AILgLWfUabVOl4U"} });
 
             downloadFilesForm.urlsDownloadDictionary.Add(
                     darumaDR800,
                     new Dictionary<string, string>() { {
                         $"{darumaDR800}.zip",
-                        "https://onedrive.live.com/download?cid=D4CEA33D5404A268&resid=D4CEA33D5404A268%21121&authkey=AEksmWaCFYZRorY"} });
+                        "https://onedrive.live.com/download?cid=4ECE55D0B3C830E2&resid=4ECE55D0B3C830E2%21130&authkey=ANsY69F1rlXkvXg"} });
 
             downloadFilesForm.urlsDownloadDictionary.Add(
                     elginI9,
                     new Dictionary<string, string>() { {
                         $"{elginI9}.zip",
-                        "https://onedrive.live.com/embed?cid=D4CEA33D5404A268&resid=D4CEA33D5404A268%21125&authkey=AOOcj1OZIhuyR7I"} });
+                        "https://onedrive.live.com/download?cid=4ECE55D0B3C830E2&resid=4ECE55D0B3C830E2%21132&authkey=AC2o_fMqCCuKKRw"} });
+
+            downloadFilesForm.urlsDownloadDictionary.Add(
+                    tancatp550,
+                    new Dictionary<string, string>() { {
+                        $"{tancatp550}.zip",
+                        "https://onedrive.live.com/download?cid=4ECE55D0B3C830E2&resid=4ECE55D0B3C830E2%21129&authkey=AIi60KeAZCfC4aA"} });
         }
     }
 }

@@ -40,6 +40,7 @@ namespace InstallCeltaBSPDV.Configurations {
             enable.checkBoxInstallComponentsReport.Enabled = true;
             enable.checkBoxCreateSharedSatSite.Enabled = true;
             enable.checkBoxInstallRoboMongo.Enabled = true;
+            enable.ControlBox = true;
             #endregion
 
         }

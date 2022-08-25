@@ -7,6 +7,13 @@ using InstallCeltaBSPDV.Forms.DownloadFiles;
 
 namespace InstallCeltaBSPDV.Forms.DownloadFiles {
     internal class SATs {
+
+        /// <summary>
+        /// e-mail e senha onde estão os arquivos de download
+        ///email: suporteceltaware@hotmail.com
+        ///senha: Celta@123
+        /// </summary>
+        
         DownloadFilesForm downloadFilesForm;
 
         public SATs(DownloadFilesForm downloadFilesForm) {
@@ -54,43 +61,43 @@ namespace InstallCeltaBSPDV.Forms.DownloadFiles {
                 satSweda,
                 new Dictionary<string, string>() { {
                         $"{satSweda}.zip",
-                        "https://onedrive.live.com/download?cid=D4CEA33D5404A268&resid=D4CEA33D5404A268%21127&authkey=AMpAPUVwDFnfo2Y"} });
+                        "https://onedrive.live.com/download?cid=4ECE55D0B3C830E2&resid=4ECE55D0B3C830E2%21122&authkey=ACHEDJkaqTAwD78"} });
 
             downloadFilesForm.urlsDownloadDictionary.Add(
                 satBematech,
                 new Dictionary<string, string>() { {
                         $"{satBematech}.zip",
-                       "https://onedrive.live.com/download?cid=D4CEA33D5404A268&resid=D4CEA33D5404A268%21132&authkey=AGHqTQ7c13x9i00"} });
+                       "https://onedrive.live.com/download?cid=4ECE55D0B3C830E2&resid=4ECE55D0B3C830E2%21126&authkey=AJ5iBhSz2gbeFXQ"} });
 
             downloadFilesForm.urlsDownloadDictionary.Add(
                 satDimep,
                 new Dictionary<string, string>() { {
                         $"{satDimep}.zip",
-                       "https://onedrive.live.com/download?cid=D4CEA33D5404A268&resid=D4CEA33D5404A268%21133&authkey=AHJwJFJyBClsVK4"} });
+                       "https://onedrive.live.com/download?cid=4ECE55D0B3C830E2&resid=4ECE55D0B3C830E2%21124&authkey=ADIYkIX9v9QSQFg"} });
 
             downloadFilesForm.urlsDownloadDictionary.Add(
                 satTanca,
                 new Dictionary<string, string>() { {
                         $"{satTanca}.zip",
-                      "https://onedrive.live.com/download?cid=D4CEA33D5404A268&resid=D4CEA33D5404A268%21134&authkey=AF0bY9tOUg5wSlo"} });
+                      "https://onedrive.live.com/download?cid=4ECE55D0B3C830E2&resid=4ECE55D0B3C830E2%21123&authkey=AL1wLIdb3G4fqFw"} });
 
             downloadFilesForm.urlsDownloadDictionary.Add(
                 satGertec,
                 new Dictionary<string, string>() { {
                         $"{satGertec}.zip",
-                     "https://onedrive.live.com/download?cid=D4CEA33D5404A268&resid=D4CEA33D5404A268%21135&authkey=AC65XCxQIaOxHNI"} });
+                     "https://onedrive.live.com/download?cid=4ECE55D0B3C830E2&resid=4ECE55D0B3C830E2%21120&authkey=ADM7ifA1g4BQ0_Y"} });
 
             downloadFilesForm.urlsDownloadDictionary.Add(
                 satElgin,
                 new Dictionary<string, string>() { {
                         $"{satElgin}.zip",
-                     "https://onedrive.live.com/download?cid=D4CEA33D5404A268&resid=D4CEA33D5404A268%21136&authkey=AAH3AW16tLoTvuw"} });
+                     "https://onedrive.live.com/download?cid=4ECE55D0B3C830E2&resid=4ECE55D0B3C830E2%21121&authkey=AJQgw34e-gNaS6M"} });
 
             downloadFilesForm.urlsDownloadDictionary.Add(
                 satControlId,
                 new Dictionary<string, string>() { {
                         $"{satControlId}.zip",
-                     "https://onedrive.live.com/download?cid=D4CEA33D5404A268&resid=D4CEA33D5404A268%21137&authkey=AKrDV9xXc6_KAw4"} });
+                     "https://onedrive.live.com/download?cid=4ECE55D0B3C830E2&resid=4ECE55D0B3C830E2%21125&authkey=AKXyyQ8sUmdzjTY"} });
         }
     }
 }

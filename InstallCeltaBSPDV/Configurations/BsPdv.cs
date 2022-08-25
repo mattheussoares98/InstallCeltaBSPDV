@@ -46,12 +46,14 @@ namespace InstallCeltaBSPDV.Configurations {
                 enable.checkBoxPdvLink.Checked = true;
                 return;
             }
-            await new Download(enable).downloadFileTaskAsync("CeltaPDV.lnk", "c");
+            await new Download(enable).downloadFileTaskAsync("CeltaPDV.lnk", "https://onedrive.live.com/download?cid=4ECE55D0B3C830E2&resid=4ECE55D0B3C830E2%21141&authkey=ABdh5NfeBNTGoTc");
 
             createStartupLink();
             createDesktopLink();
 
-            enable.checkBoxPdvLink.Checked = true;
+            if(File.Exists(startupPath) && File.Exists(desktopPath)) {
+                enable.checkBoxPdvLink.Checked = true;
+            }
         }
         private async Task downloadAndConfigurePdvPaths() {
             if(enable.checkBoxCopyCetaBSPDV.Checked == true) {

@@ -12,6 +12,13 @@ using InstallCeltaBSPDV.Forms.DownloadFiles;
 
 namespace InstallCeltaBSPDV.Forms {
     public partial class DownloadFilesForm: Form {
+
+        /// <summary>
+        /// e-mail e senha onde estão os arquivos de download
+        ///email: suporteceltaware@hotmail.com
+        ///senha: Celta@123
+        /// </summary>
+
         private readonly EnableConfigurations enable;
         public DownloadFilesForm(EnableConfigurations enable) {
             InitializeComponent();

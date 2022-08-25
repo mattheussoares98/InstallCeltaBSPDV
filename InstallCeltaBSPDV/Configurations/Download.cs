@@ -43,14 +43,17 @@ namespace InstallCeltaBSPDV.Configurations {
                     }
                     enable.richTextBoxResults.Text += fileName + " baixado com sucesso\n\n";
                 } catch(Exception ex) {
-                    MessageBox.Show("Erro para fazer o download: " + ex.Message);
-                    enable.richTextBoxResults.Text +=
-                    "Erro para baixar o arquivo. \nErro: " + ex.Message + "\nIniciando download novamente\n\n";
+                    DialogResult dialogResult = MessageBox.Show($"Erro para fazer o download do: {fileName}\nErro:" + ex.Message + "\n\nDESEJA TENTAR FAZER O DOWNLOAD NOVAMENTE?", "Efetuar download", MessageBoxButtons.YesNo);
 
-                    if(File.Exists(cInstall + $"\\{fileName}")) { //teoricamente iniciou o download mas deu erro, por isso precisa apagar o arquivo pra tentar efetuar o download novamente
-                        File.Delete(cInstall + $"\\{fileName}");
+                    if(dialogResult == DialogResult.No) {
+                        return;
+                    } else {
+
+                        if(File.Exists(cInstall + $"\\{fileName}")) { //teoricamente iniciou o download mas deu erro, por isso precisa apagar o arquivo pra tentar efetuar o download novamente
+                            File.Delete(cInstall + $"\\{fileName}");
+                        }
+                        await downloadFileTaskAsync(fileName, uriDownload);
                     }
-                    await downloadFileTaskAsync(fileName, uriDownload);
                 }
             } else {
                 enable.richTextBoxResults.Text += $"O {fileName} já foi baixado\n\n";

@@ -45,6 +45,7 @@ namespace InstallCeltaBSPDV {
             checkBoxInstallComponentsReport.Enabled = false;
             checkBoxCreateSharedSatSite.Enabled = false;
             checkBoxInstallRoboMongo.Enabled = false;
+            ControlBox = false;
             #endregion
 
             if(!checkBoxCreateSharedSatSite.Checked) {
@@ -75,6 +76,7 @@ namespace InstallCeltaBSPDV {
                 checkBoxInstallComponentsReport.Enabled = true;
                 checkBoxCreateSharedSatSite.Enabled = true;
                 checkBoxInstallRoboMongo.Enabled = true;
+                ControlBox = true;
                 #endregion
             }
         }

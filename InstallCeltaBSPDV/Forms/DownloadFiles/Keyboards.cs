@@ -7,6 +7,12 @@ using System.Threading.Tasks;
 namespace InstallCeltaBSPDV.Forms.DownloadFiles {
     internal class Keyboards {
 
+        /// <summary>
+        /// e-mail e senha onde estão os arquivos de download
+        ///email: suporteceltaware@hotmail.com
+        ///senha: Celta@123
+        /// </summary>
+
         private DownloadFilesForm downloadFilesForm;
 
         public Keyboards(DownloadFilesForm downloadFilesForm) {
@@ -28,13 +34,13 @@ namespace InstallCeltaBSPDV.Forms.DownloadFiles {
                 smak,
                 new Dictionary<string, string>() { {
                         $"{smak}.zip",
-                        "https://onedrive.live.com/download?cid=D4CEA33D5404A268&resid=D4CEA33D5404A268%21143&authkey=AAebnjHcw7GS__U"} });
+                        "https://onedrive.live.com/download?cid=4ECE55D0B3C830E2&resid=4ECE55D0B3C830E2%21140&authkey=ALqH3YBSihorG7Y"} });
 
             downloadFilesForm.urlsDownloadDictionary.Add(
                 gertec,
                 new Dictionary<string, string>() { {
                         $"{gertec}.zip",
-                        "https://onedrive.live.com/download?cid=D4CEA33D5404A268&resid=D4CEA33D5404A268%21142&authkey=AP1t5Du-H9FqjEk"} });
+                        "https://onedrive.live.com/download?cid=4ECE55D0B3C830E2&resid=4ECE55D0B3C830E2%21139&authkey=AIp32ceFHQ6EuXs"} });
         }
 
         private void addItemsInCheckedListBoxPinPads() {

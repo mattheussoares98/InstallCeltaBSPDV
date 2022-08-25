@@ -6,6 +6,13 @@ using System.Threading.Tasks;
 
 namespace InstallCeltaBSPDV.Forms.DownloadFiles {
     internal class PinPads {
+
+        /// <summary>
+        /// e-mail e senha onde estão os arquivos de download
+        ///email: suporteceltaware@hotmail.com
+        ///senha: Celta@123
+        /// </summary>
+
         private DownloadFilesForm downloadFilesForm;
 
         public PinPads(DownloadFilesForm downloadFilesForm) {
@@ -49,13 +56,13 @@ namespace InstallCeltaBSPDV.Forms.DownloadFiles {
                 gertecPPC930,
                 new Dictionary<string, string>() { {
                         $"{gertecPPC930}.exe",
-                        "https://onedrive.live.com/download?cid=D4CEA33D5404A268&resid=D4CEA33D5404A268%21139&authkey=APGR9Ch8W_s4nvI"} });
+                        "https://onedrive.live.com/download?cid=4ECE55D0B3C830E2&resid=4ECE55D0B3C830E2%21137&authkey=AGSc16MDGItCElU"} });
 
             downloadFilesForm.urlsDownloadDictionary.Add(
                 ingenicoIPP320,
                 new Dictionary<string, string>() { {
                         $"{ingenicoIPP320}.exe",
-                        "https://onedrive.live.com/download?cid=D4CEA33D5404A268&resid=D4CEA33D5404A268%21140&authkey=AC4yd8SSVyGn9QQ"} });
+                        "https://onedrive.live.com/download?cid=4ECE55D0B3C830E2&resid=4ECE55D0B3C830E2%21138&authkey=AFs_YCS9I-kchIg"} });
         }
 
     }
