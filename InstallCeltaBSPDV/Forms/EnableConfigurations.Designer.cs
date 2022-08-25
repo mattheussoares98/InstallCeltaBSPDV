@@ -23,6 +23,7 @@
         ///  the contents of this method with the code editor.
         /// </summary>
         private void InitializeComponent() {
+            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(EnableConfigurations));
             this.buttonConfigurations = new System.Windows.Forms.Button();
             this.flowLayoutPanelConfigurations = new System.Windows.Forms.FlowLayoutPanel();
             this.checkBoxCreateSharedSatPath = new System.Windows.Forms.CheckBox();
@@ -398,6 +399,7 @@
             this.Controls.Add(this.flowLayoutPanelConfigurations);
             this.Controls.Add(this.richTextBoxResults);
             this.Controls.Add(this.buttonConfigurations);
+            this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.Name = "EnableConfigurations";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "Instalador";

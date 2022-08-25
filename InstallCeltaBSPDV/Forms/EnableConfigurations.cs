@@ -44,7 +44,6 @@ namespace InstallCeltaBSPDV {
             checkBoxEnableRemoteAcces.Enabled = false;
             checkBoxInstallComponentsReport.Enabled = false;
             checkBoxCreateSharedSatSite.Enabled = false;
-            checkBoxInstallRoboMongo.Enabled = false;
             ControlBox = false;
             #endregion
 
@@ -75,7 +74,6 @@ namespace InstallCeltaBSPDV {
                 checkBoxEnableRemoteAcces.Enabled = true;
                 checkBoxInstallComponentsReport.Enabled = true;
                 checkBoxCreateSharedSatSite.Enabled = true;
-                checkBoxInstallRoboMongo.Enabled = true;
                 ControlBox = true;
                 #endregion
             }
