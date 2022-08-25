@@ -21,10 +21,10 @@ namespace InstallCeltaBSPDV.Forms.DownloadFiles {
         private const string wnb = "WNB";
         private const string webConfigSat = "WebConfig SAT";
         private const string teamViewer = "Team Viewer";
-        private const string layoutKeyboard = "Layout teclado";
         private const string manualPDV = "Manual do PDV";
         private const string driverBooster = "Driver Booster";
         private const string winRar = "Win rar";
+        private const string anydesk = "Anydesk";
         #endregion
         private void addItemsInCheckedListBoxUtilities() {
             foreach(string utility in utilities) {
