@@ -133,42 +133,43 @@ namespace InstallCeltaBSPDV.Configurations {
 
                 await new Windows(enable).enableAllPermissionsForPath(celtaSatPdv);
                 try {
+                    if(Directory.Exists(celtaSat)) {
+                        enable.richTextBoxResults.Text += "Como a pasta de compartilhamento do SAT já existe, a aplicação não fará essa configuração\n\n";
+                    } else {
 
-                    if(Directory.Exists(installDeployment)) {
-                        Directory.Delete(installDeployment, true);
+                        if(Directory.Exists(installDeployment)) {
+                            Directory.Delete(installDeployment, true);
+                        }
+
+                        await Task.Run(() => ZipFile.ExtractToDirectory(installDeploymentZip, installDeployment));
+
+
+                        if(!Directory.Exists(celtaSat)) {
+                            await Task.Run(() => Directory.CreateDirectory(celtaSat));
+                        }
+
+                        await Task.Run(() => Directory.Move(installDeploymentPdv, celtaSatPdv));
+
+                        if(!Directory.Exists(celtaSatPdvBin)) {
+                            Directory.CreateDirectory(celtaSatPdvBin);
+                        }
+
+                        await overrideFilesInPath(celtaSatPdvSalePathBin, celtaSatPdvBin);
+                        await overrideFilesInPath(CeltaSatPdvSatPathBin, celtaSatPdvBin);
+                        await overrideFilesInPath(celtaSatPdvSalesalePath, celtaSatPdv);
+                        await overrideFilesInPath(CeltaSatPdvSatPath, celtaSatPdv);
+
+                        if(Directory.Exists(celtaSatSale)) {
+                            Directory.Delete(celtaSatSale, true);
+                        }
+
+                        if(Directory.Exists(celtaSatSat)) {
+                            Directory.Delete(celtaSatSat, true);
+                        }
+
+                        //checkBoxSharedPath.ForeColor = Color.Green;
+                        sharedPath = true;
                     }
-
-                    await Task.Run(() => ZipFile.ExtractToDirectory(installDeploymentZip, installDeployment));
-
-                    if(Directory.Exists(celtaSatPdv)) {
-                        await Task.Run(() => Directory.Delete(celtaSatPdv, true));
-                    }
-
-                    if(!Directory.Exists(celtaSat)) {
-                        await Task.Run(() => Directory.CreateDirectory(celtaSat));
-                    }
-
-                    await Task.Run(() => Directory.Move(installDeploymentPdv, celtaSatPdv));
-
-                    if(!Directory.Exists(celtaSatPdvBin)) {
-                        Directory.CreateDirectory(celtaSatPdvBin);
-                    }
-
-                    await overrideFilesInPath(celtaSatPdvSalePathBin, celtaSatPdvBin);
-                    await overrideFilesInPath(CeltaSatPdvSatPathBin, celtaSatPdvBin);
-                    await overrideFilesInPath(celtaSatPdvSalesalePath, celtaSatPdv);
-                    await overrideFilesInPath(CeltaSatPdvSatPath, celtaSatPdv);
-
-                    if(Directory.Exists(celtaSatSale)) {
-                        Directory.Delete(celtaSatSale, true);
-                    }
-
-                    if(Directory.Exists(celtaSatSat)) {
-                        Directory.Delete(celtaSatSat, true);
-                    }
-
-                    //checkBoxSharedPath.ForeColor = Color.Green;
-                    sharedPath = true;
                 } catch(Exception ex) {
                     MessageBox.Show(ex.Message);
                 }
