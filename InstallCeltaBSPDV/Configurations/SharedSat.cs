@@ -194,9 +194,15 @@ namespace InstallCeltaBSPDV.Configurations {
 
             }
         }
-        private async Task overrideFilesInPath(string pathToRead, string destiny) {
+        public async Task overrideFilesInPath(string pathToRead, string destiny) {
             if(!Directory.Exists(pathToRead)) {
                 MessageBox.Show($"Não foi possível encontrar o caminho {pathToRead}");
+                return;
+            }
+
+            if(!Directory.Exists(destiny)) {
+                MessageBox.Show($"Não foi possível encontrar o caminho: {destiny}");
+                return;
             }
             string[] files = Directory.GetFiles(pathToRead);
 
@@ -204,7 +210,7 @@ namespace InstallCeltaBSPDV.Configurations {
                 string localDestiny = file.Replace(pathToRead, destiny);
                 //MessageBox.Show($"file: {file}\n\ndestiny = " + destiny);
                 try {
-                    await Task.Run(() => File.Copy(file, localDestiny));
+                    await Task.Run(() => File.Copy(file, localDestiny, true));
                 } catch(Exception ex) {
                     MessageBox.Show($"Erro para copiar o arquivo para o destino\n\norigem: {file}\n\ndestino: {localDestiny}\n\nerro: {ex.Message}");
                 }

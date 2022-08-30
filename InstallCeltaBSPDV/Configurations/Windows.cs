@@ -85,7 +85,7 @@ namespace InstallCeltaBSPDV.Configurations {
                 enable.richTextBoxResults.Text += $"{Download.cInstallPdvCeltabspdv} movido com sucesso para o caminho {Download.cCeltabspdv}\n\n";
                 enable.checkBoxCopyCetaBSPDV.Checked = true;
             } catch(Exception ex) {
-                MessageBox.Show(ex.Message);
+                MessageBox.Show("Erro para copiar a pasta C:\\CeltaBSPDV: " + ex.Message);
             }
         }
 

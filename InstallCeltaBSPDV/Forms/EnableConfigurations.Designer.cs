@@ -44,24 +44,26 @@
             this.checkBoxNeverNotifyUser = new System.Windows.Forms.CheckBox();
             this.checkBoxAdjustVisualEffects = new System.Windows.Forms.CheckBox();
             this.checkBoxDisableSuspendPCI = new System.Windows.Forms.CheckBox();
+            this.checkBoxCopyDllsSat = new System.Windows.Forms.CheckBox();
             this.checkBox17 = new System.Windows.Forms.CheckBox();
             this.checkBox16 = new System.Windows.Forms.CheckBox();
             this.checkBox12 = new System.Windows.Forms.CheckBox();
             this.checkBox19 = new System.Windows.Forms.CheckBox();
             this.checkBox20 = new System.Windows.Forms.CheckBox();
             this.checkBox21 = new System.Windows.Forms.CheckBox();
-            this.checkBox22 = new System.Windows.Forms.CheckBox();
             this.richTextBoxResults = new System.Windows.Forms.RichTextBox();
             this.progressBarInstall = new System.Windows.Forms.ProgressBar();
             this.button1 = new System.Windows.Forms.Button();
+            this.folderBrowserDialog1 = new System.Windows.Forms.FolderBrowserDialog();
+            this.labelDllsSat = new System.Windows.Forms.Label();
             this.flowLayoutPanelConfigurations.SuspendLayout();
             this.SuspendLayout();
             // 
             // buttonConfigurations
             // 
-            this.buttonConfigurations.Location = new System.Drawing.Point(595, 574);
+            this.buttonConfigurations.Location = new System.Drawing.Point(589, 449);
             this.buttonConfigurations.Name = "buttonConfigurations";
-            this.buttonConfigurations.Size = new System.Drawing.Size(386, 69);
+            this.buttonConfigurations.Size = new System.Drawing.Size(392, 69);
             this.buttonConfigurations.TabIndex = 0;
             this.buttonConfigurations.Text = "Iniciar configurações";
             this.buttonConfigurations.UseVisualStyleBackColor = true;
@@ -87,16 +89,16 @@
             this.flowLayoutPanelConfigurations.Controls.Add(this.checkBoxNeverNotifyUser);
             this.flowLayoutPanelConfigurations.Controls.Add(this.checkBoxAdjustVisualEffects);
             this.flowLayoutPanelConfigurations.Controls.Add(this.checkBoxDisableSuspendPCI);
+            this.flowLayoutPanelConfigurations.Controls.Add(this.checkBoxCopyDllsSat);
             this.flowLayoutPanelConfigurations.Controls.Add(this.checkBox17);
             this.flowLayoutPanelConfigurations.Controls.Add(this.checkBox16);
             this.flowLayoutPanelConfigurations.Controls.Add(this.checkBox12);
             this.flowLayoutPanelConfigurations.Controls.Add(this.checkBox19);
             this.flowLayoutPanelConfigurations.Controls.Add(this.checkBox20);
             this.flowLayoutPanelConfigurations.Controls.Add(this.checkBox21);
-            this.flowLayoutPanelConfigurations.Controls.Add(this.checkBox22);
             this.flowLayoutPanelConfigurations.FlowDirection = System.Windows.Forms.FlowDirection.TopDown;
             this.flowLayoutPanelConfigurations.Font = new System.Drawing.Font("Segoe UI", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
-            this.flowLayoutPanelConfigurations.Location = new System.Drawing.Point(20, 21);
+            this.flowLayoutPanelConfigurations.Location = new System.Drawing.Point(12, 21);
             this.flowLayoutPanelConfigurations.Name = "flowLayoutPanelConfigurations";
             this.flowLayoutPanelConfigurations.Size = new System.Drawing.Size(573, 630);
             this.flowLayoutPanelConfigurations.TabIndex = 2;
@@ -284,10 +286,20 @@
             this.checkBoxDisableSuspendPCI.Text = "Desabilitar suspensão seletiva PCI";
             this.checkBoxDisableSuspendPCI.UseVisualStyleBackColor = true;
             // 
+            // checkBoxCopyDllsSat
+            // 
+            this.checkBoxCopyDllsSat.AutoSize = true;
+            this.checkBoxCopyDllsSat.Location = new System.Drawing.Point(3, 453);
+            this.checkBoxCopyDllsSat.Name = "checkBoxCopyDllsSat";
+            this.checkBoxCopyDllsSat.Size = new System.Drawing.Size(142, 19);
+            this.checkBoxCopyDllsSat.TabIndex = 26;
+            this.checkBoxCopyDllsSat.Text = "Copiar as DLLs do SAT";
+            this.checkBoxCopyDllsSat.UseVisualStyleBackColor = true;
+            // 
             // checkBox17
             // 
             this.checkBox17.AutoSize = true;
-            this.checkBox17.Location = new System.Drawing.Point(3, 453);
+            this.checkBox17.Location = new System.Drawing.Point(3, 478);
             this.checkBox17.Name = "checkBox17";
             this.checkBox17.Size = new System.Drawing.Size(256, 19);
             this.checkBox17.TabIndex = 16;
@@ -297,7 +309,7 @@
             // checkBox16
             // 
             this.checkBox16.AutoSize = true;
-            this.checkBox16.Location = new System.Drawing.Point(3, 478);
+            this.checkBox16.Location = new System.Drawing.Point(3, 503);
             this.checkBox16.Name = "checkBox16";
             this.checkBox16.Size = new System.Drawing.Size(477, 19);
             this.checkBox16.TabIndex = 17;
@@ -308,7 +320,7 @@
             // checkBox12
             // 
             this.checkBox12.AutoSize = true;
-            this.checkBox12.Location = new System.Drawing.Point(3, 503);
+            this.checkBox12.Location = new System.Drawing.Point(3, 528);
             this.checkBox12.Name = "checkBox12";
             this.checkBox12.Size = new System.Drawing.Size(227, 19);
             this.checkBox12.TabIndex = 18;
@@ -318,7 +330,7 @@
             // checkBox19
             // 
             this.checkBox19.AutoSize = true;
-            this.checkBox19.Location = new System.Drawing.Point(3, 528);
+            this.checkBox19.Location = new System.Drawing.Point(3, 553);
             this.checkBox19.Name = "checkBox19";
             this.checkBox19.Size = new System.Drawing.Size(135, 19);
             this.checkBox19.TabIndex = 19;
@@ -328,7 +340,7 @@
             // checkBox20
             // 
             this.checkBox20.AutoSize = true;
-            this.checkBox20.Location = new System.Drawing.Point(3, 553);
+            this.checkBox20.Location = new System.Drawing.Point(3, 578);
             this.checkBox20.Name = "checkBox20";
             this.checkBox20.Size = new System.Drawing.Size(140, 19);
             this.checkBox20.TabIndex = 20;
@@ -338,23 +350,12 @@
             // checkBox21
             // 
             this.checkBox21.AutoSize = true;
-            this.checkBox21.Location = new System.Drawing.Point(3, 578);
+            this.checkBox21.Location = new System.Drawing.Point(3, 603);
             this.checkBox21.Name = "checkBox21";
             this.checkBox21.Size = new System.Drawing.Size(281, 19);
             this.checkBox21.TabIndex = 21;
             this.checkBox21.Text = "Instalar o team viewer e fixar a senha \"CeltaPDV\"";
             this.checkBox21.UseVisualStyleBackColor = true;
-            // 
-            // checkBox22
-            // 
-            this.checkBox22.AutoSize = true;
-            this.checkBox22.Location = new System.Drawing.Point(3, 603);
-            this.checkBox22.Name = "checkBox22";
-            this.checkBox22.Size = new System.Drawing.Size(566, 19);
-            this.checkBox22.TabIndex = 22;
-            this.checkBox22.Text = "Gerenciador de dispositivos > não permitir interface humana e controlador USB des" +
-    "abilitar dispositivos";
-            this.checkBox22.UseVisualStyleBackColor = true;
             // 
             // richTextBoxResults
             // 
@@ -365,35 +366,48 @@
             this.richTextBoxResults.Name = "richTextBoxResults";
             this.richTextBoxResults.ReadOnly = true;
             this.richTextBoxResults.ScrollBars = System.Windows.Forms.RichTextBoxScrollBars.Vertical;
-            this.richTextBoxResults.Size = new System.Drawing.Size(386, 422);
+            this.richTextBoxResults.Size = new System.Drawing.Size(386, 372);
             this.richTextBoxResults.TabIndex = 23;
             this.richTextBoxResults.Text = "";
             this.richTextBoxResults.TextChanged += new System.EventHandler(this.richTextBoxResults_TextChanged);
             // 
             // progressBarInstall
             // 
-            this.progressBarInstall.Location = new System.Drawing.Point(595, 449);
+            this.progressBarInstall.Location = new System.Drawing.Point(589, 401);
             this.progressBarInstall.Name = "progressBarInstall";
-            this.progressBarInstall.Size = new System.Drawing.Size(386, 42);
+            this.progressBarInstall.Size = new System.Drawing.Size(392, 42);
             this.progressBarInstall.TabIndex = 3;
             this.progressBarInstall.Visible = false;
             // 
             // button1
             // 
-            this.button1.Location = new System.Drawing.Point(595, 504);
+            this.button1.Location = new System.Drawing.Point(589, 529);
             this.button1.Name = "button1";
-            this.button1.Size = new System.Drawing.Size(386, 57);
+            this.button1.Size = new System.Drawing.Size(392, 57);
             this.button1.TabIndex = 24;
             this.button1.Text = "Baixar arquivos";
             this.button1.UseVisualStyleBackColor = true;
             this.button1.Click += new System.EventHandler(this.button1_Click);
+            // 
+            // labelDllsSat
+            // 
+            this.labelDllsSat.Font = new System.Drawing.Font("Segoe UI", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
+            this.labelDllsSat.Location = new System.Drawing.Point(594, 599);
+            this.labelDllsSat.Name = "labelDllsSat";
+            this.labelDllsSat.Size = new System.Drawing.Size(385, 52);
+            this.labelDllsSat.TabIndex = 25;
+            this.labelDllsSat.Text = "Clique aqui para selecionar a pasta onde estão as DLLs do SAT e distrubuir nas pa" +
+    "stas necessárias";
+            this.labelDllsSat.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
+            this.labelDllsSat.Click += new System.EventHandler(this.labelDllsSat_Click);
             // 
             // EnableConfigurations
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 15F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.AutoSize = true;
-            this.ClientSize = new System.Drawing.Size(991, 656);
+            this.ClientSize = new System.Drawing.Size(991, 665);
+            this.Controls.Add(this.labelDllsSat);
             this.Controls.Add(this.button1);
             this.Controls.Add(this.progressBarInstall);
             this.Controls.Add(this.flowLayoutPanelConfigurations);
@@ -416,7 +430,6 @@
         private CheckBox checkBox19;
         private CheckBox checkBox20;
         private CheckBox checkBox21;
-        private CheckBox checkBox22;
         internal FlowLayoutPanel flowLayoutPanelConfigurations;
         public RichTextBox richTextBoxResults;
         public CheckBox checkBoxCopyCetaBSPDV;
@@ -440,5 +453,8 @@
         public CheckBox checkBoxInstallRoboMongo;
         public ProgressBar progressBarInstall;
         public Button buttonConfigurations;
+        private FolderBrowserDialog folderBrowserDialog1;
+        private Label labelDllsSat;
+        private CheckBox checkBoxCopyDllsSat;
     }
 }
