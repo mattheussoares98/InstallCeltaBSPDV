@@ -1,4 +1,5 @@
-﻿using InstallCeltaBSPDV.Forms;
+﻿using InstallCeltaBSPDV.DownloadFiles;
+using InstallCeltaBSPDV.Forms;
 using Microsoft.Win32;
 using System;
 using System.Collections.Generic;
@@ -7,7 +8,8 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace InstallCeltaBSPDV.Configurations {
+namespace InstallCeltaBSPDV.Configurations
+{
     internal class BsPdv {
 
         private readonly EnableConfigurations enable = new();

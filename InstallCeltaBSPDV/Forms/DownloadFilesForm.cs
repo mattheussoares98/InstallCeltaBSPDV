@@ -9,6 +9,7 @@ using System.Threading.Tasks;
 using System.Windows.Forms;
 using InstallCeltaBSPDV.Configurations;
 using InstallCeltaBSPDV.Forms.DownloadFiles;
+using InstallCeltaBSPDV.DownloadFiles;
 
 namespace InstallCeltaBSPDV.Forms {
     public partial class DownloadFilesForm: Form {

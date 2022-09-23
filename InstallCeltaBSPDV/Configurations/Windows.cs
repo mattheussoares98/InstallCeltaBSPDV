@@ -1,4 +1,5 @@
-﻿using NetFwTypeLib;
+﻿using InstallCeltaBSPDV.DownloadFiles;
+using NetFwTypeLib;
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;
@@ -9,7 +10,8 @@ using System.Security.Principal;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace InstallCeltaBSPDV.Configurations {
+namespace InstallCeltaBSPDV.Configurations
+{
     public class Windows {
         private readonly EnableConfigurations enable = new();
         public Windows(EnableConfigurations enableConfigurations) {

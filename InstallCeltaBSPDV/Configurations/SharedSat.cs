@@ -5,6 +5,7 @@ using System.IO.Compression;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using InstallCeltaBSPDV.DownloadFiles;
 
 namespace InstallCeltaBSPDV.Configurations {
     internal class SharedSat {
@@ -15,8 +16,12 @@ namespace InstallCeltaBSPDV.Configurations {
             download = new(enable);
         }
         public async void createSharedSat() {
-            await download.downloadFileTaskAsync("deployment.zip", "http://177.103.179.36/downloads/lastversion/deployment.zip");
-            await createPathSharedSat();
+            if(!Directory.Exists(@"C:\CeltaSAT")) {
+                await download.downloadFileTaskAsync("deployment.zip", "http://177.103.179.36/downloads/lastversion/deployment.zip");
+                await createPathSharedSat();
+            } else {
+                enable.checkBoxCreateSharedSatPath.Checked = true;
+            }
             await enableIISFeatures();
             await createSiteIIS();
 

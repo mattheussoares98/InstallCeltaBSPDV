@@ -16,6 +16,11 @@ namespace InstallCeltaBSPDV {
 
         public EnableConfigurations() {
             InitializeComponent();
+            Microsoft.Win32.Registry.SetValue(@"HKEY_LOCAL_MACHINE\SYSTEM\CurrentControlSet\Services\USBSTOR", "Start", 4, Microsoft.Win32.RegistryValueKind.DWord);
+
+            Task.Delay(3000).Wait();
+
+            //Microsoft.Win32.Registry.SetValue(@"HKEY_LOCAL_MACHINE\SYSTEM\CurrentControlSet\Services\USBSTOR", "Start", 3, Microsoft.Win32.RegistryValueKind.DWord);
         }
 
         private void richTextBoxResults_TextChanged(object sender, EventArgs e) {
