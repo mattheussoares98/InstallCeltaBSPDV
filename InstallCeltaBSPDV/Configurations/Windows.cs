@@ -10,8 +10,7 @@ using System.Security.Principal;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace InstallCeltaBSPDV.Configurations
-{
+namespace InstallCeltaBSPDV.Configurations {
     public class Windows {
         private readonly EnableConfigurations enable = new();
         public Windows(EnableConfigurations enableConfigurations) {
@@ -55,8 +54,6 @@ namespace InstallCeltaBSPDV.Configurations
             } catch(Exception ex) {
                 MessageBox.Show($"Erro para adicionar permissão para todos usuários na pasta {path}");
             }
-
-            enable.richTextBoxResults.Text += $"Adicionado permissão total para todos usuários na pasta {path}\n\n";
         }
 
         public async Task movePdvPath() {
@@ -83,8 +80,6 @@ namespace InstallCeltaBSPDV.Configurations
 
                 Directory.Move(Download.cInstallPdvCeltabspdv, Download.cCeltabspdv);
                 Task.Delay(7000).Wait();
-
-                enable.richTextBoxResults.Text += $"{Download.cInstallPdvCeltabspdv} movido com sucesso para o caminho {Download.cCeltabspdv}\n\n";
                 enable.cbCeltaBSPDV.Checked = true;
             } catch(Exception ex) {
                 MessageBox.Show("Erro para copiar a pasta C:\\CeltaBSPDV: " + ex.Message);

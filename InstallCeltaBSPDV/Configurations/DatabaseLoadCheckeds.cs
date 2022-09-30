@@ -19,12 +19,14 @@ namespace InstallCeltaBSPDV.Configurations {
             SQLiteConnection connection = new SQLiteConnection(stringConnection);
 
             SQLiteCommand command = new SQLiteCommand();
-            command.CommandText = "CREATE TABLE checkBoxs (id INTEGER PRIMARY KEY AUTOINCREMENT ";
+            command.CommandText = "CREATE TABLE checkBoxs (";
 
             var controls = enable.flowLayoutPanelConfigurations.Controls;
             foreach(CheckBox checkBox in controls) {
-                command.CommandText += $",{checkBox.Name} NVARCHAR(5)";
+                command.CommandText += $"{checkBox.Name} NVARCHAR(5),";
             }
+            int indexToRemove = command.CommandText.LastIndexOf(","); //Obtendo o último índice
+            command.CommandText = command.CommandText.Remove(indexToRemove); //removendo a última vírgula pra não dar erro no comando
             command.CommandText += ")";
             command.Connection = connection;
 
@@ -32,11 +34,10 @@ namespace InstallCeltaBSPDV.Configurations {
                 connection.Open();
                 command.ExecuteNonQuery();
 
-                enable.richTextBoxResults.Text = "Tabela criada no Sqlite";
                 command.Dispose();
 
             } catch(Exception ex) {
-                enable.richTextBoxResults.Text = ex.Message;
+                MessageBox.Show("Erro para criar o banco de dados que é usado para persistir os dados do que já foi realizado na instalação");
             } finally {
                 connection.Close();
             }
@@ -72,7 +73,6 @@ namespace InstallCeltaBSPDV.Configurations {
 
             } catch(Exception ex) {
                 MessageBox.Show(ex.Message);
-                enable.richTextBoxResults.Text = ex.Message;
             } finally {
                 connection.Close();
             }
@@ -105,7 +105,6 @@ namespace InstallCeltaBSPDV.Configurations {
                 connection.Open();
                 command.ExecuteNonQuery();
 
-                enable.richTextBoxResults.Text = "Dados inseridos com sucesso no Sqlite";
                 command.Dispose();
 
             } catch(Exception ex) {

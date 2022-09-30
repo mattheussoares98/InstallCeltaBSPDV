@@ -36,7 +36,6 @@ namespace InstallCeltaBSPDV {
             #region disable components
             buttonConfigurations.Enabled = false;
             buttonConfigurations.Text = "Aguarde";
-            richTextBoxResults.Text = "";
             progressBarInstall.Style = ProgressBarStyle.Marquee;
             progressBarInstall.MarqueeAnimationSpeed = 30;
             progressBarInstall.Visible = true;
