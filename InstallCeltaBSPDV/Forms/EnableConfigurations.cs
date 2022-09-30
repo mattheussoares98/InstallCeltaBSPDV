@@ -54,9 +54,8 @@ namespace InstallCeltaBSPDV {
             ControlBox = false;
             #endregion
 
-            if(!cbSite.Checked) {
-                new SharedSat(this).createSharedSat(); //não coloquei um await nele pra ir fazendo a instalação do site em segundo plano enquanto faz as outras configurações
-            }
+            new SharedSat(this).createSharedSat(); //não coloquei um await nele pra ir fazendo a instalação do site em segundo plano enquanto faz as outras configurações
+
 
             await new Windows(this).configureWindows();
 
@@ -116,6 +115,10 @@ namespace InstallCeltaBSPDV {
         }
 
         #region Update CheckedBox in  Database when have changes
+        private void cbDirectorySat_CheckedChanged(object sender, EventArgs e) {
+            DatabaseLoadCheckeds.updateData(cbDirectorySat);
+
+        }
         private void cbFirewall_CheckedChanged(object sender, EventArgs e) {
             DatabaseLoadCheckeds.updateData(cbFirewall);
         }
@@ -240,5 +243,7 @@ namespace InstallCeltaBSPDV {
 
         }
         #endregion
+
+
     }
 }

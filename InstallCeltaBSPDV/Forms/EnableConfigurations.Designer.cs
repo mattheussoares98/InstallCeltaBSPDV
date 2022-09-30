@@ -117,6 +117,7 @@
             this.cbDirectorySat.TabIndex = 1;
             this.cbDirectorySat.Text = "Criar o diretório de compartilhamento do SAT";
             this.cbDirectorySat.UseVisualStyleBackColor = true;
+            this.cbDirectorySat.CheckedChanged += new System.EventHandler(this.cbDirectorySat_CheckedChanged);
             // 
             // cbIIS
             // 

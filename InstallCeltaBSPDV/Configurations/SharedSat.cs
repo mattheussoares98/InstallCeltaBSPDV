@@ -22,6 +22,11 @@ namespace InstallCeltaBSPDV.Configurations {
             } else {
                 enable.cbDirectorySat.Checked = true;
             }
+
+            if(enable.cbSite.Checked) {
+                return;
+            }
+
             await enableIISFeatures();
             await createSiteIIS();
 
