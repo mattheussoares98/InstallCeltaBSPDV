@@ -8,8 +8,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace InstallCeltaBSPDV.Configurations
-{
+namespace InstallCeltaBSPDV.Configurations {
     internal class BsPdv {
 
         private readonly EnableConfigurations enable = new();
@@ -40,12 +39,12 @@ namespace InstallCeltaBSPDV.Configurations
         #endregion
 
         private async void createPdvLinks() {
-            if(enable.checkBoxPdvLink.Checked == true) {
+            if(enable.cbShortcut.Checked == true) {
                 return;
             }
 
             if(File.Exists(startupPath) && File.Exists(desktopPath)) {
-                enable.checkBoxPdvLink.Checked = true;
+                enable.cbShortcut.Checked = true;
                 return;
             }
             await new Download(enable).downloadFileTaskAsync("CeltaPDV.lnk", "https://onedrive.live.com/download?cid=4ECE55D0B3C830E2&resid=4ECE55D0B3C830E2%21141&authkey=ABdh5NfeBNTGoTc");
@@ -54,11 +53,11 @@ namespace InstallCeltaBSPDV.Configurations
             createDesktopLink();
 
             if(File.Exists(startupPath) && File.Exists(desktopPath)) {
-                enable.checkBoxPdvLink.Checked = true;
+                enable.cbShortcut.Checked = true;
             }
         }
         private async Task downloadAndConfigurePdvPaths() {
-            if(enable.checkBoxCopyCetaBSPDV.Checked == true) {
+            if(enable.cbCeltaBSPDV.Checked == true) {
                 return;
             }
             await new Download(enable).downloadFileTaskAsync(Download.installBsPdvZip, "http://177.103.179.36/downloads/lastversion/installbspdv.zip");
@@ -123,13 +122,13 @@ namespace InstallCeltaBSPDV.Configurations
             return appInstalled;
         }
         private async Task downloadAndInstallMongoDb() {
-            if(enable.checkBoxInstallMongo.Checked == true) {
-                return;
-            }
             string mongoDbFilePath = "C:\\Install\\PDV\\Database\\mongodb-win32-x86_64-2008plus-ssl-4.0.22-signed.msi";
             //precisa ter o arquivo C:\Install\PDV\Database\mongodb-win32-x86_64-2008plus-ssl-4.0.22-signed
+            if(enable.cbMongoDB.Checked == true && !File.Exists(mongoDbFilePath)) {
+                //adicionei a condição de existir o mongoDbFilePath também porque se não existir, significa que o banco de dados não está instalado
+                return;
+            }
             if(!File.Exists(mongoDbFilePath)) {
-                MessageBox.Show($"Não foi possível instalar o banco de dados porque o arquivo{mongoDbFilePath} não existe");
                 await new Download(enable).downloadFileTaskAsync(Download.installBsPdvZip, "http://177.103.179.36/downloads/lastversion/installbspdv.zip");
 
                 await downloadAndInstallMongoDb();
@@ -165,14 +164,14 @@ namespace InstallCeltaBSPDV.Configurations
 
                 }
                 if(isInstalled)
-                    enable.checkBoxInstallMongo.Checked = true;
+                    enable.cbMongoDB.Checked = true;
 
             } catch(Exception ex) {
                 MessageBox.Show("Erro para instalar o MongoDB: " + ex.Message);
             }
         }
         private async Task editMongoCfg() {
-            if(enable.checkBoxEnableRemoteAcces.Checked == true) {
+            if(enable.cbRemoteAcces.Checked == true) {
                 return;
             }
 
@@ -195,9 +194,9 @@ namespace InstallCeltaBSPDV.Configurations
 
                 if(textoDoArquivo.Contains("0.0.0.0")) {
 
-                    enable.checkBoxEnableRemoteAcces.Checked = true;
+                    enable.cbRemoteAcces.Checked = true;
                     //enable.checkBoxEnableRemoteAcces.ForeColor = Color.Green;
-                    enable.checkBoxInstallMongo.Checked = true;
+                    enable.cbMongoDB.Checked = true;
                     //enable.checkBoxInstallMongo.ForeColor = Color.Green;
                     return;
                 }
@@ -210,9 +209,9 @@ namespace InstallCeltaBSPDV.Configurations
 
                 File.WriteAllText(mongoConfig, newText); //caso já tenha um arquivo com o mesmo nome, ele sobrescreve com o texto que está no segundo parâmetro
 
-                enable.checkBoxEnableRemoteAcces.Checked = true;
+                enable.cbRemoteAcces.Checked = true;
                 //enable.checkBoxEnableRemoteAcces.ForeColor = Color.Green;
-                enable.checkBoxInstallMongo.Checked = true;
+                enable.cbMongoDB.Checked = true;
                 //enable.checkBoxInstallMongo.ForeColor = Color.Green;
 
             } catch(Exception e) {
@@ -224,7 +223,7 @@ namespace InstallCeltaBSPDV.Configurations
         }
 
         private void installRoboMongo() {
-            if(enable.checkBoxInstallRoboMongo.Checked == true) {
+            if(enable.cbRoboMongo.Checked == true) {
                 return;
             }
 
@@ -236,16 +235,16 @@ namespace InstallCeltaBSPDV.Configurations
 
             if(!Directory.Exists(cProgramFilesRobo)) {
                 enable.richTextBoxResults.Text += "Como o RoboMongo não está instalado, a aplicação abrirá o instalador \n\n";
-                enable.checkBoxInstallRoboMongo.Checked = false;
+                enable.cbRoboMongo.Checked = false;
                 if(File.Exists(cInstallPdvDatabase + "\\" + roboFileName)) {
                     Process.Start(openInstallRoboMongo);
                 }
             } else {
-                enable.checkBoxInstallRoboMongo.Checked = true;
+                enable.cbRoboMongo.Checked = true;
             }
         }
         private void installComponentsReport() {
-            if(enable.checkBoxInstallComponentsReport.Checked == true) {
+            if(enable.cbComponentsReport.Checked == true) {
                 return;
             }
 
@@ -312,7 +311,7 @@ namespace InstallCeltaBSPDV.Configurations
             #endregion
 
             //se chegar aqui é porque não deu erro em nenhuma instalação e por isso pode marcar como instalado os dois components
-            enable.checkBoxInstallComponentsReport.Checked = true;
+            enable.cbComponentsReport.Checked = true;
         }
     }
 }

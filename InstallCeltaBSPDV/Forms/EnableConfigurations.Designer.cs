@@ -26,32 +26,32 @@
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(EnableConfigurations));
             this.buttonConfigurations = new System.Windows.Forms.Button();
             this.flowLayoutPanelConfigurations = new System.Windows.Forms.FlowLayoutPanel();
-            this.checkBoxCreateSharedSatPath = new System.Windows.Forms.CheckBox();
-            this.checkBoxEnableIISComponents = new System.Windows.Forms.CheckBox();
-            this.checkBoxCreateSharedSatSite = new System.Windows.Forms.CheckBox();
-            this.checkBoxFirewall = new System.Windows.Forms.CheckBox();
-            this.checkBoxDisableSuspendUSB = new System.Windows.Forms.CheckBox();
-            this.checkBoxSuspendMonitorAndPC = new System.Windows.Forms.CheckBox();
-            this.checkBoxEnableFastBoot = new System.Windows.Forms.CheckBox();
-            this.checkBoxTemp = new System.Windows.Forms.CheckBox();
-            this.checkBoxSetHostName = new System.Windows.Forms.CheckBox();
-            this.checkBoxCopyCetaBSPDV = new System.Windows.Forms.CheckBox();
-            this.checkBoxInstallMongo = new System.Windows.Forms.CheckBox();
-            this.checkBoxPdvLink = new System.Windows.Forms.CheckBox();
-            this.checkBoxEnableRemoteAcces = new System.Windows.Forms.CheckBox();
-            this.checkBoxInstallComponentsReport = new System.Windows.Forms.CheckBox();
-            this.checkBoxInstallRoboMongo = new System.Windows.Forms.CheckBox();
-            this.checkBoxNeverNotifyUser = new System.Windows.Forms.CheckBox();
-            this.checkBoxAdjustVisualEffects = new System.Windows.Forms.CheckBox();
-            this.checkBoxDisableSuspendPCI = new System.Windows.Forms.CheckBox();
-            this.checkBoxCopyDllsSat = new System.Windows.Forms.CheckBox();
-            this.checkBox17 = new System.Windows.Forms.CheckBox();
-            this.checkBox16 = new System.Windows.Forms.CheckBox();
-            this.checkBox12 = new System.Windows.Forms.CheckBox();
-            this.checkBox19 = new System.Windows.Forms.CheckBox();
-            this.checkBox20 = new System.Windows.Forms.CheckBox();
-            this.checkBox21 = new System.Windows.Forms.CheckBox();
-            this.checkBox1 = new System.Windows.Forms.CheckBox();
+            this.cbDirectorySat = new System.Windows.Forms.CheckBox();
+            this.cbIIS = new System.Windows.Forms.CheckBox();
+            this.cbSite = new System.Windows.Forms.CheckBox();
+            this.cbFirewall = new System.Windows.Forms.CheckBox();
+            this.cbUSB = new System.Windows.Forms.CheckBox();
+            this.cbPCAndMonitor = new System.Windows.Forms.CheckBox();
+            this.cbFastBoot = new System.Windows.Forms.CheckBox();
+            this.cbTemp = new System.Windows.Forms.CheckBox();
+            this.cbHostname = new System.Windows.Forms.CheckBox();
+            this.cbCeltaBSPDV = new System.Windows.Forms.CheckBox();
+            this.cbMongoDB = new System.Windows.Forms.CheckBox();
+            this.cbShortcut = new System.Windows.Forms.CheckBox();
+            this.cbRemoteAcces = new System.Windows.Forms.CheckBox();
+            this.cbComponentsReport = new System.Windows.Forms.CheckBox();
+            this.cbRoboMongo = new System.Windows.Forms.CheckBox();
+            this.cbNeverNotifyUser = new System.Windows.Forms.CheckBox();
+            this.cbBestPerformance = new System.Windows.Forms.CheckBox();
+            this.cbPCI = new System.Windows.Forms.CheckBox();
+            this.cbInitBlocks = new System.Windows.Forms.CheckBox();
+            this.cbTaskManager = new System.Windows.Forms.CheckBox();
+            this.cbUltraVNC = new System.Windows.Forms.CheckBox();
+            this.cbTeamViewer = new System.Windows.Forms.CheckBox();
+            this.cdDeviceManager = new System.Windows.Forms.CheckBox();
+            this.cbDLLs = new System.Windows.Forms.CheckBox();
+            this.cbLogo = new System.Windows.Forms.CheckBox();
+            this.cbIP = new System.Windows.Forms.CheckBox();
             this.richTextBoxResults = new System.Windows.Forms.RichTextBox();
             this.progressBarInstall = new System.Windows.Forms.ProgressBar();
             this.button1 = new System.Windows.Forms.Button();
@@ -62,7 +62,7 @@
             // 
             // buttonConfigurations
             // 
-            this.buttonConfigurations.Location = new System.Drawing.Point(589, 456);
+            this.buttonConfigurations.Location = new System.Drawing.Point(590, 451);
             this.buttonConfigurations.Name = "buttonConfigurations";
             this.buttonConfigurations.Size = new System.Drawing.Size(392, 45);
             this.buttonConfigurations.TabIndex = 0;
@@ -73,329 +73,355 @@
             // flowLayoutPanelConfigurations
             // 
             this.flowLayoutPanelConfigurations.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
-            this.flowLayoutPanelConfigurations.Controls.Add(this.checkBoxCreateSharedSatPath);
-            this.flowLayoutPanelConfigurations.Controls.Add(this.checkBoxEnableIISComponents);
-            this.flowLayoutPanelConfigurations.Controls.Add(this.checkBoxCreateSharedSatSite);
-            this.flowLayoutPanelConfigurations.Controls.Add(this.checkBoxFirewall);
-            this.flowLayoutPanelConfigurations.Controls.Add(this.checkBoxDisableSuspendUSB);
-            this.flowLayoutPanelConfigurations.Controls.Add(this.checkBoxSuspendMonitorAndPC);
-            this.flowLayoutPanelConfigurations.Controls.Add(this.checkBoxEnableFastBoot);
-            this.flowLayoutPanelConfigurations.Controls.Add(this.checkBoxTemp);
-            this.flowLayoutPanelConfigurations.Controls.Add(this.checkBoxSetHostName);
-            this.flowLayoutPanelConfigurations.Controls.Add(this.checkBoxCopyCetaBSPDV);
-            this.flowLayoutPanelConfigurations.Controls.Add(this.checkBoxInstallMongo);
-            this.flowLayoutPanelConfigurations.Controls.Add(this.checkBoxPdvLink);
-            this.flowLayoutPanelConfigurations.Controls.Add(this.checkBoxEnableRemoteAcces);
-            this.flowLayoutPanelConfigurations.Controls.Add(this.checkBoxInstallComponentsReport);
-            this.flowLayoutPanelConfigurations.Controls.Add(this.checkBoxInstallRoboMongo);
-            this.flowLayoutPanelConfigurations.Controls.Add(this.checkBoxNeverNotifyUser);
-            this.flowLayoutPanelConfigurations.Controls.Add(this.checkBoxAdjustVisualEffects);
-            this.flowLayoutPanelConfigurations.Controls.Add(this.checkBoxDisableSuspendPCI);
-            this.flowLayoutPanelConfigurations.Controls.Add(this.checkBoxCopyDllsSat);
-            this.flowLayoutPanelConfigurations.Controls.Add(this.checkBox17);
-            this.flowLayoutPanelConfigurations.Controls.Add(this.checkBox16);
-            this.flowLayoutPanelConfigurations.Controls.Add(this.checkBox12);
-            this.flowLayoutPanelConfigurations.Controls.Add(this.checkBox19);
-            this.flowLayoutPanelConfigurations.Controls.Add(this.checkBox20);
-            this.flowLayoutPanelConfigurations.Controls.Add(this.checkBox21);
-            this.flowLayoutPanelConfigurations.Controls.Add(this.checkBox1);
+            this.flowLayoutPanelConfigurations.Controls.Add(this.cbDirectorySat);
+            this.flowLayoutPanelConfigurations.Controls.Add(this.cbIIS);
+            this.flowLayoutPanelConfigurations.Controls.Add(this.cbSite);
+            this.flowLayoutPanelConfigurations.Controls.Add(this.cbFirewall);
+            this.flowLayoutPanelConfigurations.Controls.Add(this.cbUSB);
+            this.flowLayoutPanelConfigurations.Controls.Add(this.cbPCAndMonitor);
+            this.flowLayoutPanelConfigurations.Controls.Add(this.cbFastBoot);
+            this.flowLayoutPanelConfigurations.Controls.Add(this.cbTemp);
+            this.flowLayoutPanelConfigurations.Controls.Add(this.cbHostname);
+            this.flowLayoutPanelConfigurations.Controls.Add(this.cbCeltaBSPDV);
+            this.flowLayoutPanelConfigurations.Controls.Add(this.cbMongoDB);
+            this.flowLayoutPanelConfigurations.Controls.Add(this.cbShortcut);
+            this.flowLayoutPanelConfigurations.Controls.Add(this.cbRemoteAcces);
+            this.flowLayoutPanelConfigurations.Controls.Add(this.cbComponentsReport);
+            this.flowLayoutPanelConfigurations.Controls.Add(this.cbRoboMongo);
+            this.flowLayoutPanelConfigurations.Controls.Add(this.cbNeverNotifyUser);
+            this.flowLayoutPanelConfigurations.Controls.Add(this.cbBestPerformance);
+            this.flowLayoutPanelConfigurations.Controls.Add(this.cbPCI);
+            this.flowLayoutPanelConfigurations.Controls.Add(this.cbInitBlocks);
+            this.flowLayoutPanelConfigurations.Controls.Add(this.cbTaskManager);
+            this.flowLayoutPanelConfigurations.Controls.Add(this.cbUltraVNC);
+            this.flowLayoutPanelConfigurations.Controls.Add(this.cbTeamViewer);
+            this.flowLayoutPanelConfigurations.Controls.Add(this.cdDeviceManager);
+            this.flowLayoutPanelConfigurations.Controls.Add(this.cbDLLs);
+            this.flowLayoutPanelConfigurations.Controls.Add(this.cbLogo);
+            this.flowLayoutPanelConfigurations.Controls.Add(this.cbIP);
             this.flowLayoutPanelConfigurations.FlowDirection = System.Windows.Forms.FlowDirection.TopDown;
             this.flowLayoutPanelConfigurations.Font = new System.Drawing.Font("Segoe UI", 8F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
-            this.flowLayoutPanelConfigurations.Location = new System.Drawing.Point(12, 21);
+            this.flowLayoutPanelConfigurations.Location = new System.Drawing.Point(11, 3);
+            this.flowLayoutPanelConfigurations.Margin = new System.Windows.Forms.Padding(0);
             this.flowLayoutPanelConfigurations.Name = "flowLayoutPanelConfigurations";
-            this.flowLayoutPanelConfigurations.Size = new System.Drawing.Size(573, 606);
+            this.flowLayoutPanelConfigurations.Size = new System.Drawing.Size(573, 603);
             this.flowLayoutPanelConfigurations.TabIndex = 2;
             // 
-            // checkBoxCreateSharedSatPath
+            // cbDirectorySat
             // 
-            this.checkBoxCreateSharedSatPath.AutoSize = true;
-            this.checkBoxCreateSharedSatPath.Enabled = false;
-            this.checkBoxCreateSharedSatPath.Location = new System.Drawing.Point(3, 3);
-            this.checkBoxCreateSharedSatPath.Name = "checkBoxCreateSharedSatPath";
-            this.checkBoxCreateSharedSatPath.Size = new System.Drawing.Size(259, 17);
-            this.checkBoxCreateSharedSatPath.TabIndex = 1;
-            this.checkBoxCreateSharedSatPath.Text = "Criar o diretório de compartilhamento do SAT";
-            this.checkBoxCreateSharedSatPath.UseVisualStyleBackColor = true;
+            this.cbDirectorySat.AutoSize = true;
+            this.cbDirectorySat.Enabled = false;
+            this.cbDirectorySat.Location = new System.Drawing.Point(3, 3);
+            this.cbDirectorySat.Name = "cbDirectorySat";
+            this.cbDirectorySat.Size = new System.Drawing.Size(259, 17);
+            this.cbDirectorySat.TabIndex = 1;
+            this.cbDirectorySat.Text = "Criar o diretório de compartilhamento do SAT";
+            this.cbDirectorySat.UseVisualStyleBackColor = true;
             // 
-            // checkBoxEnableIISComponents
+            // cbIIS
             // 
-            this.checkBoxEnableIISComponents.AutoSize = true;
-            this.checkBoxEnableIISComponents.Enabled = false;
-            this.checkBoxEnableIISComponents.Location = new System.Drawing.Point(3, 26);
-            this.checkBoxEnableIISComponents.Name = "checkBoxEnableIISComponents";
-            this.checkBoxEnableIISComponents.Size = new System.Drawing.Size(169, 17);
-            this.checkBoxEnableIISComponents.TabIndex = 2;
-            this.checkBoxEnableIISComponents.Text = "Instalar componentes do IIS";
-            this.checkBoxEnableIISComponents.UseVisualStyleBackColor = true;
+            this.cbIIS.AutoSize = true;
+            this.cbIIS.Enabled = false;
+            this.cbIIS.Location = new System.Drawing.Point(3, 26);
+            this.cbIIS.Name = "cbIIS";
+            this.cbIIS.Size = new System.Drawing.Size(169, 17);
+            this.cbIIS.TabIndex = 2;
+            this.cbIIS.Text = "Instalar componentes do IIS";
+            this.cbIIS.UseVisualStyleBackColor = true;
+            this.cbIIS.CheckedChanged += new System.EventHandler(this.cbIIS_CheckedChanged);
             // 
-            // checkBoxCreateSharedSatSite
+            // cbSite
             // 
-            this.checkBoxCreateSharedSatSite.AutoSize = true;
-            this.checkBoxCreateSharedSatSite.Location = new System.Drawing.Point(3, 49);
-            this.checkBoxCreateSharedSatSite.Name = "checkBoxCreateSharedSatSite";
-            this.checkBoxCreateSharedSatSite.Size = new System.Drawing.Size(232, 17);
-            this.checkBoxCreateSharedSatSite.TabIndex = 3;
-            this.checkBoxCreateSharedSatSite.Text = "Criar o site de compartilhamento do SAT";
-            this.checkBoxCreateSharedSatSite.UseVisualStyleBackColor = true;
+            this.cbSite.AutoSize = true;
+            this.cbSite.Location = new System.Drawing.Point(3, 49);
+            this.cbSite.Name = "cbSite";
+            this.cbSite.Size = new System.Drawing.Size(232, 17);
+            this.cbSite.TabIndex = 3;
+            this.cbSite.Text = "Criar o site de compartilhamento do SAT";
+            this.cbSite.UseVisualStyleBackColor = true;
+            this.cbSite.CheckedChanged += new System.EventHandler(this.cbSite_CheckedChanged);
             // 
-            // checkBoxFirewall
+            // cbFirewall
             // 
-            this.checkBoxFirewall.AutoSize = true;
-            this.checkBoxFirewall.Location = new System.Drawing.Point(3, 72);
-            this.checkBoxFirewall.Name = "checkBoxFirewall";
-            this.checkBoxFirewall.Size = new System.Drawing.Size(233, 17);
-            this.checkBoxFirewall.TabIndex = 4;
-            this.checkBoxFirewall.Text = "Configurar o firewall (9092, 27017, PING)";
-            this.checkBoxFirewall.UseVisualStyleBackColor = true;
+            this.cbFirewall.AutoSize = true;
+            this.cbFirewall.Location = new System.Drawing.Point(3, 72);
+            this.cbFirewall.Name = "cbFirewall";
+            this.cbFirewall.Size = new System.Drawing.Size(233, 17);
+            this.cbFirewall.TabIndex = 4;
+            this.cbFirewall.Text = "Configurar o firewall (9092, 27017, PING)";
+            this.cbFirewall.UseVisualStyleBackColor = true;
+            this.cbFirewall.CheckedChanged += new System.EventHandler(this.cbFirewall_CheckedChanged);
             // 
-            // checkBoxDisableSuspendUSB
+            // cbUSB
             // 
-            this.checkBoxDisableSuspendUSB.AutoSize = true;
-            this.checkBoxDisableSuspendUSB.Location = new System.Drawing.Point(3, 95);
-            this.checkBoxDisableSuspendUSB.Name = "checkBoxDisableSuspendUSB";
-            this.checkBoxDisableSuspendUSB.Size = new System.Drawing.Size(203, 17);
-            this.checkBoxDisableSuspendUSB.TabIndex = 5;
-            this.checkBoxDisableSuspendUSB.Text = "Desabilitar suspensão seletiva USB";
-            this.checkBoxDisableSuspendUSB.UseVisualStyleBackColor = true;
+            this.cbUSB.AutoSize = true;
+            this.cbUSB.Location = new System.Drawing.Point(3, 95);
+            this.cbUSB.Name = "cbUSB";
+            this.cbUSB.Size = new System.Drawing.Size(203, 17);
+            this.cbUSB.TabIndex = 5;
+            this.cbUSB.Text = "Desabilitar suspensão seletiva USB";
+            this.cbUSB.UseVisualStyleBackColor = true;
+            this.cbUSB.CheckedChanged += new System.EventHandler(this.cbUSB_CheckedChanged);
             // 
-            // checkBoxSuspendMonitorAndPC
+            // cbPCAndMonitor
             // 
-            this.checkBoxSuspendMonitorAndPC.AutoSize = true;
-            this.checkBoxSuspendMonitorAndPC.Location = new System.Drawing.Point(3, 118);
-            this.checkBoxSuspendMonitorAndPC.Name = "checkBoxSuspendMonitorAndPC";
-            this.checkBoxSuspendMonitorAndPC.Size = new System.Drawing.Size(337, 17);
-            this.checkBoxSuspendMonitorAndPC.TabIndex = 6;
-            this.checkBoxSuspendMonitorAndPC.Text = "Desabilitar tempo para suspensão do monitor e computador";
-            this.checkBoxSuspendMonitorAndPC.UseVisualStyleBackColor = true;
+            this.cbPCAndMonitor.AutoSize = true;
+            this.cbPCAndMonitor.Location = new System.Drawing.Point(3, 118);
+            this.cbPCAndMonitor.Name = "cbPCAndMonitor";
+            this.cbPCAndMonitor.Size = new System.Drawing.Size(337, 17);
+            this.cbPCAndMonitor.TabIndex = 6;
+            this.cbPCAndMonitor.Text = "Desabilitar tempo para suspensão do monitor e computador";
+            this.cbPCAndMonitor.UseVisualStyleBackColor = true;
+            this.cbPCAndMonitor.CheckedChanged += new System.EventHandler(this.cbPCAndMonitor_CheckedChanged);
             // 
-            // checkBoxEnableFastBoot
+            // cbFastBoot
             // 
-            this.checkBoxEnableFastBoot.AutoSize = true;
-            this.checkBoxEnableFastBoot.Location = new System.Drawing.Point(3, 141);
-            this.checkBoxEnableFastBoot.Name = "checkBoxEnableFastBoot";
-            this.checkBoxEnableFastBoot.Size = new System.Drawing.Size(225, 17);
-            this.checkBoxEnableFastBoot.TabIndex = 24;
-            this.checkBoxEnableFastBoot.Text = "Ligar inicialiazação rápida do windows";
-            this.checkBoxEnableFastBoot.UseVisualStyleBackColor = true;
+            this.cbFastBoot.AutoSize = true;
+            this.cbFastBoot.Location = new System.Drawing.Point(3, 141);
+            this.cbFastBoot.Name = "cbFastBoot";
+            this.cbFastBoot.Size = new System.Drawing.Size(225, 17);
+            this.cbFastBoot.TabIndex = 24;
+            this.cbFastBoot.Text = "Ligar inicialiazação rápida do windows";
+            this.cbFastBoot.UseVisualStyleBackColor = true;
+            this.cbFastBoot.CheckedChanged += new System.EventHandler(this.cbFastBoot_CheckedChanged);
             // 
-            // checkBoxTemp
+            // cbTemp
             // 
-            this.checkBoxTemp.AutoSize = true;
-            this.checkBoxTemp.Location = new System.Drawing.Point(3, 164);
-            this.checkBoxTemp.Name = "checkBoxTemp";
-            this.checkBoxTemp.Size = new System.Drawing.Size(134, 17);
-            this.checkBoxTemp.TabIndex = 7;
-            this.checkBoxTemp.Text = "Criar a pasta C:\\Temp";
-            this.checkBoxTemp.UseVisualStyleBackColor = true;
+            this.cbTemp.AutoSize = true;
+            this.cbTemp.Location = new System.Drawing.Point(3, 164);
+            this.cbTemp.Name = "cbTemp";
+            this.cbTemp.Size = new System.Drawing.Size(134, 17);
+            this.cbTemp.TabIndex = 7;
+            this.cbTemp.Text = "Criar a pasta C:\\Temp";
+            this.cbTemp.UseVisualStyleBackColor = true;
+            this.cbTemp.CheckedChanged += new System.EventHandler(this.cbTemp_CheckedChanged);
             // 
-            // checkBoxSetHostName
+            // cbHostname
             // 
-            this.checkBoxSetHostName.AutoSize = true;
-            this.checkBoxSetHostName.Location = new System.Drawing.Point(3, 187);
-            this.checkBoxSetHostName.Name = "checkBoxSetHostName";
-            this.checkBoxSetHostName.Size = new System.Drawing.Size(228, 17);
-            this.checkBoxSetHostName.TabIndex = 8;
-            this.checkBoxSetHostName.Text = "Hostname conforme o número do caixa";
-            this.checkBoxSetHostName.UseVisualStyleBackColor = true;
+            this.cbHostname.AutoSize = true;
+            this.cbHostname.Location = new System.Drawing.Point(3, 187);
+            this.cbHostname.Name = "cbHostname";
+            this.cbHostname.Size = new System.Drawing.Size(228, 17);
+            this.cbHostname.TabIndex = 8;
+            this.cbHostname.Text = "Hostname conforme o número do caixa";
+            this.cbHostname.UseVisualStyleBackColor = true;
+            this.cbHostname.CheckedChanged += new System.EventHandler(this.cbHostname_CheckedChanged);
             // 
-            // checkBoxCopyCetaBSPDV
+            // cbCeltaBSPDV
             // 
-            this.checkBoxCopyCetaBSPDV.AutoSize = true;
-            this.checkBoxCopyCetaBSPDV.Location = new System.Drawing.Point(3, 210);
-            this.checkBoxCopyCetaBSPDV.Name = "checkBoxCopyCetaBSPDV";
-            this.checkBoxCopyCetaBSPDV.Size = new System.Drawing.Size(238, 17);
-            this.checkBoxCopyCetaBSPDV.TabIndex = 9;
-            this.checkBoxCopyCetaBSPDV.Text = "Copiar a pasta CeltaBSPDV para o disco C";
-            this.checkBoxCopyCetaBSPDV.UseVisualStyleBackColor = true;
+            this.cbCeltaBSPDV.AutoSize = true;
+            this.cbCeltaBSPDV.Location = new System.Drawing.Point(3, 210);
+            this.cbCeltaBSPDV.Name = "cbCeltaBSPDV";
+            this.cbCeltaBSPDV.Size = new System.Drawing.Size(238, 17);
+            this.cbCeltaBSPDV.TabIndex = 9;
+            this.cbCeltaBSPDV.Text = "Copiar a pasta CeltaBSPDV para o disco C";
+            this.cbCeltaBSPDV.UseVisualStyleBackColor = true;
+            this.cbCeltaBSPDV.CheckedChanged += new System.EventHandler(this.cbCeltaBSPDV_CheckedChanged);
             // 
-            // checkBoxInstallMongo
+            // cbMongoDB
             // 
-            this.checkBoxInstallMongo.AutoSize = true;
-            this.checkBoxInstallMongo.Location = new System.Drawing.Point(3, 233);
-            this.checkBoxInstallMongo.Name = "checkBoxInstallMongo";
-            this.checkBoxInstallMongo.Size = new System.Drawing.Size(129, 17);
-            this.checkBoxInstallMongo.TabIndex = 10;
-            this.checkBoxInstallMongo.Text = "Instalar o MongoDB";
-            this.checkBoxInstallMongo.UseVisualStyleBackColor = true;
+            this.cbMongoDB.AutoSize = true;
+            this.cbMongoDB.Location = new System.Drawing.Point(3, 233);
+            this.cbMongoDB.Name = "cbMongoDB";
+            this.cbMongoDB.Size = new System.Drawing.Size(129, 17);
+            this.cbMongoDB.TabIndex = 10;
+            this.cbMongoDB.Text = "Instalar o MongoDB";
+            this.cbMongoDB.UseVisualStyleBackColor = true;
+            this.cbMongoDB.CheckedChanged += new System.EventHandler(this.cbMongoDB_CheckedChanged);
             // 
-            // checkBoxPdvLink
+            // cbShortcut
             // 
-            this.checkBoxPdvLink.AutoSize = true;
-            this.checkBoxPdvLink.Location = new System.Drawing.Point(3, 256);
-            this.checkBoxPdvLink.Name = "checkBoxPdvLink";
-            this.checkBoxPdvLink.Size = new System.Drawing.Size(460, 17);
-            this.checkBoxPdvLink.TabIndex = 11;
-            this.checkBoxPdvLink.Text = "Adicionar atalho do PDV na pasta de inicialização do windows e na área de trabalh" +
+            this.cbShortcut.AutoSize = true;
+            this.cbShortcut.Location = new System.Drawing.Point(3, 256);
+            this.cbShortcut.Name = "cbShortcut";
+            this.cbShortcut.Size = new System.Drawing.Size(460, 17);
+            this.cbShortcut.TabIndex = 11;
+            this.cbShortcut.Text = "Adicionar atalho do PDV na pasta de inicialização do windows e na área de trabalh" +
     "o";
-            this.checkBoxPdvLink.UseVisualStyleBackColor = true;
+            this.cbShortcut.UseVisualStyleBackColor = true;
+            this.cbShortcut.CheckedChanged += new System.EventHandler(this.cbShortcut_CheckedChanged);
             // 
-            // checkBoxEnableRemoteAcces
+            // cbRemoteAcces
             // 
-            this.checkBoxEnableRemoteAcces.AutoSize = true;
-            this.checkBoxEnableRemoteAcces.Location = new System.Drawing.Point(3, 279);
-            this.checkBoxEnableRemoteAcces.Name = "checkBoxEnableRemoteAcces";
-            this.checkBoxEnableRemoteAcces.Size = new System.Drawing.Size(249, 17);
-            this.checkBoxEnableRemoteAcces.TabIndex = 12;
-            this.checkBoxEnableRemoteAcces.Text = "Habilitar acesso remoto ao banco de dados";
-            this.checkBoxEnableRemoteAcces.UseVisualStyleBackColor = true;
+            this.cbRemoteAcces.AutoSize = true;
+            this.cbRemoteAcces.Location = new System.Drawing.Point(3, 279);
+            this.cbRemoteAcces.Name = "cbRemoteAcces";
+            this.cbRemoteAcces.Size = new System.Drawing.Size(249, 17);
+            this.cbRemoteAcces.TabIndex = 12;
+            this.cbRemoteAcces.Text = "Habilitar acesso remoto ao banco de dados";
+            this.cbRemoteAcces.UseVisualStyleBackColor = true;
+            this.cbRemoteAcces.CheckedChanged += new System.EventHandler(this.cbRemoteAcces_CheckedChanged);
             // 
-            // checkBoxInstallComponentsReport
+            // cbComponentsReport
             // 
-            this.checkBoxInstallComponentsReport.AutoSize = true;
-            this.checkBoxInstallComponentsReport.Location = new System.Drawing.Point(3, 302);
-            this.checkBoxInstallComponentsReport.Name = "checkBoxInstallComponentsReport";
-            this.checkBoxInstallComponentsReport.Size = new System.Drawing.Size(171, 17);
-            this.checkBoxInstallComponentsReport.TabIndex = 13;
-            this.checkBoxInstallComponentsReport.Text = "Instalar Components Report";
-            this.checkBoxInstallComponentsReport.UseVisualStyleBackColor = true;
+            this.cbComponentsReport.AutoSize = true;
+            this.cbComponentsReport.Location = new System.Drawing.Point(3, 302);
+            this.cbComponentsReport.Name = "cbComponentsReport";
+            this.cbComponentsReport.Size = new System.Drawing.Size(171, 17);
+            this.cbComponentsReport.TabIndex = 13;
+            this.cbComponentsReport.Text = "Instalar Components Report";
+            this.cbComponentsReport.UseVisualStyleBackColor = true;
+            this.cbComponentsReport.CheckedChanged += new System.EventHandler(this.cbComponentsReport_CheckedChanged);
             // 
-            // checkBoxInstallRoboMongo
+            // cbRoboMongo
             // 
-            this.checkBoxInstallRoboMongo.AutoSize = true;
-            this.checkBoxInstallRoboMongo.Location = new System.Drawing.Point(3, 325);
-            this.checkBoxInstallRoboMongo.Name = "checkBoxInstallRoboMongo";
-            this.checkBoxInstallRoboMongo.Size = new System.Drawing.Size(143, 17);
-            this.checkBoxInstallRoboMongo.TabIndex = 25;
-            this.checkBoxInstallRoboMongo.Text = "Instalar o RoboMongo";
-            this.checkBoxInstallRoboMongo.UseVisualStyleBackColor = true;
+            this.cbRoboMongo.AutoSize = true;
+            this.cbRoboMongo.Location = new System.Drawing.Point(3, 325);
+            this.cbRoboMongo.Name = "cbRoboMongo";
+            this.cbRoboMongo.Size = new System.Drawing.Size(143, 17);
+            this.cbRoboMongo.TabIndex = 25;
+            this.cbRoboMongo.Text = "Instalar o RoboMongo";
+            this.cbRoboMongo.UseVisualStyleBackColor = true;
+            this.cbRoboMongo.CheckedChanged += new System.EventHandler(this.cbRoboMongo_CheckedChanged);
             // 
-            // checkBoxNeverNotifyUser
+            // cbNeverNotifyUser
             // 
-            this.checkBoxNeverNotifyUser.AutoSize = true;
-            this.checkBoxNeverNotifyUser.Location = new System.Drawing.Point(3, 348);
-            this.checkBoxNeverNotifyUser.Name = "checkBoxNeverNotifyUser";
-            this.checkBoxNeverNotifyUser.Size = new System.Drawing.Size(298, 17);
-            this.checkBoxNeverNotifyUser.TabIndex = 14;
-            this.checkBoxNeverNotifyUser.Text = "Configurar controle de usuários para nunca notificar";
-            this.checkBoxNeverNotifyUser.UseVisualStyleBackColor = true;
+            this.cbNeverNotifyUser.AutoSize = true;
+            this.cbNeverNotifyUser.Location = new System.Drawing.Point(3, 348);
+            this.cbNeverNotifyUser.Name = "cbNeverNotifyUser";
+            this.cbNeverNotifyUser.Size = new System.Drawing.Size(298, 17);
+            this.cbNeverNotifyUser.TabIndex = 14;
+            this.cbNeverNotifyUser.Text = "Configurar controle de usuários para nunca notificar";
+            this.cbNeverNotifyUser.UseVisualStyleBackColor = true;
+            this.cbNeverNotifyUser.CheckedChanged += new System.EventHandler(this.cbNeverNotifyUser_CheckedChanged);
             // 
-            // checkBoxAdjustVisualEffects
+            // cbBestPerformance
             // 
-            this.checkBoxAdjustVisualEffects.AutoSize = true;
-            this.checkBoxAdjustVisualEffects.Location = new System.Drawing.Point(3, 371);
-            this.checkBoxAdjustVisualEffects.Name = "checkBoxAdjustVisualEffects";
-            this.checkBoxAdjustVisualEffects.Size = new System.Drawing.Size(371, 17);
-            this.checkBoxAdjustVisualEffects.TabIndex = 15;
-            this.checkBoxAdjustVisualEffects.Text = "Selecionar opções de desempenho para obter melhor desempenho";
-            this.checkBoxAdjustVisualEffects.UseVisualStyleBackColor = true;
+            this.cbBestPerformance.AutoSize = true;
+            this.cbBestPerformance.Location = new System.Drawing.Point(3, 371);
+            this.cbBestPerformance.Name = "cbBestPerformance";
+            this.cbBestPerformance.Size = new System.Drawing.Size(371, 17);
+            this.cbBestPerformance.TabIndex = 15;
+            this.cbBestPerformance.Text = "Selecionar opções de desempenho para obter melhor desempenho";
+            this.cbBestPerformance.UseVisualStyleBackColor = true;
+            this.cbBestPerformance.CheckedChanged += new System.EventHandler(this.cbBestPerformance_CheckedChanged);
             // 
-            // checkBoxDisableSuspendPCI
+            // cbPCI
             // 
-            this.checkBoxDisableSuspendPCI.AutoSize = true;
-            this.checkBoxDisableSuspendPCI.Location = new System.Drawing.Point(3, 394);
-            this.checkBoxDisableSuspendPCI.Name = "checkBoxDisableSuspendPCI";
-            this.checkBoxDisableSuspendPCI.Size = new System.Drawing.Size(199, 17);
-            this.checkBoxDisableSuspendPCI.TabIndex = 23;
-            this.checkBoxDisableSuspendPCI.Text = "Desabilitar suspensão seletiva PCI";
-            this.checkBoxDisableSuspendPCI.UseVisualStyleBackColor = true;
+            this.cbPCI.AutoSize = true;
+            this.cbPCI.Location = new System.Drawing.Point(3, 394);
+            this.cbPCI.Name = "cbPCI";
+            this.cbPCI.Size = new System.Drawing.Size(199, 17);
+            this.cbPCI.TabIndex = 23;
+            this.cbPCI.Text = "Desabilitar suspensão seletiva PCI";
+            this.cbPCI.UseVisualStyleBackColor = true;
+            this.cbPCI.CheckedChanged += new System.EventHandler(this.cbPCI_CheckedChanged);
             // 
-            // checkBoxCopyDllsSat
+            // cbInitBlocks
             // 
-            this.checkBoxCopyDllsSat.AutoSize = true;
-            this.checkBoxCopyDllsSat.Location = new System.Drawing.Point(3, 417);
-            this.checkBoxCopyDllsSat.Name = "checkBoxCopyDllsSat";
-            this.checkBoxCopyDllsSat.Size = new System.Drawing.Size(138, 17);
-            this.checkBoxCopyDllsSat.TabIndex = 26;
-            this.checkBoxCopyDllsSat.Text = "Copiar as DLLs do SAT";
-            this.checkBoxCopyDllsSat.UseVisualStyleBackColor = true;
+            this.cbInitBlocks.AutoSize = true;
+            this.cbInitBlocks.Location = new System.Drawing.Point(3, 417);
+            this.cbInitBlocks.Name = "cbInitBlocks";
+            this.cbInitBlocks.Size = new System.Drawing.Size(248, 17);
+            this.cbInitBlocks.TabIndex = 16;
+            this.cbInitBlocks.Text = "Desativar blocos dinâmicos do menu iniciar";
+            this.cbInitBlocks.UseVisualStyleBackColor = true;
+            this.cbInitBlocks.CheckedChanged += new System.EventHandler(this.cbInitBlocks_CheckedChanged);
             // 
-            // checkBox17
+            // cbTaskManager
             // 
-            this.checkBox17.AutoSize = true;
-            this.checkBox17.Location = new System.Drawing.Point(3, 440);
-            this.checkBox17.Name = "checkBox17";
-            this.checkBox17.Size = new System.Drawing.Size(248, 17);
-            this.checkBox17.TabIndex = 16;
-            this.checkBox17.Text = "Desativar blocos dinâmicos do menu iniciar";
-            this.checkBox17.UseVisualStyleBackColor = true;
-            // 
-            // checkBox16
-            // 
-            this.checkBox16.AutoSize = true;
-            this.checkBox16.Location = new System.Drawing.Point(3, 463);
-            this.checkBox16.Name = "checkBox16";
-            this.checkBox16.Size = new System.Drawing.Size(466, 17);
-            this.checkBox16.TabIndex = 17;
-            this.checkBox16.Text = "Desativar a inicialização automática de APPs desnecessários no gerenciador de tar" +
+            this.cbTaskManager.AutoSize = true;
+            this.cbTaskManager.Location = new System.Drawing.Point(3, 440);
+            this.cbTaskManager.Name = "cbTaskManager";
+            this.cbTaskManager.Size = new System.Drawing.Size(466, 17);
+            this.cbTaskManager.TabIndex = 17;
+            this.cbTaskManager.Text = "Desativar a inicialização automática de APPs desnecessários no gerenciador de tar" +
     "efas";
-            this.checkBox16.UseVisualStyleBackColor = true;
+            this.cbTaskManager.UseVisualStyleBackColor = true;
+            this.cbTaskManager.CheckedChanged += new System.EventHandler(this.cbTaskManager_CheckedChanged);
             // 
-            // checkBox12
+            // cbUltraVNC
             // 
-            this.checkBox12.AutoSize = true;
-            this.checkBox12.Location = new System.Drawing.Point(3, 486);
-            this.checkBox12.Name = "checkBox12";
-            this.checkBox12.Size = new System.Drawing.Size(220, 17);
-            this.checkBox12.TabIndex = 18;
-            this.checkBox12.Text = "UltraVNC instalado com a senha \"123\"";
-            this.checkBox12.UseVisualStyleBackColor = true;
+            this.cbUltraVNC.AutoSize = true;
+            this.cbUltraVNC.Location = new System.Drawing.Point(3, 463);
+            this.cbUltraVNC.Name = "cbUltraVNC";
+            this.cbUltraVNC.Size = new System.Drawing.Size(220, 17);
+            this.cbUltraVNC.TabIndex = 18;
+            this.cbUltraVNC.Text = "UltraVNC instalado com a senha \"123\"";
+            this.cbUltraVNC.UseVisualStyleBackColor = true;
+            this.cbUltraVNC.CheckedChanged += new System.EventHandler(this.cbUltraVNC_CheckedChanged);
             // 
-            // checkBox19
+            // cbTeamViewer
             // 
-            this.checkBox19.AutoSize = true;
-            this.checkBox19.Location = new System.Drawing.Point(3, 509);
-            this.checkBox19.Name = "checkBox19";
-            this.checkBox19.Size = new System.Drawing.Size(133, 17);
-            this.checkBox19.TabIndex = 19;
-            this.checkBox19.Text = "Adicionar o logotipo";
-            this.checkBox19.UseVisualStyleBackColor = true;
+            this.cbTeamViewer.AutoSize = true;
+            this.cbTeamViewer.Location = new System.Drawing.Point(3, 486);
+            this.cbTeamViewer.Name = "cbTeamViewer";
+            this.cbTeamViewer.Size = new System.Drawing.Size(273, 17);
+            this.cbTeamViewer.TabIndex = 21;
+            this.cbTeamViewer.Text = "Instalar o team viewer e fixar a senha \"CeltaPDV\"";
+            this.cbTeamViewer.UseVisualStyleBackColor = true;
+            this.cbTeamViewer.CheckedChanged += new System.EventHandler(this.cbTeamViewer_CheckedChanged);
             // 
-            // checkBox20
+            // cdDeviceManager
             // 
-            this.checkBox20.AutoSize = true;
-            this.checkBox20.Location = new System.Drawing.Point(3, 532);
-            this.checkBox20.Name = "checkBox20";
-            this.checkBox20.Size = new System.Drawing.Size(136, 17);
-            this.checkBox20.TabIndex = 20;
-            this.checkBox20.Text = "Fixar o IP da máquina";
-            this.checkBox20.UseVisualStyleBackColor = true;
-            // 
-            // checkBox21
-            // 
-            this.checkBox21.AutoSize = true;
-            this.checkBox21.Location = new System.Drawing.Point(3, 555);
-            this.checkBox21.Name = "checkBox21";
-            this.checkBox21.Size = new System.Drawing.Size(273, 17);
-            this.checkBox21.TabIndex = 21;
-            this.checkBox21.Text = "Instalar o team viewer e fixar a senha \"CeltaPDV\"";
-            this.checkBox21.UseVisualStyleBackColor = true;
-            // 
-            // checkBox1
-            // 
-            this.checkBox1.AutoSize = true;
-            this.checkBox1.Location = new System.Drawing.Point(3, 578);
-            this.checkBox1.Name = "checkBox1";
-            this.checkBox1.Size = new System.Drawing.Size(480, 17);
-            this.checkBox1.TabIndex = 27;
-            this.checkBox1.Text = "Gerenciador de dispositivos - não permitir desativar dispositivos USB e interface" +
+            this.cdDeviceManager.AutoSize = true;
+            this.cdDeviceManager.Location = new System.Drawing.Point(3, 509);
+            this.cdDeviceManager.Name = "cdDeviceManager";
+            this.cdDeviceManager.Size = new System.Drawing.Size(480, 17);
+            this.cdDeviceManager.TabIndex = 27;
+            this.cdDeviceManager.Text = "Gerenciador de dispositivos - não permitir desativar dispositivos USB e interface" +
     " humana";
-            this.checkBox1.UseVisualStyleBackColor = true;
+            this.cdDeviceManager.UseVisualStyleBackColor = true;
+            this.cdDeviceManager.CheckedChanged += new System.EventHandler(this.cdDeviceManager_CheckedChanged);
+            // 
+            // cbDLLs
+            // 
+            this.cbDLLs.AutoSize = true;
+            this.cbDLLs.Location = new System.Drawing.Point(3, 532);
+            this.cbDLLs.Name = "cbDLLs";
+            this.cbDLLs.Size = new System.Drawing.Size(138, 17);
+            this.cbDLLs.TabIndex = 26;
+            this.cbDLLs.Text = "Copiar as DLLs do SAT";
+            this.cbDLLs.UseVisualStyleBackColor = true;
+            this.cbDLLs.CheckedChanged += new System.EventHandler(this.cbDLLs_CheckedChanged);
+            // 
+            // cbLogo
+            // 
+            this.cbLogo.AutoSize = true;
+            this.cbLogo.Location = new System.Drawing.Point(3, 555);
+            this.cbLogo.Name = "cbLogo";
+            this.cbLogo.Size = new System.Drawing.Size(133, 17);
+            this.cbLogo.TabIndex = 19;
+            this.cbLogo.Text = "Adicionar o logotipo";
+            this.cbLogo.UseVisualStyleBackColor = true;
+            this.cbLogo.CheckedChanged += new System.EventHandler(this.cbLogo_CheckedChanged);
+            // 
+            // cbIP
+            // 
+            this.cbIP.AutoSize = true;
+            this.cbIP.Location = new System.Drawing.Point(3, 578);
+            this.cbIP.Name = "cbIP";
+            this.cbIP.Size = new System.Drawing.Size(136, 17);
+            this.cbIP.TabIndex = 20;
+            this.cbIP.Text = "Fixar o IP da máquina";
+            this.cbIP.UseVisualStyleBackColor = true;
+            this.cbIP.CheckedChanged += new System.EventHandler(this.cbIP_CheckedChanged);
             // 
             // richTextBoxResults
             // 
             this.richTextBoxResults.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
             this.richTextBoxResults.EnableAutoDragDrop = true;
-            this.richTextBoxResults.Location = new System.Drawing.Point(589, 21);
+            this.richTextBoxResults.Location = new System.Drawing.Point(590, 6);
             this.richTextBoxResults.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
             this.richTextBoxResults.Name = "richTextBoxResults";
             this.richTextBoxResults.ReadOnly = true;
             this.richTextBoxResults.ScrollBars = System.Windows.Forms.RichTextBoxScrollBars.Vertical;
-            this.richTextBoxResults.Size = new System.Drawing.Size(386, 372);
+            this.richTextBoxResults.Size = new System.Drawing.Size(392, 373);
             this.richTextBoxResults.TabIndex = 23;
             this.richTextBoxResults.Text = "";
             this.richTextBoxResults.TextChanged += new System.EventHandler(this.richTextBoxResults_TextChanged);
             // 
             // progressBarInstall
             // 
-            this.progressBarInstall.Location = new System.Drawing.Point(589, 401);
+            this.progressBarInstall.Location = new System.Drawing.Point(590, 396);
             this.progressBarInstall.Name = "progressBarInstall";
-            this.progressBarInstall.Size = new System.Drawing.Size(392, 42);
+            this.progressBarInstall.Size = new System.Drawing.Size(391, 42);
             this.progressBarInstall.TabIndex = 3;
             this.progressBarInstall.Visible = false;
             // 
             // button1
             // 
-            this.button1.Location = new System.Drawing.Point(589, 517);
+            this.button1.Location = new System.Drawing.Point(590, 511);
             this.button1.Name = "button1";
             this.button1.Size = new System.Drawing.Size(392, 41);
             this.button1.TabIndex = 24;
@@ -406,9 +432,9 @@
             // labelDllsSat
             // 
             this.labelDllsSat.Font = new System.Drawing.Font("Segoe UI", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
-            this.labelDllsSat.Location = new System.Drawing.Point(590, 575);
+            this.labelDllsSat.Location = new System.Drawing.Point(590, 557);
             this.labelDllsSat.Name = "labelDllsSat";
-            this.labelDllsSat.Size = new System.Drawing.Size(389, 52);
+            this.labelDllsSat.Size = new System.Drawing.Size(389, 49);
             this.labelDllsSat.TabIndex = 25;
             this.labelDllsSat.Text = "Clique aqui para selecionar a pasta onde estão as DLLs do SAT e distrubuir nas pa" +
     "stas necessárias";
@@ -420,7 +446,7 @@
             this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 15F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.AutoSize = true;
-            this.ClientSize = new System.Drawing.Size(991, 634);
+            this.ClientSize = new System.Drawing.Size(986, 608);
             this.Controls.Add(this.labelDllsSat);
             this.Controls.Add(this.button1);
             this.Controls.Add(this.progressBarInstall);
@@ -439,38 +465,38 @@
         }
 
         #endregion
-        private CheckBox checkBox16;
-        private CheckBox checkBox17;
-        private CheckBox checkBox12;
-        private CheckBox checkBox19;
-        private CheckBox checkBox20;
-        private CheckBox checkBox21;
+        private CheckBox cbTaskManager;
+        private CheckBox cbInitBlocks;
+        private CheckBox cbUltraVNC;
+        private CheckBox cbLogo;
+        private CheckBox cbIP;
+        private CheckBox cbTeamViewer;
         internal FlowLayoutPanel flowLayoutPanelConfigurations;
         public RichTextBox richTextBoxResults;
-        public CheckBox checkBoxCopyCetaBSPDV;
-        public CheckBox checkBoxPdvLink;
-        public CheckBox checkBoxEnableRemoteAcces;
-        public CheckBox checkBoxInstallMongo;
-        public CheckBox checkBoxFirewall;
-        public CheckBox checkBoxDisableSuspendUSB;
-        public CheckBox checkBoxSuspendMonitorAndPC;
-        public CheckBox checkBoxTemp;
-        public CheckBox checkBoxCreateSharedSatPath;
-        public CheckBox checkBoxEnableIISComponents;
-        public CheckBox checkBoxInstallComponentsReport;
-        public CheckBox checkBoxCreateSharedSatSite;
-        public CheckBox checkBoxAdjustVisualEffects;
-        public CheckBox checkBoxNeverNotifyUser;
-        public CheckBox checkBoxSetHostName;
+        public CheckBox cbCeltaBSPDV;
+        public CheckBox cbShortcut;
+        public CheckBox cbRemoteAcces;
+        public CheckBox cbMongoDB;
+        public CheckBox cbFirewall;
+        public CheckBox cbUSB;
+        public CheckBox cbPCAndMonitor;
+        public CheckBox cbTemp;
+        public CheckBox cbDirectorySat;
+        public CheckBox cbIIS;
+        public CheckBox cbComponentsReport;
+        public CheckBox cbSite;
+        public CheckBox cbBestPerformance;
+        public CheckBox cbNeverNotifyUser;
+        public CheckBox cbHostname;
         private Button button1;
-        public CheckBox checkBoxEnableFastBoot;
-        public CheckBox checkBoxDisableSuspendPCI;
-        public CheckBox checkBoxInstallRoboMongo;
+        public CheckBox cbFastBoot;
+        public CheckBox cbPCI;
+        public CheckBox cbRoboMongo;
         public ProgressBar progressBarInstall;
         public Button buttonConfigurations;
         private FolderBrowserDialog folderBrowserDialog1;
         private Label labelDllsSat;
-        private CheckBox checkBoxCopyDllsSat;
-        private CheckBox checkBox1;
+        private CheckBox cbDLLs;
+        private CheckBox cdDeviceManager;
     }
 }

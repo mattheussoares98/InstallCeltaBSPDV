@@ -20,7 +20,7 @@ namespace InstallCeltaBSPDV.Configurations {
                 await download.downloadFileTaskAsync("deployment.zip", "http://177.103.179.36/downloads/lastversion/deployment.zip");
                 await createPathSharedSat();
             } else {
-                enable.checkBoxCreateSharedSatPath.Checked = true;
+                enable.cbDirectorySat.Checked = true;
             }
             await enableIISFeatures();
             await createSiteIIS();
@@ -32,24 +32,24 @@ namespace InstallCeltaBSPDV.Configurations {
             enable.progressBarInstall.Style = ProgressBarStyle.Continuous;
             enable.progressBarInstall.MarqueeAnimationSpeed = 0;
             enable.progressBarInstall.Visible = false;
-            enable.checkBoxFirewall.Enabled = true;
-            enable.checkBoxDisableSuspendUSB.Enabled = true;
-            enable.checkBoxSuspendMonitorAndPC.Enabled = true;
-            enable.checkBoxEnableFastBoot.Enabled = true;
-            enable.checkBoxTemp.Enabled = true;
-            enable.checkBoxSetHostName.Enabled = true;
-            enable.checkBoxCopyCetaBSPDV.Enabled = true;
-            enable.checkBoxPdvLink.Enabled = true;
-            enable.checkBoxInstallMongo.Enabled = true;
-            enable.checkBoxEnableRemoteAcces.Enabled = true;
-            enable.checkBoxInstallComponentsReport.Enabled = true;
-            enable.checkBoxCreateSharedSatSite.Enabled = true;
+            enable.cbFirewall.Enabled = true;
+            enable.cbUSB.Enabled = true;
+            enable.cbPCAndMonitor.Enabled = true;
+            enable.cbFastBoot.Enabled = true;
+            enable.cbTemp.Enabled = true;
+            enable.cbHostname.Enabled = true;
+            enable.cbCeltaBSPDV.Enabled = true;
+            enable.cbShortcut.Enabled = true;
+            enable.cbMongoDB.Enabled = true;
+            enable.cbRemoteAcces.Enabled = true;
+            enable.cbComponentsReport.Enabled = true;
+            enable.cbSite.Enabled = true;
             enable.ControlBox = true;
             #endregion
 
         }
         private async Task createSiteIIS() {
-            if(enable.checkBoxCreateSharedSatSite.Checked) {
+            if(enable.cbSite.Checked) {
                 return;
             }
             //Task.Delay(20000).Wait();
@@ -96,11 +96,11 @@ namespace InstallCeltaBSPDV.Configurations {
                 MessageBox.Show($"Erro para criar o site de compartilhamento do SAT no IIS");
             }
 
-            enable.checkBoxCreateSharedSatSite.Checked = true;
+            enable.cbSite.Checked = true;
             enable.richTextBoxResults.Text += "O site foi criado com sucesso\n\n";
         }
         private async Task createPathSharedSat() {
-            if(enable.checkBoxCreateSharedSatPath.Checked) {
+            if(enable.cbDirectorySat.Checked) {
                 return;
             }
             #region directoryes
@@ -190,7 +190,7 @@ namespace InstallCeltaBSPDV.Configurations {
                 }
 
                 if(webConfig && sharedPath) {
-                    enable.checkBoxCreateSharedSatPath.Checked = true;
+                    enable.cbDirectorySat.Checked = true;
                     enable.richTextBoxResults.Text += "Diretório de compartilhamento do SAT criado com sucesso\n\n";
                 } else {
                     enable.richTextBoxResults.Text += "Ocorreu erro para criar o site de compartilhamento do SAT\n\n";
@@ -223,7 +223,7 @@ namespace InstallCeltaBSPDV.Configurations {
         }
 
         private async Task enableIISFeatures() {
-            if(enable.checkBoxEnableIISComponents.Checked == true) {
+            if(enable.cbIIS.Checked == true) {
                 return;
             }
             enable.richTextBoxResults.Text += "Adicionando os recursos do IIS. Esse processo pode ser demorado\n\n";
@@ -269,7 +269,7 @@ namespace InstallCeltaBSPDV.Configurations {
                 MessageBox.Show(ex.Message);
             }
             enable.richTextBoxResults.Text += "Os recursos do IIS foram instalados\n\n";
-            enable.checkBoxEnableIISComponents.Checked = true;
+            enable.cbIIS.Checked = true;
         }
     }
 }

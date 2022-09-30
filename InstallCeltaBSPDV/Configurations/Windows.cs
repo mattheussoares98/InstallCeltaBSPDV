@@ -30,7 +30,7 @@ namespace InstallCeltaBSPDV.Configurations
         }
 
         public void openPowerCfg() {
-            if(enable.checkBoxDisableSuspendPCI.Checked) {
+            if(enable.cbPCI.Checked) {
                 return;
             }
             var openCommand = new ProcessStartInfo("cmd", $"/c control.exe powercfg.cpl,,3");
@@ -60,7 +60,7 @@ namespace InstallCeltaBSPDV.Configurations
         }
 
         public async Task movePdvPath() {
-            if(enable.checkBoxCopyCetaBSPDV.Checked) {
+            if(enable.cbCeltaBSPDV.Checked) {
                 return;
             }
 
@@ -71,7 +71,7 @@ namespace InstallCeltaBSPDV.Configurations
 
             if(Directory.Exists(Download.cCeltabspdv)) {
                 enable.richTextBoxResults.Text += $"Como o diretório {Download.cCeltabspdv} já existe, não fará a cópia da pasta para o diretório\n\n";
-                enable.checkBoxCopyCetaBSPDV.Checked = true;
+                enable.cbCeltaBSPDV.Checked = true;
                 return;
             }
 
@@ -85,7 +85,7 @@ namespace InstallCeltaBSPDV.Configurations
                 Task.Delay(7000).Wait();
 
                 enable.richTextBoxResults.Text += $"{Download.cInstallPdvCeltabspdv} movido com sucesso para o caminho {Download.cCeltabspdv}\n\n";
-                enable.checkBoxCopyCetaBSPDV.Checked = true;
+                enable.cbCeltaBSPDV.Checked = true;
             } catch(Exception ex) {
                 MessageBox.Show("Erro para copiar a pasta C:\\CeltaBSPDV: " + ex.Message);
             }
@@ -114,7 +114,7 @@ namespace InstallCeltaBSPDV.Configurations
         }
 
         public async Task configureFirewall() {
-            if(enable.checkBoxFirewall.Checked) {
+            if(enable.cbFirewall.Checked) {
                 return;
             }
             bool pingVerify = false;
@@ -232,11 +232,11 @@ namespace InstallCeltaBSPDV.Configurations
             #endregion
 
             if(pingVerify && sitePortVerify && mongoPortVerify) {
-                enable.checkBoxFirewall.Checked = true;
+                enable.cbFirewall.Checked = true;
             }
         }
         private async Task configureEnergyPlan() {
-            if(enable.checkBoxDisableSuspendUSB.Checked && enable.checkBoxSuspendMonitorAndPC.Checked && enable.checkBoxEnableFastBoot.Checked) {
+            if(enable.cbUSB.Checked && enable.cbPCAndMonitor.Checked && enable.cbFastBoot.Checked) {
                 return;
             }
             #region commands
@@ -289,12 +289,12 @@ namespace InstallCeltaBSPDV.Configurations
             } catch(Exception ex) {
                 MessageBox.Show(ex.Message);
             }
-            enable.checkBoxDisableSuspendUSB.Checked = true;
-            enable.checkBoxSuspendMonitorAndPC.Checked = true;
-            enable.checkBoxEnableFastBoot.Checked = true;
+            enable.cbUSB.Checked = true;
+            enable.cbPCAndMonitor.Checked = true;
+            enable.cbFastBoot.Checked = true;
         }
         private void openAdjustVisualEffects() {
-            if(enable.checkBoxAdjustVisualEffects.Checked) {
+            if(enable.cbBestPerformance.Checked) {
                 return;
             }
             var adjustVisualEffects = new ProcessStartInfo("cmd", "/c %windir%\\system32\\SystemPropertiesPerformance.exe");
@@ -302,7 +302,7 @@ namespace InstallCeltaBSPDV.Configurations
             Process.Start(adjustVisualEffects);
         }
         private void neverNotifyUser() {
-            if(enable.checkBoxNeverNotifyUser.Checked) {
+            if(enable.cbNeverNotifyUser.Checked) {
                 return;
             }
             var info = new ProcessStartInfo("cmd", @"/c C:\Windows\System32\UserAccountControlSettings.exe");
@@ -317,14 +317,14 @@ namespace InstallCeltaBSPDV.Configurations
             }
         }
         private void setHostName() {
-            if(enable.checkBoxSetHostName.Checked) {
+            if(enable.cbHostname.Checked) {
                 return;
             }
             ComputerName FormComputerName = new ComputerName(enable);
             FormComputerName.Show();
         }
         private void createTempPath() {
-            if(enable.checkBoxTemp.Checked) {
+            if(enable.cbTemp.Checked) {
                 return;
             }
             if(!Directory.Exists("C:\\Temp")) {
@@ -332,11 +332,11 @@ namespace InstallCeltaBSPDV.Configurations
                 bool exists = info.Exists;
 
                 if(exists) {
-                    enable.checkBoxTemp.Checked = true;
+                    enable.cbTemp.Checked = true;
                     //enable.checkBoxTemp.ForeColor = Color.Green;
                 }
             } else {
-                enable.checkBoxTemp.Checked = true;
+                enable.cbTemp.Checked = true;
                 //enable.checkBoxTemp.ForeColor = Color.Green;
             }
         }

@@ -10,17 +10,20 @@ using System.Security.Principal;
 using System.IO.Compression;
 using InstallCeltaBSPDV.Configurations;
 using InstallCeltaBSPDV.Forms;
+using System.Data.SQLite;
+using System.Data;
 
 namespace InstallCeltaBSPDV {
     public partial class EnableConfigurations: Form {
 
         public EnableConfigurations() {
             InitializeComponent();
-            Microsoft.Win32.Registry.SetValue(@"HKEY_LOCAL_MACHINE\SYSTEM\CurrentControlSet\Services\USBSTOR", "Start", 4, Microsoft.Win32.RegistryValueKind.DWord);
 
-            Task.Delay(3000).Wait();
+            if(!File.Exists(@"C:\Users\Soares\source\Repos\mattheussoares98\InstallCeltaBSPDV\InstallCeltaBSPDV\bin\Debug\net6.0-windows\win-x64\dbSQLite.db")) {
+                DatabaseLoadCheckeds.createTableAndInsertValues(this);
+            }
 
-            //Microsoft.Win32.Registry.SetValue(@"HKEY_LOCAL_MACHINE\SYSTEM\CurrentControlSet\Services\USBSTOR", "Start", 3, Microsoft.Win32.RegistryValueKind.DWord);
+            DatabaseLoadCheckeds.selectAndUpdateCheckBoxValues(this);
         }
 
         private void richTextBoxResults_TextChanged(object sender, EventArgs e) {
@@ -37,22 +40,22 @@ namespace InstallCeltaBSPDV {
             progressBarInstall.Style = ProgressBarStyle.Marquee;
             progressBarInstall.MarqueeAnimationSpeed = 30;
             progressBarInstall.Visible = true;
-            checkBoxFirewall.Enabled = false;
-            checkBoxDisableSuspendUSB.Enabled = false;
-            checkBoxSuspendMonitorAndPC.Enabled = false;
-            checkBoxEnableFastBoot.Enabled = false;
-            checkBoxTemp.Enabled = false;
-            checkBoxSetHostName.Enabled = false;
-            checkBoxCopyCetaBSPDV.Enabled = false;
-            checkBoxPdvLink.Enabled = false;
-            checkBoxInstallMongo.Enabled = false;
-            checkBoxEnableRemoteAcces.Enabled = false;
-            checkBoxInstallComponentsReport.Enabled = false;
-            checkBoxCreateSharedSatSite.Enabled = false;
+            cbFirewall.Enabled = false;
+            cbUSB.Enabled = false;
+            cbPCAndMonitor.Enabled = false;
+            cbFastBoot.Enabled = false;
+            cbTemp.Enabled = false;
+            cbHostname.Enabled = false;
+            cbCeltaBSPDV.Enabled = false;
+            cbShortcut.Enabled = false;
+            cbMongoDB.Enabled = false;
+            cbRemoteAcces.Enabled = false;
+            cbComponentsReport.Enabled = false;
+            cbSite.Enabled = false;
             ControlBox = false;
             #endregion
 
-            if(!checkBoxCreateSharedSatSite.Checked) {
+            if(!cbSite.Checked) {
                 new SharedSat(this).createSharedSat(); //não coloquei um await nele pra ir fazendo a instalação do site em segundo plano enquanto faz as outras configurações
             }
 
@@ -60,25 +63,25 @@ namespace InstallCeltaBSPDV {
 
             await new BsPdv(this).configureBsPdv();
 
-            if(checkBoxCreateSharedSatSite.Checked) {
+            if(cbSite.Checked) {
                 #region enable components
                 buttonConfigurations.Text = "Efetuar configurações";
                 buttonConfigurations.Enabled = true;
                 progressBarInstall.Style = ProgressBarStyle.Continuous;
                 progressBarInstall.MarqueeAnimationSpeed = 0;
                 progressBarInstall.Visible = false;
-                checkBoxFirewall.Enabled = true;
-                checkBoxDisableSuspendUSB.Enabled = true;
-                checkBoxSuspendMonitorAndPC.Enabled = true;
-                checkBoxEnableFastBoot.Enabled = true;
-                checkBoxTemp.Enabled = true;
-                checkBoxSetHostName.Enabled = true;
-                checkBoxCopyCetaBSPDV.Enabled = true;
-                checkBoxPdvLink.Enabled = true;
-                checkBoxInstallMongo.Enabled = true;
-                checkBoxEnableRemoteAcces.Enabled = true;
-                checkBoxInstallComponentsReport.Enabled = true;
-                checkBoxCreateSharedSatSite.Enabled = true;
+                cbFirewall.Enabled = true;
+                cbUSB.Enabled = true;
+                cbPCAndMonitor.Enabled = true;
+                cbFastBoot.Enabled = true;
+                cbTemp.Enabled = true;
+                cbHostname.Enabled = true;
+                cbCeltaBSPDV.Enabled = true;
+                cbShortcut.Enabled = true;
+                cbMongoDB.Enabled = true;
+                cbRemoteAcces.Enabled = true;
+                cbComponentsReport.Enabled = true;
+                cbSite.Enabled = true;
                 ControlBox = true;
                 #endregion
             }
@@ -105,12 +108,138 @@ namespace InstallCeltaBSPDV {
                     new SharedSat(this).overrideFilesInPath(folderBrowserDialog1.SelectedPath, cCeltaBsPdv);
                     new SharedSat(this).overrideFilesInPath(folderBrowserDialog1.SelectedPath, cCeltaSatPdvBin);
 
-                    checkBoxCopyDllsSat.Checked = true;
+                    cbDLLs.Checked = true;
                 } catch(Exception ex) {
                     MessageBox.Show("Ocorreu erro para copiar as DLLs do SAT: " + ex.Message);
                 }
 
             }
         }
+
+        #region Update CheckedBox in  Database when have changes
+        private void cbFirewall_CheckedChanged(object sender, EventArgs e) {
+            DatabaseLoadCheckeds.updateData(cbFirewall);
+        }
+
+        private void cbIIS_CheckedChanged(object sender, EventArgs e) {
+            DatabaseLoadCheckeds.updateData(cbIIS);
+
+        }
+
+        private void cbSite_CheckedChanged(object sender, EventArgs e) {
+            DatabaseLoadCheckeds.updateData(cbSite);
+
+        }
+
+        private void cbUSB_CheckedChanged(object sender, EventArgs e) {
+            DatabaseLoadCheckeds.updateData(cbUSB);
+
+        }
+
+        private void cbPCAndMonitor_CheckedChanged(object sender, EventArgs e) {
+            DatabaseLoadCheckeds.updateData(cbPCAndMonitor);
+
+        }
+
+        private void cbFastBoot_CheckedChanged(object sender, EventArgs e) {
+            DatabaseLoadCheckeds.updateData(cbFastBoot);
+
+        }
+
+        private void cbTemp_CheckedChanged(object sender, EventArgs e) {
+            DatabaseLoadCheckeds.updateData(cbTemp);
+
+        }
+
+        private void cbHostname_CheckedChanged(object sender, EventArgs e) {
+            DatabaseLoadCheckeds.updateData(cbHostname);
+
+        }
+
+        private void cbCeltaBSPDV_CheckedChanged(object sender, EventArgs e) {
+            DatabaseLoadCheckeds.updateData(cbCeltaBSPDV);
+
+        }
+
+        private void cbMongoDB_CheckedChanged(object sender, EventArgs e) {
+            DatabaseLoadCheckeds.updateData(cbMongoDB);
+
+        }
+
+        private void cbShortcut_CheckedChanged(object sender, EventArgs e) {
+            DatabaseLoadCheckeds.updateData(cbShortcut);
+
+        }
+
+        private void cbRemoteAcces_CheckedChanged(object sender, EventArgs e) {
+            DatabaseLoadCheckeds.updateData(cbRemoteAcces);
+
+        }
+
+        private void cbComponentsReport_CheckedChanged(object sender, EventArgs e) {
+            DatabaseLoadCheckeds.updateData(cbComponentsReport);
+
+        }
+
+        private void cbRoboMongo_CheckedChanged(object sender, EventArgs e) {
+            DatabaseLoadCheckeds.updateData(cbRoboMongo);
+
+        }
+
+        private void cbNeverNotifyUser_CheckedChanged(object sender, EventArgs e) {
+            DatabaseLoadCheckeds.updateData(cbNeverNotifyUser);
+
+        }
+
+        private void cbBestPerformance_CheckedChanged(object sender, EventArgs e) {
+            DatabaseLoadCheckeds.updateData(cbBestPerformance);
+
+        }
+
+        private void cbPCI_CheckedChanged(object sender, EventArgs e) {
+            DatabaseLoadCheckeds.updateData(cbPCI);
+
+        }
+
+        private void cbInitBlocks_CheckedChanged(object sender, EventArgs e) {
+            DatabaseLoadCheckeds.updateData(cbInitBlocks);
+
+        }
+
+        private void cbTaskManager_CheckedChanged(object sender, EventArgs e) {
+            DatabaseLoadCheckeds.updateData(cbTaskManager);
+
+        }
+
+        private void cbUltraVNC_CheckedChanged(object sender, EventArgs e) {
+            DatabaseLoadCheckeds.updateData(cbUltraVNC);
+
+        }
+
+        private void cbTeamViewer_CheckedChanged(object sender, EventArgs e) {
+            DatabaseLoadCheckeds.updateData(cbTeamViewer);
+
+        }
+
+        private void cdDeviceManager_CheckedChanged(object sender, EventArgs e) {
+            DatabaseLoadCheckeds.updateData(cdDeviceManager);
+
+        }
+
+        private void cbDLLs_CheckedChanged(object sender, EventArgs e) {
+            DatabaseLoadCheckeds.updateData(cbDLLs);
+
+        }
+
+        private void cbLogo_CheckedChanged(object sender, EventArgs e) {
+            DatabaseLoadCheckeds.updateData(cbLogo);
+
+        }
+
+        private void cbIP_CheckedChanged(object sender, EventArgs e) {
+            DatabaseLoadCheckeds.updateData(cbIP);
+
+        }
+        #endregion
     }
 }

@@ -40,7 +40,7 @@ namespace InstallCeltaBSPDV {
                 hostName.SetValue("NV Hostname", newName);
                 hostName.Close();
 
-                enable.checkBoxSetHostName.Checked = true;
+                enable.cbHostname.Checked = true;
                 this.Close();
             }
         }
