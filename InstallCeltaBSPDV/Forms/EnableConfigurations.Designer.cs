@@ -93,8 +93,8 @@
             this.flowLayoutPanelConfigurations.Controls.Add(this.cbPCI);
             this.flowLayoutPanelConfigurations.Controls.Add(this.cbInitBlocks);
             this.flowLayoutPanelConfigurations.Controls.Add(this.cbTaskManager);
-            this.flowLayoutPanelConfigurations.Controls.Add(this.cbUltraVNC);
             this.flowLayoutPanelConfigurations.Controls.Add(this.cbTeamViewer);
+            this.flowLayoutPanelConfigurations.Controls.Add(this.cbUltraVNC);
             this.flowLayoutPanelConfigurations.Controls.Add(this.cdDeviceManager);
             this.flowLayoutPanelConfigurations.Controls.Add(this.cbDLLs);
             this.flowLayoutPanelConfigurations.Controls.Add(this.cbLogo);
@@ -334,7 +334,7 @@
             // cbUltraVNC
             // 
             this.cbUltraVNC.AutoSize = true;
-            this.cbUltraVNC.Location = new System.Drawing.Point(3, 463);
+            this.cbUltraVNC.Location = new System.Drawing.Point(3, 486);
             this.cbUltraVNC.Name = "cbUltraVNC";
             this.cbUltraVNC.Size = new System.Drawing.Size(220, 17);
             this.cbUltraVNC.TabIndex = 18;
@@ -345,7 +345,7 @@
             // cbTeamViewer
             // 
             this.cbTeamViewer.AutoSize = true;
-            this.cbTeamViewer.Location = new System.Drawing.Point(3, 486);
+            this.cbTeamViewer.Location = new System.Drawing.Point(3, 463);
             this.cbTeamViewer.Name = "cbTeamViewer";
             this.cbTeamViewer.Size = new System.Drawing.Size(273, 17);
             this.cbTeamViewer.TabIndex = 21;
@@ -358,10 +358,10 @@
             this.cdDeviceManager.AutoSize = true;
             this.cdDeviceManager.Location = new System.Drawing.Point(3, 509);
             this.cdDeviceManager.Name = "cdDeviceManager";
-            this.cdDeviceManager.Size = new System.Drawing.Size(480, 17);
+            this.cdDeviceManager.Size = new System.Drawing.Size(509, 17);
             this.cdDeviceManager.TabIndex = 27;
-            this.cdDeviceManager.Text = "Gerenciador de dispositivos - não permitir desativar dispositivos USB e interface" +
-    " humana";
+            this.cdDeviceManager.Text = "Gerenciador de dispositivos - não permitir desativar dispositivos USB, interface " +
+    "humana e rede";
             this.cdDeviceManager.UseVisualStyleBackColor = true;
             this.cdDeviceManager.CheckedChanged += new System.EventHandler(this.cdDeviceManager_CheckedChanged);
             // 
