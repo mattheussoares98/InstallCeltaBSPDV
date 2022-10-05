@@ -16,6 +16,13 @@ namespace InstallCeltaBSPDV.Configurations {
         private static readonly string stringConnection = @"Data Source = " + pathOfData + "; Version = 3";
 
         public static void createTableAndInsertValues(EnableConfigurations enable) {
+            string appPath = System.Reflection.Assembly.GetExecutingAssembly().Location;
+            string appDirectory = Path.GetDirectoryName(appPath)!;
+
+            if(File.Exists(appDirectory + "\\dbSQLite.db")) {
+                return; //caso já exista o banco de dados, não vai fazer nada
+            }
+
             SQLiteConnection connection = new SQLiteConnection(stringConnection);
 
             SQLiteCommand command = new SQLiteCommand();

@@ -16,6 +16,10 @@ namespace InstallCeltaBSPDV.Configurations {
             download = new(enable);
         }
         public async void createSharedSat() {
+            if(enable.cbSite.Checked) {
+                return; //se estiver marcado significa que não é pra criar o site
+            }
+
             if(!Directory.Exists(@"C:\CeltaSAT")) {
                 await download.downloadFileTaskAsync("deployment.zip", "http://177.103.179.36/downloads/lastversion/deployment.zip");
                 await createPathSharedSat();

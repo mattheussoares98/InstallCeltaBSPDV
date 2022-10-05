@@ -15,14 +15,10 @@ using System.Data;
 
 namespace InstallCeltaBSPDV {
     public partial class EnableConfigurations: Form {
-
         public EnableConfigurations() {
             InitializeComponent();
 
-            if(!File.Exists(@"C:\Users\Soares\source\Repos\mattheussoares98\InstallCeltaBSPDV\InstallCeltaBSPDV\bin\Debug\net6.0-windows\win-x64\dbSQLite.db")) {
-                DatabaseLoadCheckeds.createTableAndInsertValues(this);
-            }
-
+            DatabaseLoadCheckeds.createTableAndInsertValues(this);
             DatabaseLoadCheckeds.selectAndUpdateCheckBoxValues(this);
         }
 
