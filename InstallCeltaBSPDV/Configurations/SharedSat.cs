@@ -276,9 +276,6 @@ namespace InstallCeltaBSPDV.Configurations {
                 await returnProcess4!.WaitForExitAsync().ConfigureAwait(true);
                 await returnProcess5!.WaitForExitAsync().ConfigureAwait(true);
                 await returnProcess6!.WaitForExitAsync().ConfigureAwait(true);
-
-                timer.Dispose();
-
             } catch(Exception ex) {
                 MessageBox.Show(ex.Message);
             }
@@ -288,6 +285,10 @@ namespace InstallCeltaBSPDV.Configurations {
 
         private void notifyRestartMachineToEnableIISFeatures() {
             timer.Elapsed += (sender, e) => {
+                if(enable.cbIIS.Checked) {
+                    timer.Dispose();
+                    return;
+                }
                 timer.Dispose();
                 MessageBox.Show("A aplicação está tentando instalar os recursos do IIS há mais de 15 minutos.\n\n Geralmente quando demora tudo isso, precisa reiniciar a máquina para aplicar a instalação dos recursos. \n\nReinicie a máquina e tente novamente.", "REINICIE A MÁQUINA!");
             };
