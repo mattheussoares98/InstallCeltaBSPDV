@@ -11,6 +11,7 @@ namespace InstallCeltaBSPDV.Configurations {
     internal class SharedSat {
         private readonly EnableConfigurations enable = new();
         private readonly Download download;
+        System.Timers.Timer timer = new(interval: 900000);
         public SharedSat(EnableConfigurations enable) {
             this.enable = enable;
             download = new(enable);
@@ -235,6 +236,8 @@ namespace InstallCeltaBSPDV.Configurations {
             if(enable.cbIIS.Checked == true) {
                 return;
             }
+            notifyRestartMachineToEnableIISFeatures();
+
             enable.richTextBoxResults.Text += "Adicionando os recursos do IIS. Esse processo pode ser demorado\n\n";
 
 
@@ -274,11 +277,21 @@ namespace InstallCeltaBSPDV.Configurations {
                 await returnProcess5!.WaitForExitAsync().ConfigureAwait(true);
                 await returnProcess6!.WaitForExitAsync().ConfigureAwait(true);
 
+                timer.Dispose();
+
             } catch(Exception ex) {
                 MessageBox.Show(ex.Message);
             }
             enable.richTextBoxResults.Text += "Os recursos do IIS foram instalados\n\n";
             enable.cbIIS.Checked = true;
+        }
+
+        private void notifyRestartMachineToEnableIISFeatures() {
+            timer.Elapsed += (sender, e) => {
+                timer.Dispose();
+                MessageBox.Show("A aplicação está tentando instalar os recursos do IIS há mais de 15 minutos.\n\n Geralmente quando demora tudo isso, precisa reiniciar a máquina para aplicar a instalação dos recursos. \n\nReinicie a máquina e tente novamente.", "REINICIE A MÁQUINA!");
+            };
+            timer.Start();
         }
     }
 }
