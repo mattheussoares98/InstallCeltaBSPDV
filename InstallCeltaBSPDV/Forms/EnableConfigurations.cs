@@ -250,11 +250,21 @@ namespace InstallCeltaBSPDV {
             if(folderBrowserDialog1.ShowDialog() != DialogResult.Cancel) {
 
                 try {
+                    if(folderBrowserDialog1.SelectedPath.Contains("Elgin")) {
+                        //quando o SAT é Elgin, o PDV procura as DLLs dele dentro de uma pasta com o nome Elgin. Por isso há esse tratamento para quando o diretório do SAT possui o nome Elgin
+                        Directory.CreateDirectory(cCeltaBsPdv + "\\Elgin");
+                        Directory.CreateDirectory(cCeltaSatPdvBin + "\\Elgin");
+                        new SharedSat(this).overrideFilesInPath(folderBrowserDialog1.SelectedPath, cCeltaBsPdv + "\\Elgin");
+                        new SharedSat(this).overrideFilesInPath(folderBrowserDialog1.SelectedPath, cCeltaSatPdvBin + "\\Elgin");
+                    } else {
+                        new SharedSat(this).overrideFilesInPath(folderBrowserDialog1.SelectedPath, cCeltaBsPdv);
+                        new SharedSat(this).overrideFilesInPath(folderBrowserDialog1.SelectedPath, cCeltaSatPdvBin);
+                    }
+
                     new SharedSat(this).overrideFilesInPath(folderBrowserDialog1.SelectedPath, windows);
                     new SharedSat(this).overrideFilesInPath(folderBrowserDialog1.SelectedPath, syswow64);
                     new SharedSat(this).overrideFilesInPath(folderBrowserDialog1.SelectedPath, system32);
-                    new SharedSat(this).overrideFilesInPath(folderBrowserDialog1.SelectedPath, cCeltaBsPdv);
-                    new SharedSat(this).overrideFilesInPath(folderBrowserDialog1.SelectedPath, cCeltaSatPdvBin);
+
 
                     cbDLLs.Checked = true;
                 } catch(Exception ex) {
