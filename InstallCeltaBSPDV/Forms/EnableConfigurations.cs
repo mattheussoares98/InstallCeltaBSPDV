@@ -238,8 +238,30 @@ namespace InstallCeltaBSPDV {
             DatabaseLoadCheckeds.updateData(cbIP);
 
         }
+
         #endregion
 
+        private void buttonDistributeDLLs_Click(object sender, EventArgs e) {
+            string windows = "C:\\Windows";
+            string syswow64 = "C:\\Windows\\SysWOW64";
+            string system32 = "C:\\Windows\\System32";
+            string cCeltaBsPdv = "C:\\CeltaBSPDV";
+            string cCeltaSatPdvBin = "C:\\CeltaSAT\\PDV\\Bin";
+            if(folderBrowserDialog1.ShowDialog() != DialogResult.Cancel) {
 
+                try {
+                    new SharedSat(this).overrideFilesInPath(folderBrowserDialog1.SelectedPath, windows);
+                    new SharedSat(this).overrideFilesInPath(folderBrowserDialog1.SelectedPath, syswow64);
+                    new SharedSat(this).overrideFilesInPath(folderBrowserDialog1.SelectedPath, system32);
+                    new SharedSat(this).overrideFilesInPath(folderBrowserDialog1.SelectedPath, cCeltaBsPdv);
+                    new SharedSat(this).overrideFilesInPath(folderBrowserDialog1.SelectedPath, cCeltaSatPdvBin);
+
+                    cbDLLs.Checked = true;
+                } catch(Exception ex) {
+                    MessageBox.Show("Ocorreu erro para copiar as DLLs do SAT: " + ex.Message);
+                }
+
+            }
+        }
     }
 }

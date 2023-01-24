@@ -46,25 +46,25 @@
             this.cbPCI = new System.Windows.Forms.CheckBox();
             this.cbInitBlocks = new System.Windows.Forms.CheckBox();
             this.cbTaskManager = new System.Windows.Forms.CheckBox();
-            this.cbUltraVNC = new System.Windows.Forms.CheckBox();
             this.cbTeamViewer = new System.Windows.Forms.CheckBox();
+            this.cbUltraVNC = new System.Windows.Forms.CheckBox();
             this.cdDeviceManager = new System.Windows.Forms.CheckBox();
             this.cbDLLs = new System.Windows.Forms.CheckBox();
             this.cbLogo = new System.Windows.Forms.CheckBox();
             this.cbIP = new System.Windows.Forms.CheckBox();
             this.richTextBoxResults = new System.Windows.Forms.RichTextBox();
             this.progressBarInstall = new System.Windows.Forms.ProgressBar();
-            this.button1 = new System.Windows.Forms.Button();
+            this.buttonDownloadFiles = new System.Windows.Forms.Button();
             this.folderBrowserDialog1 = new System.Windows.Forms.FolderBrowserDialog();
-            this.labelDllsSat = new System.Windows.Forms.Label();
+            this.buttonDistributeDLLs = new System.Windows.Forms.Button();
             this.flowLayoutPanelConfigurations.SuspendLayout();
             this.SuspendLayout();
             // 
             // buttonConfigurations
             // 
-            this.buttonConfigurations.Location = new System.Drawing.Point(590, 451);
+            this.buttonConfigurations.Location = new System.Drawing.Point(590, 444);
             this.buttonConfigurations.Name = "buttonConfigurations";
-            this.buttonConfigurations.Size = new System.Drawing.Size(392, 45);
+            this.buttonConfigurations.Size = new System.Drawing.Size(392, 41);
             this.buttonConfigurations.TabIndex = 0;
             this.buttonConfigurations.Text = "Iniciar configurações";
             this.buttonConfigurations.UseVisualStyleBackColor = true;
@@ -331,17 +331,6 @@
             this.cbTaskManager.UseVisualStyleBackColor = true;
             this.cbTaskManager.CheckedChanged += new System.EventHandler(this.cbTaskManager_CheckedChanged);
             // 
-            // cbUltraVNC
-            // 
-            this.cbUltraVNC.AutoSize = true;
-            this.cbUltraVNC.Location = new System.Drawing.Point(3, 486);
-            this.cbUltraVNC.Name = "cbUltraVNC";
-            this.cbUltraVNC.Size = new System.Drawing.Size(220, 17);
-            this.cbUltraVNC.TabIndex = 18;
-            this.cbUltraVNC.Text = "UltraVNC instalado com a senha \"123\"";
-            this.cbUltraVNC.UseVisualStyleBackColor = true;
-            this.cbUltraVNC.CheckedChanged += new System.EventHandler(this.cbUltraVNC_CheckedChanged);
-            // 
             // cbTeamViewer
             // 
             this.cbTeamViewer.AutoSize = true;
@@ -352,6 +341,17 @@
             this.cbTeamViewer.Text = "Instalar o team viewer e fixar a senha \"CeltaPDV\"";
             this.cbTeamViewer.UseVisualStyleBackColor = true;
             this.cbTeamViewer.CheckedChanged += new System.EventHandler(this.cbTeamViewer_CheckedChanged);
+            // 
+            // cbUltraVNC
+            // 
+            this.cbUltraVNC.AutoSize = true;
+            this.cbUltraVNC.Location = new System.Drawing.Point(3, 486);
+            this.cbUltraVNC.Name = "cbUltraVNC";
+            this.cbUltraVNC.Size = new System.Drawing.Size(220, 17);
+            this.cbUltraVNC.TabIndex = 18;
+            this.cbUltraVNC.Text = "UltraVNC instalado com a senha \"123\"";
+            this.cbUltraVNC.UseVisualStyleBackColor = true;
+            this.cbUltraVNC.CheckedChanged += new System.EventHandler(this.cbUltraVNC_CheckedChanged);
             // 
             // cdDeviceManager
             // 
@@ -420,27 +420,25 @@
             this.progressBarInstall.TabIndex = 3;
             this.progressBarInstall.Visible = false;
             // 
-            // button1
+            // buttonDownloadFiles
             // 
-            this.button1.Location = new System.Drawing.Point(590, 511);
-            this.button1.Name = "button1";
-            this.button1.Size = new System.Drawing.Size(392, 41);
-            this.button1.TabIndex = 24;
-            this.button1.Text = "Baixar arquivos";
-            this.button1.UseVisualStyleBackColor = true;
-            this.button1.Click += new System.EventHandler(this.button1_Click);
+            this.buttonDownloadFiles.Location = new System.Drawing.Point(590, 501);
+            this.buttonDownloadFiles.Name = "buttonDownloadFiles";
+            this.buttonDownloadFiles.Size = new System.Drawing.Size(392, 41);
+            this.buttonDownloadFiles.TabIndex = 24;
+            this.buttonDownloadFiles.Text = "Baixar arquivos";
+            this.buttonDownloadFiles.UseVisualStyleBackColor = true;
+            this.buttonDownloadFiles.Click += new System.EventHandler(this.button1_Click);
             // 
-            // labelDllsSat
+            // buttonDistributeDLLs
             // 
-            this.labelDllsSat.Font = new System.Drawing.Font("Segoe UI", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
-            this.labelDllsSat.Location = new System.Drawing.Point(590, 557);
-            this.labelDllsSat.Name = "labelDllsSat";
-            this.labelDllsSat.Size = new System.Drawing.Size(389, 49);
-            this.labelDllsSat.TabIndex = 25;
-            this.labelDllsSat.Text = "Clique aqui para selecionar a pasta onde estão as DLLs do SAT e distrubuir nas pa" +
-    "stas necessárias";
-            this.labelDllsSat.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
-            this.labelDllsSat.Click += new System.EventHandler(this.labelDllsSat_Click);
+            this.buttonDistributeDLLs.Location = new System.Drawing.Point(590, 558);
+            this.buttonDistributeDLLs.Name = "buttonDistributeDLLs";
+            this.buttonDistributeDLLs.Size = new System.Drawing.Size(392, 41);
+            this.buttonDistributeDLLs.TabIndex = 26;
+            this.buttonDistributeDLLs.Text = "Distribuir DLLs do SAT nas pastas necessárias";
+            this.buttonDistributeDLLs.UseVisualStyleBackColor = true;
+            this.buttonDistributeDLLs.Click += new System.EventHandler(this.buttonDistributeDLLs_Click);
             // 
             // EnableConfigurations
             // 
@@ -448,8 +446,8 @@
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.AutoSize = true;
             this.ClientSize = new System.Drawing.Size(986, 608);
-            this.Controls.Add(this.labelDllsSat);
-            this.Controls.Add(this.button1);
+            this.Controls.Add(this.buttonDistributeDLLs);
+            this.Controls.Add(this.buttonDownloadFiles);
             this.Controls.Add(this.progressBarInstall);
             this.Controls.Add(this.flowLayoutPanelConfigurations);
             this.Controls.Add(this.richTextBoxResults);
@@ -489,15 +487,15 @@
         public CheckBox cbBestPerformance;
         public CheckBox cbNeverNotifyUser;
         public CheckBox cbHostname;
-        private Button button1;
+        private Button buttonDownloadFiles;
         public CheckBox cbFastBoot;
         public CheckBox cbPCI;
         public CheckBox cbRoboMongo;
         public ProgressBar progressBarInstall;
         public Button buttonConfigurations;
         private FolderBrowserDialog folderBrowserDialog1;
-        private Label labelDllsSat;
         private CheckBox cbDLLs;
         private CheckBox cdDeviceManager;
+        private Button buttonDistributeDLLs;
     }
 }
