@@ -402,7 +402,7 @@
             // 
             this.richTextBoxResults.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
             this.richTextBoxResults.EnableAutoDragDrop = true;
-            this.richTextBoxResults.Location = new System.Drawing.Point(590, 6);
+            this.richTextBoxResults.Location = new System.Drawing.Point(590, -5);
             this.richTextBoxResults.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
             this.richTextBoxResults.Name = "richTextBoxResults";
             this.richTextBoxResults.ReadOnly = true;
