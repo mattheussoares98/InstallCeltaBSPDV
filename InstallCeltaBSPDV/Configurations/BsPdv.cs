@@ -60,13 +60,13 @@ namespace InstallCeltaBSPDV.Configurations {
             if(enable.cbCeltaBSPDV.Checked == true) {
                 return;
             }
-            await new Download(enable).downloadFileTaskAsync(Download.installBsPdvZip, "http://177.103.179.36/downloads/lastversion/installbspdv.zip");
+            await new Download(enable).downloadFileTaskAsync(Download.installBsPdvZip, "http://187.35.140.227/downloads/lastversion/installbspdv.zip");
             await new Windows(enable).enableAllPermissionsForPath("C:\\install");
             await new Windows(enable).enableAllPermissionsForPath("C:\\install\\pdv\\celtabspdv");
             //await new Windows(enable).enableAllPermissionsForPath(Download.cInstallBsPdvZip);
             //await new Windows(enable).enableAllPermissionsForPath(Download.cInstall);
 
-            await new Windows(enable).extractFile(Download.cInstallBsPdvZip, Download.cInstall, "installbspdv.zip", uriDownload: "http://177.103.179.36/downloads/lastversion/installbspdv.zip");
+            await new Windows(enable).extractFile(Download.cInstallBsPdvZip, Download.cInstall, "installbspdv.zip", uriDownload: "http://187.35.140.227/downloads/lastversion/installbspdv.zip");
 
 
             Task.Delay(7000).Wait();
@@ -129,7 +129,7 @@ namespace InstallCeltaBSPDV.Configurations {
                 return;
             }
             if(!File.Exists(mongoDbFilePath)) {
-                await new Download(enable).downloadFileTaskAsync(Download.installBsPdvZip, "http://177.103.179.36/downloads/lastversion/installbspdv.zip");
+                await new Download(enable).downloadFileTaskAsync(Download.installBsPdvZip, "http://187.35.140.227/downloads/lastversion/installbspdv.zip");
 
                 await downloadAndInstallMongoDb();
             }

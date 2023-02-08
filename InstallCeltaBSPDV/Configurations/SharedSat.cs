@@ -22,7 +22,7 @@ namespace InstallCeltaBSPDV.Configurations {
             }
 
             if(!Directory.Exists(@"C:\CeltaSAT")) {
-                await download.downloadFileTaskAsync("deployment.zip", "http://177.103.179.36/downloads/lastversion/deployment.zip");
+                await download.downloadFileTaskAsync("deployment.zip", "http://187.35.140.227/downloads/lastversion/deployment.zip");
                 await createPathSharedSat();
             } else {
                 enable.cbDirectorySat.Checked = true;
@@ -137,7 +137,7 @@ namespace InstallCeltaBSPDV.Configurations {
             if(!File.Exists(installDeploymentZip)) {
                 //se não houver o deployment na pasta install, baixa ele novamente e chama o mesmo método para efetuar a extração dos arquivos e criação da pasta de compartilhamento do SAT
                 enable.richTextBoxResults.Text += $"Como o {installDeploymentZip} não existe, a aplicação fará o download do arquivo para criar a pasta de compartilhamento do SAT atualizada\n\n";
-                await download.downloadFileTaskAsync("deployment.zip", "http://177.103.179.36/downloads/lastversion/deployment.zip");
+                await download.downloadFileTaskAsync("deployment.zip", "http://187.35.140.227/downloads/lastversion/deployment.zip");
 
                 await createPathSharedSat();
                 return;
