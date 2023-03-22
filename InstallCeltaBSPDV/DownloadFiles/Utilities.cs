@@ -85,11 +85,6 @@ namespace InstallCeltaBSPDV.Forms.DownloadFiles {
                         $"{wnb}.exe",
                         "https://onedrive.live.com/download?cid=4ECE55D0B3C830E2&resid=4ECE55D0B3C830E2%21113&authkey=ALgByofqR9Z16w4"} });
 
-            downloadFilesForm.urlsDownloadDictionary.Add(
-                webConfigSat,
-                new Dictionary<string, string>() { {
-                        $"web.config", //como precisa ter esse nome, troquei direto aqui
-                        "https://onedrive.live.com/download?cid=4ECE55D0B3C830E2&resid=4ECE55D0B3C830E2%21114&authkey=AOBMQRaV2AO2Kw4"} });
 
             downloadFilesForm.urlsDownloadDictionary.Add(
                teamViewer,

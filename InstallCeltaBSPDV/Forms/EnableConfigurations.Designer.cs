@@ -26,10 +26,6 @@
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(EnableConfigurations));
             this.buttonConfigurations = new System.Windows.Forms.Button();
             this.flowLayoutPanelConfigurations = new System.Windows.Forms.FlowLayoutPanel();
-            this.cbDirectorySat = new System.Windows.Forms.CheckBox();
-            this.cbIIS = new System.Windows.Forms.CheckBox();
-            this.cbSite = new System.Windows.Forms.CheckBox();
-            this.cbFirewall = new System.Windows.Forms.CheckBox();
             this.cbUSB = new System.Windows.Forms.CheckBox();
             this.cbPCAndMonitor = new System.Windows.Forms.CheckBox();
             this.cbFastBoot = new System.Windows.Forms.CheckBox();
@@ -62,7 +58,7 @@
             // 
             // buttonConfigurations
             // 
-            this.buttonConfigurations.Location = new System.Drawing.Point(590, 444);
+            this.buttonConfigurations.Location = new System.Drawing.Point(590, 365);
             this.buttonConfigurations.Name = "buttonConfigurations";
             this.buttonConfigurations.Size = new System.Drawing.Size(392, 41);
             this.buttonConfigurations.TabIndex = 0;
@@ -73,10 +69,6 @@
             // flowLayoutPanelConfigurations
             // 
             this.flowLayoutPanelConfigurations.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
-            this.flowLayoutPanelConfigurations.Controls.Add(this.cbDirectorySat);
-            this.flowLayoutPanelConfigurations.Controls.Add(this.cbIIS);
-            this.flowLayoutPanelConfigurations.Controls.Add(this.cbSite);
-            this.flowLayoutPanelConfigurations.Controls.Add(this.cbFirewall);
             this.flowLayoutPanelConfigurations.Controls.Add(this.cbUSB);
             this.flowLayoutPanelConfigurations.Controls.Add(this.cbPCAndMonitor);
             this.flowLayoutPanelConfigurations.Controls.Add(this.cbFastBoot);
@@ -104,59 +96,13 @@
             this.flowLayoutPanelConfigurations.Location = new System.Drawing.Point(11, 3);
             this.flowLayoutPanelConfigurations.Margin = new System.Windows.Forms.Padding(0);
             this.flowLayoutPanelConfigurations.Name = "flowLayoutPanelConfigurations";
-            this.flowLayoutPanelConfigurations.Size = new System.Drawing.Size(573, 603);
+            this.flowLayoutPanelConfigurations.Size = new System.Drawing.Size(576, 519);
             this.flowLayoutPanelConfigurations.TabIndex = 2;
-            // 
-            // cbDirectorySat
-            // 
-            this.cbDirectorySat.AutoSize = true;
-            this.cbDirectorySat.Enabled = false;
-            this.cbDirectorySat.Location = new System.Drawing.Point(3, 3);
-            this.cbDirectorySat.Name = "cbDirectorySat";
-            this.cbDirectorySat.Size = new System.Drawing.Size(259, 17);
-            this.cbDirectorySat.TabIndex = 1;
-            this.cbDirectorySat.Text = "Criar o diretório de compartilhamento do SAT";
-            this.cbDirectorySat.UseVisualStyleBackColor = true;
-            this.cbDirectorySat.CheckedChanged += new System.EventHandler(this.cbDirectorySat_CheckedChanged);
-            // 
-            // cbIIS
-            // 
-            this.cbIIS.AutoSize = true;
-            this.cbIIS.Enabled = false;
-            this.cbIIS.Location = new System.Drawing.Point(3, 26);
-            this.cbIIS.Name = "cbIIS";
-            this.cbIIS.Size = new System.Drawing.Size(169, 17);
-            this.cbIIS.TabIndex = 2;
-            this.cbIIS.Text = "Instalar componentes do IIS";
-            this.cbIIS.UseVisualStyleBackColor = true;
-            this.cbIIS.CheckedChanged += new System.EventHandler(this.cbIIS_CheckedChanged);
-            // 
-            // cbSite
-            // 
-            this.cbSite.AutoSize = true;
-            this.cbSite.Location = new System.Drawing.Point(3, 49);
-            this.cbSite.Name = "cbSite";
-            this.cbSite.Size = new System.Drawing.Size(232, 17);
-            this.cbSite.TabIndex = 3;
-            this.cbSite.Text = "Criar o site de compartilhamento do SAT";
-            this.cbSite.UseVisualStyleBackColor = true;
-            this.cbSite.CheckedChanged += new System.EventHandler(this.cbSite_CheckedChanged);
-            // 
-            // cbFirewall
-            // 
-            this.cbFirewall.AutoSize = true;
-            this.cbFirewall.Location = new System.Drawing.Point(3, 72);
-            this.cbFirewall.Name = "cbFirewall";
-            this.cbFirewall.Size = new System.Drawing.Size(233, 17);
-            this.cbFirewall.TabIndex = 4;
-            this.cbFirewall.Text = "Configurar o firewall (9092, 27017, PING)";
-            this.cbFirewall.UseVisualStyleBackColor = true;
-            this.cbFirewall.CheckedChanged += new System.EventHandler(this.cbFirewall_CheckedChanged);
             // 
             // cbUSB
             // 
             this.cbUSB.AutoSize = true;
-            this.cbUSB.Location = new System.Drawing.Point(3, 95);
+            this.cbUSB.Location = new System.Drawing.Point(3, 3);
             this.cbUSB.Name = "cbUSB";
             this.cbUSB.Size = new System.Drawing.Size(203, 17);
             this.cbUSB.TabIndex = 5;
@@ -167,7 +113,7 @@
             // cbPCAndMonitor
             // 
             this.cbPCAndMonitor.AutoSize = true;
-            this.cbPCAndMonitor.Location = new System.Drawing.Point(3, 118);
+            this.cbPCAndMonitor.Location = new System.Drawing.Point(3, 26);
             this.cbPCAndMonitor.Name = "cbPCAndMonitor";
             this.cbPCAndMonitor.Size = new System.Drawing.Size(337, 17);
             this.cbPCAndMonitor.TabIndex = 6;
@@ -178,7 +124,7 @@
             // cbFastBoot
             // 
             this.cbFastBoot.AutoSize = true;
-            this.cbFastBoot.Location = new System.Drawing.Point(3, 141);
+            this.cbFastBoot.Location = new System.Drawing.Point(3, 49);
             this.cbFastBoot.Name = "cbFastBoot";
             this.cbFastBoot.Size = new System.Drawing.Size(225, 17);
             this.cbFastBoot.TabIndex = 24;
@@ -189,7 +135,7 @@
             // cbTemp
             // 
             this.cbTemp.AutoSize = true;
-            this.cbTemp.Location = new System.Drawing.Point(3, 164);
+            this.cbTemp.Location = new System.Drawing.Point(3, 72);
             this.cbTemp.Name = "cbTemp";
             this.cbTemp.Size = new System.Drawing.Size(134, 17);
             this.cbTemp.TabIndex = 7;
@@ -200,7 +146,7 @@
             // cbHostname
             // 
             this.cbHostname.AutoSize = true;
-            this.cbHostname.Location = new System.Drawing.Point(3, 187);
+            this.cbHostname.Location = new System.Drawing.Point(3, 95);
             this.cbHostname.Name = "cbHostname";
             this.cbHostname.Size = new System.Drawing.Size(228, 17);
             this.cbHostname.TabIndex = 8;
@@ -211,7 +157,7 @@
             // cbCeltaBSPDV
             // 
             this.cbCeltaBSPDV.AutoSize = true;
-            this.cbCeltaBSPDV.Location = new System.Drawing.Point(3, 210);
+            this.cbCeltaBSPDV.Location = new System.Drawing.Point(3, 118);
             this.cbCeltaBSPDV.Name = "cbCeltaBSPDV";
             this.cbCeltaBSPDV.Size = new System.Drawing.Size(238, 17);
             this.cbCeltaBSPDV.TabIndex = 9;
@@ -222,7 +168,7 @@
             // cbMongoDB
             // 
             this.cbMongoDB.AutoSize = true;
-            this.cbMongoDB.Location = new System.Drawing.Point(3, 233);
+            this.cbMongoDB.Location = new System.Drawing.Point(3, 141);
             this.cbMongoDB.Name = "cbMongoDB";
             this.cbMongoDB.Size = new System.Drawing.Size(129, 17);
             this.cbMongoDB.TabIndex = 10;
@@ -233,7 +179,7 @@
             // cbShortcut
             // 
             this.cbShortcut.AutoSize = true;
-            this.cbShortcut.Location = new System.Drawing.Point(3, 256);
+            this.cbShortcut.Location = new System.Drawing.Point(3, 164);
             this.cbShortcut.Name = "cbShortcut";
             this.cbShortcut.Size = new System.Drawing.Size(460, 17);
             this.cbShortcut.TabIndex = 11;
@@ -245,7 +191,7 @@
             // cbRemoteAcces
             // 
             this.cbRemoteAcces.AutoSize = true;
-            this.cbRemoteAcces.Location = new System.Drawing.Point(3, 279);
+            this.cbRemoteAcces.Location = new System.Drawing.Point(3, 187);
             this.cbRemoteAcces.Name = "cbRemoteAcces";
             this.cbRemoteAcces.Size = new System.Drawing.Size(249, 17);
             this.cbRemoteAcces.TabIndex = 12;
@@ -256,7 +202,7 @@
             // cbComponentsReport
             // 
             this.cbComponentsReport.AutoSize = true;
-            this.cbComponentsReport.Location = new System.Drawing.Point(3, 302);
+            this.cbComponentsReport.Location = new System.Drawing.Point(3, 210);
             this.cbComponentsReport.Name = "cbComponentsReport";
             this.cbComponentsReport.Size = new System.Drawing.Size(171, 17);
             this.cbComponentsReport.TabIndex = 13;
@@ -267,7 +213,7 @@
             // cbRoboMongo
             // 
             this.cbRoboMongo.AutoSize = true;
-            this.cbRoboMongo.Location = new System.Drawing.Point(3, 325);
+            this.cbRoboMongo.Location = new System.Drawing.Point(3, 233);
             this.cbRoboMongo.Name = "cbRoboMongo";
             this.cbRoboMongo.Size = new System.Drawing.Size(143, 17);
             this.cbRoboMongo.TabIndex = 25;
@@ -278,7 +224,7 @@
             // cbNeverNotifyUser
             // 
             this.cbNeverNotifyUser.AutoSize = true;
-            this.cbNeverNotifyUser.Location = new System.Drawing.Point(3, 348);
+            this.cbNeverNotifyUser.Location = new System.Drawing.Point(3, 256);
             this.cbNeverNotifyUser.Name = "cbNeverNotifyUser";
             this.cbNeverNotifyUser.Size = new System.Drawing.Size(298, 17);
             this.cbNeverNotifyUser.TabIndex = 14;
@@ -289,7 +235,7 @@
             // cbBestPerformance
             // 
             this.cbBestPerformance.AutoSize = true;
-            this.cbBestPerformance.Location = new System.Drawing.Point(3, 371);
+            this.cbBestPerformance.Location = new System.Drawing.Point(3, 279);
             this.cbBestPerformance.Name = "cbBestPerformance";
             this.cbBestPerformance.Size = new System.Drawing.Size(371, 17);
             this.cbBestPerformance.TabIndex = 15;
@@ -300,7 +246,7 @@
             // cbPCI
             // 
             this.cbPCI.AutoSize = true;
-            this.cbPCI.Location = new System.Drawing.Point(3, 394);
+            this.cbPCI.Location = new System.Drawing.Point(3, 302);
             this.cbPCI.Name = "cbPCI";
             this.cbPCI.Size = new System.Drawing.Size(199, 17);
             this.cbPCI.TabIndex = 23;
@@ -311,7 +257,7 @@
             // cbInitBlocks
             // 
             this.cbInitBlocks.AutoSize = true;
-            this.cbInitBlocks.Location = new System.Drawing.Point(3, 417);
+            this.cbInitBlocks.Location = new System.Drawing.Point(3, 325);
             this.cbInitBlocks.Name = "cbInitBlocks";
             this.cbInitBlocks.Size = new System.Drawing.Size(248, 17);
             this.cbInitBlocks.TabIndex = 16;
@@ -322,7 +268,7 @@
             // cbTaskManager
             // 
             this.cbTaskManager.AutoSize = true;
-            this.cbTaskManager.Location = new System.Drawing.Point(3, 440);
+            this.cbTaskManager.Location = new System.Drawing.Point(3, 348);
             this.cbTaskManager.Name = "cbTaskManager";
             this.cbTaskManager.Size = new System.Drawing.Size(466, 17);
             this.cbTaskManager.TabIndex = 17;
@@ -334,7 +280,7 @@
             // cbTeamViewer
             // 
             this.cbTeamViewer.AutoSize = true;
-            this.cbTeamViewer.Location = new System.Drawing.Point(3, 463);
+            this.cbTeamViewer.Location = new System.Drawing.Point(3, 371);
             this.cbTeamViewer.Name = "cbTeamViewer";
             this.cbTeamViewer.Size = new System.Drawing.Size(273, 17);
             this.cbTeamViewer.TabIndex = 21;
@@ -345,7 +291,7 @@
             // cbUltraVNC
             // 
             this.cbUltraVNC.AutoSize = true;
-            this.cbUltraVNC.Location = new System.Drawing.Point(3, 486);
+            this.cbUltraVNC.Location = new System.Drawing.Point(3, 394);
             this.cbUltraVNC.Name = "cbUltraVNC";
             this.cbUltraVNC.Size = new System.Drawing.Size(220, 17);
             this.cbUltraVNC.TabIndex = 18;
@@ -356,7 +302,7 @@
             // cdDeviceManager
             // 
             this.cdDeviceManager.AutoSize = true;
-            this.cdDeviceManager.Location = new System.Drawing.Point(3, 509);
+            this.cdDeviceManager.Location = new System.Drawing.Point(3, 417);
             this.cdDeviceManager.Name = "cdDeviceManager";
             this.cdDeviceManager.Size = new System.Drawing.Size(509, 17);
             this.cdDeviceManager.TabIndex = 27;
@@ -368,7 +314,7 @@
             // cbDLLs
             // 
             this.cbDLLs.AutoSize = true;
-            this.cbDLLs.Location = new System.Drawing.Point(3, 532);
+            this.cbDLLs.Location = new System.Drawing.Point(3, 440);
             this.cbDLLs.Name = "cbDLLs";
             this.cbDLLs.Size = new System.Drawing.Size(138, 17);
             this.cbDLLs.TabIndex = 26;
@@ -379,7 +325,7 @@
             // cbLogo
             // 
             this.cbLogo.AutoSize = true;
-            this.cbLogo.Location = new System.Drawing.Point(3, 555);
+            this.cbLogo.Location = new System.Drawing.Point(3, 463);
             this.cbLogo.Name = "cbLogo";
             this.cbLogo.Size = new System.Drawing.Size(133, 17);
             this.cbLogo.TabIndex = 19;
@@ -390,7 +336,7 @@
             // cbIP
             // 
             this.cbIP.AutoSize = true;
-            this.cbIP.Location = new System.Drawing.Point(3, 578);
+            this.cbIP.Location = new System.Drawing.Point(3, 486);
             this.cbIP.Name = "cbIP";
             this.cbIP.Size = new System.Drawing.Size(136, 17);
             this.cbIP.TabIndex = 20;
@@ -402,19 +348,19 @@
             // 
             this.richTextBoxResults.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
             this.richTextBoxResults.EnableAutoDragDrop = true;
-            this.richTextBoxResults.Location = new System.Drawing.Point(590, -5);
+            this.richTextBoxResults.Location = new System.Drawing.Point(590, 3);
             this.richTextBoxResults.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
             this.richTextBoxResults.Name = "richTextBoxResults";
             this.richTextBoxResults.ReadOnly = true;
             this.richTextBoxResults.ScrollBars = System.Windows.Forms.RichTextBoxScrollBars.Vertical;
-            this.richTextBoxResults.Size = new System.Drawing.Size(392, 373);
+            this.richTextBoxResults.Size = new System.Drawing.Size(392, 296);
             this.richTextBoxResults.TabIndex = 23;
             this.richTextBoxResults.Text = "";
             this.richTextBoxResults.TextChanged += new System.EventHandler(this.richTextBoxResults_TextChanged);
             // 
             // progressBarInstall
             // 
-            this.progressBarInstall.Location = new System.Drawing.Point(590, 396);
+            this.progressBarInstall.Location = new System.Drawing.Point(591, 316);
             this.progressBarInstall.Name = "progressBarInstall";
             this.progressBarInstall.Size = new System.Drawing.Size(391, 42);
             this.progressBarInstall.TabIndex = 3;
@@ -422,7 +368,7 @@
             // 
             // buttonDownloadFiles
             // 
-            this.buttonDownloadFiles.Location = new System.Drawing.Point(590, 501);
+            this.buttonDownloadFiles.Location = new System.Drawing.Point(590, 422);
             this.buttonDownloadFiles.Name = "buttonDownloadFiles";
             this.buttonDownloadFiles.Size = new System.Drawing.Size(392, 41);
             this.buttonDownloadFiles.TabIndex = 24;
@@ -432,7 +378,7 @@
             // 
             // buttonDistributeDLLs
             // 
-            this.buttonDistributeDLLs.Location = new System.Drawing.Point(590, 558);
+            this.buttonDistributeDLLs.Location = new System.Drawing.Point(591, 478);
             this.buttonDistributeDLLs.Name = "buttonDistributeDLLs";
             this.buttonDistributeDLLs.Size = new System.Drawing.Size(392, 41);
             this.buttonDistributeDLLs.TabIndex = 26;
@@ -445,7 +391,7 @@
             this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 15F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.AutoSize = true;
-            this.ClientSize = new System.Drawing.Size(986, 608);
+            this.ClientSize = new System.Drawing.Size(986, 531);
             this.Controls.Add(this.buttonDistributeDLLs);
             this.Controls.Add(this.buttonDownloadFiles);
             this.Controls.Add(this.progressBarInstall);
@@ -476,14 +422,10 @@
         public CheckBox cbShortcut;
         public CheckBox cbRemoteAcces;
         public CheckBox cbMongoDB;
-        public CheckBox cbFirewall;
         public CheckBox cbUSB;
         public CheckBox cbPCAndMonitor;
         public CheckBox cbTemp;
-        public CheckBox cbDirectorySat;
-        public CheckBox cbIIS;
         public CheckBox cbComponentsReport;
-        public CheckBox cbSite;
         public CheckBox cbBestPerformance;
         public CheckBox cbNeverNotifyUser;
         public CheckBox cbHostname;

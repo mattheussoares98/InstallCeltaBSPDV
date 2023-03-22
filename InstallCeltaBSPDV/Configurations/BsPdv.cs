@@ -38,6 +38,7 @@ namespace InstallCeltaBSPDV.Configurations {
         private readonly string desktopPath = Environment.GetFolderPath(Environment.SpecialFolder.Desktop) + @"\CeltaPDV.lnk";
         #endregion
 
+        
         private async void createPdvLinks() {
             if(enable.cbShortcut.Checked == true) {
                 return;
@@ -61,8 +62,9 @@ namespace InstallCeltaBSPDV.Configurations {
                 return;
             }
             await new Download(enable).downloadFileTaskAsync(Download.installBsPdvZip, "http://187.35.140.227/downloads/lastversion/installbspdv.zip");
-            await new Windows(enable).enableAllPermissionsForPath("C:\\install");
-            await new Windows(enable).enableAllPermissionsForPath("C:\\install\\pdv\\celtabspdv");
+            await new Windows(enable).enableAllPermissionsForPath("C:\\Install");
+            await new Windows(enable).enableAllPermissionsForPath("C:\\Install\\PDV");
+            await new Windows(enable).enableAllPermissionsForPath("C:\\Install\\PDV\\CeltaBSPDV");
             //await new Windows(enable).enableAllPermissionsForPath(Download.cInstallBsPdvZip);
             //await new Windows(enable).enableAllPermissionsForPath(Download.cInstall);
 

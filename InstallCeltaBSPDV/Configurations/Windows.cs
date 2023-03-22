@@ -19,13 +19,35 @@ namespace InstallCeltaBSPDV.Configurations {
 
 
         public async Task configureWindows() {
-            await configureFirewall();
             await configureEnergyPlan();
             openAdjustVisualEffects();
             neverNotifyUser();
             setHostName();
             createTempPath();
             openPowerCfg();
+        }
+
+        public async Task overrideFilesInPath(string pathToRead, string destiny) {
+            if(!Directory.Exists(pathToRead)) {
+                MessageBox.Show($"Não foi possível encontrar o caminho {pathToRead}");
+                return;
+            }
+
+            if(!Directory.Exists(destiny)) {
+                MessageBox.Show($"Não foi possível encontrar o caminho: {destiny}");
+                return;
+            }
+            string[] files = Directory.GetFiles(pathToRead);
+
+            foreach(string file in files) {
+                string localDestiny = file.Replace(pathToRead, destiny);
+                //MessageBox.Show($"file: {file}\n\ndestiny = " + destiny);
+                try {
+                    await Task.Run(() => File.Copy(file, localDestiny, true));
+                } catch(Exception ex) {
+                    MessageBox.Show($"Erro para copiar o arquivo para o destino\n\norigem: {file}\n\ndestino: {localDestiny}\n\nerro: {ex.Message}");
+                }
+            }
         }
 
         public void openPowerCfg() {
@@ -108,129 +130,7 @@ namespace InstallCeltaBSPDV.Configurations {
             }
         }
 
-        public async Task configureFirewall() {
-            if(enable.cbFirewall.Checked) {
-                return;
-            }
-            bool pingVerify = false;
-            bool sitePortVerify = false;
-            bool mongoPortVerify = false;
-
-            #region ICMPv4 - PING
-
-            //quando adiciona o processo igual está adicionando a porta 9092 e 27017, não tem opção pra criar como protocolo ICMPv4. Por isso, configurei conforme abaixo e editei a permissão
-            Process removePING = new Process {
-                StartInfo = {
-                    FileName = "netsh",
-                    Arguments = $@"advfirewall firewall delete rule name=""PING""",
-                    UseShellExecute = false,
-                    WindowStyle = ProcessWindowStyle.Hidden,
-                    RedirectStandardOutput = true
-                }
-            };
-            removePING.StartInfo.CreateNoWindow = true;
-            try {
-                await Task.Run(() => removePING.Start());
-            } catch(Exception ex) {
-                MessageBox.Show("Erro para remover o PING: " + ex.Message);
-            }
-
-            Process pingProcess = new Process {
-                StartInfo = {
-                    FileName = "netsh",
-                    Arguments = $@"advfirewall firewall add rule name = ""PING"" protocol = ICMPv4:any,any dir =in action = allow",
-                    UseShellExecute = false,
-                    WindowStyle = ProcessWindowStyle.Hidden,
-                    RedirectStandardOutput = true
-                }
-            };
-
-            Task.Delay(5000).Wait();
-
-            try {
-                await Task.Run(() => pingProcess.Start());
-
-                await Task.Run(() => pingProcess.StandardOutput.ReadToEnd());
-
-                await Task.Run(() => pingProcess.WaitForExit());
-
-            } catch(Exception ex) {
-                MessageBox.Show("Erro para criar as regras do PING: " + ex.Message);
-            }
-
-            try {
-                INetFwPolicy2 firewallPolicyPING = (INetFwPolicy2)Activator.CreateInstance(Type.GetTypeFromProgID("HNetCfg.FwPolicy2"));
-
-                var rule = firewallPolicyPING!.Rules.Item("PING"); // Name of your rule here
-                rule.EdgeTraversal = true; // Update the rule here. Nothing else needed to persist the changes
-
-                pingVerify = true;
-                enable.richTextBoxResults.Text += "Firewall: Regra de PING adicionada\n\n";
-            } catch(Exception ex) {
-                MessageBox.Show("Erro para editar o PING: " + ex.Message);
-            }
-            #endregion
-
-            #region porta 9092
-            INetFwRule firewallRule9092 = (INetFwRule)Activator.CreateInstance(
-    Type.GetTypeFromProgID("HNetCfg.FWRule"));
-            firewallRule9092.Action = NET_FW_ACTION_.NET_FW_ACTION_ALLOW;
-            firewallRule9092.Description = "Serve para outras máquinas da mesma rede conseguirem acessar o site de compartilhamento do SAT que é criado por padrão com a porta 9092";
-            firewallRule9092.Direction = NET_FW_RULE_DIRECTION_.NET_FW_RULE_DIR_IN;
-            firewallRule9092.Enabled = true;
-            firewallRule9092.InterfaceTypes = "All";
-            firewallRule9092.Name = "9092";
-            firewallRule9092.EdgeTraversal = true;
-            firewallRule9092.Protocol = (int)NET_FW_IP_PROTOCOL_.NET_FW_IP_PROTOCOL_TCP;
-            firewallRule9092.LocalPorts = "9092";
-            INetFwPolicy2 firewallPolicy9092 = (INetFwPolicy2)Activator.CreateInstance(
-                Type.GetTypeFromProgID("HNetCfg.FwPolicy2"));
-
-            try {
-                await Task.Run(() => firewallPolicy9092.Rules.Remove("9092"));
-
-                await Task.Run(() => firewallPolicy9092.Rules.Add(firewallRule9092));
-
-                sitePortVerify = true;
-                enable.richTextBoxResults.Text += "Firewall: Regra da porta 9092 adicionada\n\n";
-            } catch(Exception ex) {
-                MessageBox.Show($"Erro para criar a regra 9092 do Firewall: {ex.Message}");
-            }
-            #endregion
-
-            #region porta 27017
-            INetFwRule firewallRule27017 = (INetFwRule)Activator.CreateInstance(
-               Type.GetTypeFromProgID("HNetCfg.FWRule"));
-
-            firewallRule27017.Action = NET_FW_ACTION_.NET_FW_ACTION_ALLOW;
-            firewallRule27017.Description = "Serve para conseguir acessar o banco de dados do PDV a partir de outras máquinas que estão na mesma rede";
-            firewallRule27017.Direction = NET_FW_RULE_DIRECTION_.NET_FW_RULE_DIR_IN;
-            firewallRule27017.Enabled = true;
-            firewallRule27017.InterfaceTypes = "All";
-            firewallRule27017.Name = "27017";
-            firewallRule27017.EdgeTraversal = true;
-            firewallRule27017.Protocol = (int)NET_FW_IP_PROTOCOL_.NET_FW_IP_PROTOCOL_TCP;
-            firewallRule27017.LocalPorts = "27017";
-            INetFwPolicy2 firewallPolicy = (INetFwPolicy2)Activator.CreateInstance(
-                Type.GetTypeFromProgID("HNetCfg.FwPolicy2"));
-
-            try {
-                await Task.Run(() => firewallPolicy!.Rules.Remove("27017"));
-                await Task.Run(() => firewallPolicy!.Rules.Add(firewallRule27017));
-                mongoPortVerify = true;
-            } catch(Exception ex) {
-                MessageBox.Show($"Erro para configurar a porta 27017: {ex.Message}");
-            }
-
-
-            enable.richTextBoxResults.Text += "Firewall: Regra da porta 27017 adicionada\n\n";
-            #endregion
-
-            if(pingVerify && sitePortVerify && mongoPortVerify) {
-                enable.cbFirewall.Checked = true;
-            }
-        }
-        private async Task configureEnergyPlan() {
+                private async Task configureEnergyPlan() {
             if(enable.cbUSB.Checked && enable.cbPCAndMonitor.Checked && enable.cbFastBoot.Checked) {
                 return;
             }

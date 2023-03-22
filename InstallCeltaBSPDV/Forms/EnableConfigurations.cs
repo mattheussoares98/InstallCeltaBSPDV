@@ -35,7 +35,6 @@ namespace InstallCeltaBSPDV {
             progressBarInstall.Style = ProgressBarStyle.Marquee;
             progressBarInstall.MarqueeAnimationSpeed = 30;
             progressBarInstall.Visible = true;
-            cbFirewall.Enabled = false;
             cbUSB.Enabled = false;
             cbPCAndMonitor.Enabled = false;
             cbFastBoot.Enabled = false;
@@ -46,39 +45,32 @@ namespace InstallCeltaBSPDV {
             cbMongoDB.Enabled = false;
             cbRemoteAcces.Enabled = false;
             cbComponentsReport.Enabled = false;
-            cbSite.Enabled = false;
             ControlBox = false;
             #endregion
-
-            new SharedSat(this).createSharedSat(); //não coloquei um await nele pra ir fazendo a instalação do site em segundo plano enquanto faz as outras configurações
 
 
             await new Windows(this).configureWindows();
 
             await new BsPdv(this).configureBsPdv();
 
-            if(cbSite.Checked) {
-                #region enable components
-                buttonConfigurations.Text = "Efetuar configurações";
-                buttonConfigurations.Enabled = true;
-                progressBarInstall.Style = ProgressBarStyle.Continuous;
-                progressBarInstall.MarqueeAnimationSpeed = 0;
-                progressBarInstall.Visible = false;
-                cbFirewall.Enabled = true;
-                cbUSB.Enabled = true;
-                cbPCAndMonitor.Enabled = true;
-                cbFastBoot.Enabled = true;
-                cbTemp.Enabled = true;
-                cbHostname.Enabled = true;
-                cbCeltaBSPDV.Enabled = true;
-                cbShortcut.Enabled = true;
-                cbMongoDB.Enabled = true;
-                cbRemoteAcces.Enabled = true;
-                cbComponentsReport.Enabled = true;
-                cbSite.Enabled = true;
-                ControlBox = true;
-                #endregion
-            }
+            #region enable components
+            buttonConfigurations.Text = "Efetuar configurações";
+            buttonConfigurations.Enabled = true;
+            progressBarInstall.Style = ProgressBarStyle.Continuous;
+            progressBarInstall.MarqueeAnimationSpeed = 0;
+            progressBarInstall.Visible = false;
+            cbUSB.Enabled = true;
+            cbPCAndMonitor.Enabled = true;
+            cbFastBoot.Enabled = true;
+            cbTemp.Enabled = true;
+            cbHostname.Enabled = true;
+            cbCeltaBSPDV.Enabled = true;
+            cbShortcut.Enabled = true;
+            cbMongoDB.Enabled = true;
+            cbRemoteAcces.Enabled = true;
+            cbComponentsReport.Enabled = true;
+            ControlBox = true;
+            #endregion
         }
 
         private void button1_Click(object sender, EventArgs e) {
@@ -87,20 +79,18 @@ namespace InstallCeltaBSPDV {
         }
 
 
-        private void labelDllsSat_Click(object sender, EventArgs e) {
+        private async void labelDllsSat_Click(object sender, EventArgs e) {
             string windows = "C:\\Windows";
             string syswow64 = "C:\\Windows\\SysWOW64";
             string system32 = "C:\\Windows\\System32";
             string cCeltaBsPdv = "C:\\CeltaBSPDV";
-            string cCeltaSatPdvBin = "C:\\CeltaSAT\\PDV\\Bin";
             if(folderBrowserDialog1.ShowDialog() != DialogResult.Cancel) {
 
                 try {
-                    new SharedSat(this).overrideFilesInPath(folderBrowserDialog1.SelectedPath, windows);
-                    new SharedSat(this).overrideFilesInPath(folderBrowserDialog1.SelectedPath, syswow64);
-                    new SharedSat(this).overrideFilesInPath(folderBrowserDialog1.SelectedPath, system32);
-                    new SharedSat(this).overrideFilesInPath(folderBrowserDialog1.SelectedPath, cCeltaBsPdv);
-                    new SharedSat(this).overrideFilesInPath(folderBrowserDialog1.SelectedPath, cCeltaSatPdvBin);
+                    await new Windows(this).overrideFilesInPath(folderBrowserDialog1.SelectedPath, windows);
+                    await new Windows(this).overrideFilesInPath(folderBrowserDialog1.SelectedPath, syswow64);
+                    await new Windows(this).overrideFilesInPath(folderBrowserDialog1.SelectedPath, system32);
+                    await new Windows(this).overrideFilesInPath(folderBrowserDialog1.SelectedPath, cCeltaBsPdv);
 
                     cbDLLs.Checked = true;
                 } catch(Exception ex) {
@@ -111,23 +101,6 @@ namespace InstallCeltaBSPDV {
         }
 
         #region Update CheckedBox in  Database when have changes
-        private void cbDirectorySat_CheckedChanged(object sender, EventArgs e) {
-            DatabaseLoadCheckeds.updateData(cbDirectorySat);
-
-        }
-        private void cbFirewall_CheckedChanged(object sender, EventArgs e) {
-            DatabaseLoadCheckeds.updateData(cbFirewall);
-        }
-
-        private void cbIIS_CheckedChanged(object sender, EventArgs e) {
-            DatabaseLoadCheckeds.updateData(cbIIS);
-
-        }
-
-        private void cbSite_CheckedChanged(object sender, EventArgs e) {
-            DatabaseLoadCheckeds.updateData(cbSite);
-
-        }
 
         private void cbUSB_CheckedChanged(object sender, EventArgs e) {
             DatabaseLoadCheckeds.updateData(cbUSB);
@@ -241,29 +214,25 @@ namespace InstallCeltaBSPDV {
 
         #endregion
 
-        private void buttonDistributeDLLs_Click(object sender, EventArgs e) {
+        private async void buttonDistributeDLLs_Click(object sender, EventArgs e) {
             string windows = "C:\\Windows";
             string syswow64 = "C:\\Windows\\SysWOW64";
             string system32 = "C:\\Windows\\System32";
             string cCeltaBsPdv = "C:\\CeltaBSPDV";
-            string cCeltaSatPdvBin = "C:\\CeltaSAT\\PDV\\Bin";
             if(folderBrowserDialog1.ShowDialog() != DialogResult.Cancel) {
 
                 try {
                     if(folderBrowserDialog1.SelectedPath.Contains("Elgin")) {
                         //quando o SAT é Elgin, o PDV procura as DLLs dele dentro de uma pasta com o nome Elgin. Por isso há esse tratamento para quando o diretório do SAT possui o nome Elgin
                         Directory.CreateDirectory(cCeltaBsPdv + "\\Elgin");
-                        Directory.CreateDirectory(cCeltaSatPdvBin + "\\Elgin");
-                        new SharedSat(this).overrideFilesInPath(folderBrowserDialog1.SelectedPath, cCeltaBsPdv + "\\Elgin");
-                        new SharedSat(this).overrideFilesInPath(folderBrowserDialog1.SelectedPath, cCeltaSatPdvBin + "\\Elgin");
+                        await new Windows(this).overrideFilesInPath(folderBrowserDialog1.SelectedPath, cCeltaBsPdv + "\\Elgin");
                     } else {
-                        new SharedSat(this).overrideFilesInPath(folderBrowserDialog1.SelectedPath, cCeltaBsPdv);
-                        new SharedSat(this).overrideFilesInPath(folderBrowserDialog1.SelectedPath, cCeltaSatPdvBin);
+                        await new Windows(this).overrideFilesInPath(folderBrowserDialog1.SelectedPath, cCeltaBsPdv);
                     }
 
-                    new SharedSat(this).overrideFilesInPath(folderBrowserDialog1.SelectedPath, windows);
-                    new SharedSat(this).overrideFilesInPath(folderBrowserDialog1.SelectedPath, syswow64);
-                    new SharedSat(this).overrideFilesInPath(folderBrowserDialog1.SelectedPath, system32);
+                    await new Windows(this).overrideFilesInPath(folderBrowserDialog1.SelectedPath, windows);
+                    await new Windows(this).overrideFilesInPath(folderBrowserDialog1.SelectedPath, syswow64);
+                    await new Windows(this).overrideFilesInPath(folderBrowserDialog1.SelectedPath, system32);
 
 
                     cbDLLs.Checked = true;
