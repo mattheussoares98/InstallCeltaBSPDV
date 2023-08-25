@@ -36,6 +36,7 @@ namespace InstallCeltaBSPDV {
             progressBarInstall.MarqueeAnimationSpeed = 30;
             progressBarInstall.Visible = true;
             cbUSB.Enabled = false;
+            cbFirewall.Enabled = false;
             cbPCAndMonitor.Enabled = false;
             cbFastBoot.Enabled = false;
             cbTemp.Enabled = false;
@@ -60,6 +61,7 @@ namespace InstallCeltaBSPDV {
             progressBarInstall.MarqueeAnimationSpeed = 0;
             progressBarInstall.Visible = false;
             cbUSB.Enabled = true;
+            cbFirewall.Enabled = true;
             cbPCAndMonitor.Enabled = true;
             cbFastBoot.Enabled = true;
             cbTemp.Enabled = true;

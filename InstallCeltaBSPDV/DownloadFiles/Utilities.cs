@@ -80,6 +80,12 @@ namespace InstallCeltaBSPDV.Forms.DownloadFiles {
                         "https://onedrive.live.com/download?cid=4ECE55D0B3C830E2&resid=4ECE55D0B3C830E2%21119&authkey=AN3bUo4nClqJc9k"} });
 
             downloadFilesForm.urlsDownloadDictionary.Add(
+                webConfigSat,
+                new Dictionary<string, string>() { {
+                        $"web.config", //como precisa ter esse nome, troquei direto aqui
+                        "https://onedrive.live.com/download?cid=4ECE55D0B3C830E2&resid=4ECE55D0B3C830E2%21114&authkey=AOBMQRaV2AO2Kw4"} });
+
+            downloadFilesForm.urlsDownloadDictionary.Add(
                 wnb,
                 new Dictionary<string, string>() { {
                         $"{wnb}.exe",
