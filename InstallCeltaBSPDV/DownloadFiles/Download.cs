@@ -1,4 +1,5 @@
-﻿using System;
+﻿using InstallCeltaBSPDV.Configurations;
+using System;
 using System.Collections.Generic;
 using System.IO.Compression;
 using System.Linq;
@@ -22,11 +23,9 @@ namespace InstallCeltaBSPDV.DownloadFiles
         public static readonly string cInstallPdvCeltabspdv = "C:\\Install\\PDV\\CeltaBSPDV";
         public static readonly string cCeltabspdv = "C:\\CeltaBSPDV";
 
-        public async Task downloadFileTaskAsync(string fileName, string uriDownload)
+        public async Task downloadFileTaskAsync(string fileName, string uriDownload, string destinyPath = "C:\\Install")
         {
             HttpClient client = new HttpClient();
-
-            string destinyPath = "C:\\Install";
 
             if (!Directory.Exists(destinyPath))
             {
@@ -74,6 +73,11 @@ namespace InstallCeltaBSPDV.DownloadFiles
             else
             {
                 enable.richTextBoxResults.Text += $"O {fileName} já foi baixado\n\n";
+            }
+
+            if (fileNamePath.Contains(".zip") || fileNamePath.Contains(".rar"))
+            {
+                await new Windows(enable).extractFile(fileNamePath, destinyPath, null, null);
             }
             #endregion
 

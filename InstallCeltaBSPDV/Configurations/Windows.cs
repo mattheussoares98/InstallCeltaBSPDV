@@ -1,4 +1,6 @@
 ﻿using InstallCeltaBSPDV.DownloadFiles;
+using IWshRuntimeLibrary;
+using Microsoft.Win32;
 using NetFwTypeLib;
 using System;
 using System.Collections.Generic;
@@ -10,17 +12,24 @@ using System.Security.Principal;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace InstallCeltaBSPDV.Configurations {
-    public class Windows {
+namespace InstallCeltaBSPDV.Configurations
+{
+    public class Windows
+    {
+        string desktopPath = Environment.GetFolderPath(Environment.SpecialFolder.Desktop);
+
         private readonly EnableConfigurations enable = new();
-        public Windows(EnableConfigurations enableConfigurations) {
+        public Windows(EnableConfigurations enableConfigurations)
+        {
             this.enable = enableConfigurations;
         }
 
 
-        public async Task configureWindows() {
+        public async Task configureWindows()
+        {
             await configureFirewall();
             await configureEnergyPlan();
+            await downloadTeamViewerQuickSupport();
             openAdjustVisualEffects();
             neverNotifyUser();
             setHostName();
@@ -28,39 +37,74 @@ namespace InstallCeltaBSPDV.Configurations {
             openPowerCfg();
         }
 
-        public async Task overrideFilesInPath(string pathToRead, string destiny) {
-            if(!Directory.Exists(pathToRead)) {
+        public async Task downloadTeamViewerQuickSupport()
+        {
+            if (enable.cbTeamViewer.Checked)
+            {
+                return;
+            }
+
+            try
+            {
+                await new Download(enable).downloadFileTaskAsync(
+                 "CeltaWare TeamViewer.exe",
+                 "https://onedrive.live.com/download?resid=4ECE55D0B3C830E2%21327&authkey=!AADxXLnlrn6Z5KM",
+                 desktopPath
+                 );
+                Task.Delay(7000).Wait();
+                enable.cbTeamViewer.Checked = true;
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show("Erro para copiar a pasta C:\\CeltaBSPDV: " + ex.Message);
+            }
+
+        }
+
+        public async Task overrideFilesInPath(string pathToRead, string destiny)
+        {
+            if (!Directory.Exists(pathToRead))
+            {
                 MessageBox.Show($"Não foi possível encontrar o caminho {pathToRead}");
                 return;
             }
 
-            if(!Directory.Exists(destiny)) {
+            if (!Directory.Exists(destiny))
+            {
                 MessageBox.Show($"Não foi possível encontrar o caminho: {destiny}");
                 return;
             }
             string[] files = Directory.GetFiles(pathToRead);
 
-            foreach(string file in files) {
+            foreach (string file in files)
+            {
                 string localDestiny = file.Replace(pathToRead, destiny);
                 //MessageBox.Show($"file: {file}\n\ndestiny = " + destiny);
-                try {
-                    await Task.Run(() => File.Copy(file, localDestiny, true));
-                } catch(Exception ex) {
+                try
+                {
+                    await Task.Run(() => System.IO.File.Copy(file, localDestiny, true));
+                }
+                catch (Exception ex)
+                {
                     MessageBox.Show($"Erro para copiar o arquivo para o destino\n\norigem: {file}\n\ndestino: {localDestiny}\n\nerro: {ex.Message}");
                 }
             }
         }
 
-        public void openPowerCfg() {
-            if(enable.cbPCI.Checked) {
+        public void openPowerCfg()
+        {
+            if (enable.cbPCI.Checked)
+            {
                 return;
             }
             var openCommand = new ProcessStartInfo("cmd", $"/c control.exe powercfg.cpl,,3");
             openCommand.CreateNoWindow = true;
             Process.Start(openCommand);
         }
-        public async Task enableAllPermissionsForPath(string path) {
-            if(!Directory.Exists(path)) {
+        public async Task enableAllPermissionsForPath(string path)
+        {
+            if (!Directory.Exists(path))
+            {
                 //enable.richTextBoxResults.Text += $"O caminho {path} não foi encontrado para habilitar a permissão para todos usuários\n\n";
                 return;
             }
@@ -71,25 +115,32 @@ namespace InstallCeltaBSPDV.Configurations {
             enableForEveryone.CreateNoWindow = true;
             enableForTodos.CreateNoWindow = true;
 
-            try {
+            try
+            {
                 await Task.Run(() => Process.Start(enableForEveryone));
                 await Task.Run(() => Process.Start(enableForTodos));
-            } catch(Exception ex) {
+            }
+            catch (Exception ex)
+            {
                 MessageBox.Show($"Erro para adicionar permissão para todos usuários na pasta {path}");
             }
         }
 
-        public async Task movePdvPath() {
-            if(enable.cbCeltaBSPDV.Checked) {
+        public async Task movePdvPath()
+        {
+            if (enable.cbCeltaBSPDV.Checked)
+            {
                 return;
             }
 
-            if(!Directory.Exists(Download.cInstallPdvCeltabspdv)) {
+            if (!Directory.Exists(Download.cInstallPdvCeltabspdv))
+            {
                 MessageBox.Show($"Não foi possível encontrar o caminho {Download.cInstallPdvCeltabspdv}");
                 return;
             }
 
-            if(Directory.Exists(Download.cCeltabspdv)) {
+            if (Directory.Exists(Download.cCeltabspdv))
+            {
                 enable.richTextBoxResults.Text += $"Como o diretório {Download.cCeltabspdv} já existe, não fará a cópia da pasta para o diretório\n\n";
                 enable.cbCeltaBSPDV.Checked = true;
                 return;
@@ -99,40 +150,56 @@ namespace InstallCeltaBSPDV.Configurations {
             await enableAllPermissionsForPath(Download.cInstallPdvCeltabspdv); //coloquei pra habilitar permissão pra todos nessa pasta porque em um teste que eu fiz, deu erro pra acessar essa pasta
 
             Task.Delay(5000).Wait();
-            try {
+            try
+            {
 
                 Directory.Move(Download.cInstallPdvCeltabspdv, Download.cCeltabspdv);
                 Task.Delay(7000).Wait();
                 enable.cbCeltaBSPDV.Checked = true;
-            } catch(Exception ex) {
+            }
+            catch (Exception ex)
+            {
                 MessageBox.Show("Erro para copiar a pasta C:\\CeltaBSPDV: " + ex.Message);
             }
         }
 
-        public async Task extractFile(string sourceFilePath, string destinyPath, string fileName, CheckBox checkBoxToMark = null, string uriDownload = null) {
+        public async Task extractFile(string sourceFilePath, string destinyPath, string fileName, CheckBox checkBoxToMark = null, string uriDownload = null)
+        {
             //coloquei o uriDownload pra se não houver o arquivo, a aplicação fazer o download dele
-            if(!File.Exists(sourceFilePath)) {
-                try {
+            if (!System.IO.File.Exists(sourceFilePath))
+            {
+                try
+                {
                     await new Download(enable).downloadFileTaskAsync(fileName, uriDownload);
-                } catch(Exception ex) {
+                }
+                catch (Exception ex)
+                {
                     MessageBox.Show($"Erro para baixar o {fileName}: {ex.Message}");
                 }
-            } else {
-                try {
+            }
+            else
+            {
+                try
+                {
                     await Task.Run(() => ZipFile.ExtractToDirectory(sourceFilePath, destinyPath, true));
                     //mesmo colocando o await acima, parece que estava indo pro próximo passo sem terminar a execução da extração dos arquivos
-                    if(checkBoxToMark != null) {
+                    if (checkBoxToMark != null)
+                    {
                         checkBoxToMark.Checked = true;
                     }
                     //checkBoxToMark.ForeColor = Color.Green;
-                } catch(Exception ex) {
+                }
+                catch (Exception ex)
+                {
                     MessageBox.Show($"Erro para extrair o {fileName}: {ex.Message}");
                 }
             }
         }
 
-                private async Task configureEnergyPlan() {
-            if(enable.cbUSB.Checked && enable.cbPCAndMonitor.Checked && enable.cbFastBoot.Checked) {
+        private async Task configureEnergyPlan()
+        {
+            if (enable.cbUSB.Checked && enable.cbPCAndMonitor.Checked && enable.cbFastBoot.Checked)
+            {
                 return;
             }
             #region commands
@@ -162,7 +229,8 @@ namespace InstallCeltaBSPDV.Configurations {
             turnOnFastStartup.CreateNoWindow = true;
             #endregion
 
-            try {
+            try
+            {
                 await Task.Run(() => Process.Start(enableHibernate));
                 Task.Delay(2000).Wait();
                 await Task.Run(() => Process.Start(turnOnFastStartup));
@@ -182,63 +250,81 @@ namespace InstallCeltaBSPDV.Configurations {
                 await Task.Run(() => Process.Start(disableUsbStandbyBattery));
                 Task.Delay(2000).Wait();
                 await Task.Run(() => Process.Start(disableUsbStandbyPlugged));
-            } catch(Exception ex) {
+            }
+            catch (Exception ex)
+            {
                 MessageBox.Show(ex.Message);
             }
             enable.cbUSB.Checked = true;
             enable.cbPCAndMonitor.Checked = true;
             enable.cbFastBoot.Checked = true;
         }
-        private void openAdjustVisualEffects() {
-            if(enable.cbBestPerformance.Checked) {
+        private void openAdjustVisualEffects()
+        {
+            if (enable.cbBestPerformance.Checked)
+            {
                 return;
             }
             var adjustVisualEffects = new ProcessStartInfo("cmd", "/c %windir%\\system32\\SystemPropertiesPerformance.exe");
             adjustVisualEffects.CreateNoWindow = true;
             Process.Start(adjustVisualEffects);
         }
-        private void neverNotifyUser() {
-            if(enable.cbNeverNotifyUser.Checked) {
+        private void neverNotifyUser()
+        {
+            if (enable.cbNeverNotifyUser.Checked)
+            {
                 return;
             }
             var info = new ProcessStartInfo("cmd", @"/c C:\Windows\System32\UserAccountControlSettings.exe");
             info.CreateNoWindow = true;
-            try {
+            try
+            {
                 Process.Start(info);
 
 
 
-            } catch(Exception ex) {
+            }
+            catch (Exception ex)
+            {
                 MessageBox.Show(ex.Message);
             }
         }
-        private void setHostName() {
-            if(enable.cbHostname.Checked) {
+        private void setHostName()
+        {
+            if (enable.cbHostname.Checked)
+            {
                 return;
             }
             ComputerName FormComputerName = new ComputerName(enable);
             FormComputerName.Show();
         }
-        private void createTempPath() {
-            if(enable.cbTemp.Checked) {
+        private void createTempPath()
+        {
+            if (enable.cbTemp.Checked)
+            {
                 return;
             }
-            if(!Directory.Exists("C:\\Temp")) {
+            if (!Directory.Exists("C:\\Temp"))
+            {
                 DirectoryInfo info = Directory.CreateDirectory("C:\\Temp");
                 bool exists = info.Exists;
 
-                if(exists) {
+                if (exists)
+                {
                     enable.cbTemp.Checked = true;
                     //enable.checkBoxTemp.ForeColor = Color.Green;
                 }
-            } else {
+            }
+            else
+            {
                 enable.cbTemp.Checked = true;
                 //enable.checkBoxTemp.ForeColor = Color.Green;
             }
         }
-
-        public async Task configureFirewall() {
-            if(enable.cbFirewall.Checked) {
+        public async Task configureFirewall()
+        {
+            if (enable.cbFirewall.Checked)
+            {
                 return;
             }
             bool pingVerify = false;
@@ -248,7 +334,8 @@ namespace InstallCeltaBSPDV.Configurations {
             #region ICMPv4 - PING
 
             //quando adiciona o processo igual está adicionando a porta 9092 e 27017, não tem opção pra criar como protocolo ICMPv4. Por isso, configurei conforme abaixo e editei a permissão
-            Process removePING = new Process {
+            Process removePING = new Process
+            {
                 StartInfo = {
                     FileName = "netsh",
                     Arguments = $@"advfirewall firewall delete rule name=""PING""",
@@ -258,13 +345,17 @@ namespace InstallCeltaBSPDV.Configurations {
                 }
             };
             removePING.StartInfo.CreateNoWindow = true;
-            try {
+            try
+            {
                 await Task.Run(() => removePING.Start());
-            } catch(Exception ex) {
+            }
+            catch (Exception ex)
+            {
                 MessageBox.Show("Erro para remover o PING: " + ex.Message);
             }
 
-            Process pingProcess = new Process {
+            Process pingProcess = new Process
+            {
                 StartInfo = {
                     FileName = "netsh",
                     Arguments = $@"advfirewall firewall add rule name = ""PING"" protocol = ICMPv4:any,any dir =in action = allow",
@@ -276,18 +367,22 @@ namespace InstallCeltaBSPDV.Configurations {
 
             Task.Delay(5000).Wait();
 
-            try {
+            try
+            {
                 await Task.Run(() => pingProcess.Start());
 
                 await Task.Run(() => pingProcess.StandardOutput.ReadToEnd());
 
                 await Task.Run(() => pingProcess.WaitForExit());
 
-            } catch(Exception ex) {
+            }
+            catch (Exception ex)
+            {
                 MessageBox.Show("Erro para criar as regras do PING: " + ex.Message);
             }
 
-            try {
+            try
+            {
                 INetFwPolicy2 firewallPolicyPING = (INetFwPolicy2)Activator.CreateInstance(Type.GetTypeFromProgID("HNetCfg.FwPolicy2"));
 
                 var rule = firewallPolicyPING!.Rules.Item("PING"); // Name of your rule here
@@ -295,7 +390,9 @@ namespace InstallCeltaBSPDV.Configurations {
 
                 pingVerify = true;
                 enable.richTextBoxResults.Text += "Firewall: Regra de PING adicionada\n\n";
-            } catch(Exception ex) {
+            }
+            catch (Exception ex)
+            {
                 MessageBox.Show("Erro para editar o PING: " + ex.Message);
             }
             #endregion
@@ -315,14 +412,17 @@ namespace InstallCeltaBSPDV.Configurations {
             INetFwPolicy2 firewallPolicy9092 = (INetFwPolicy2)Activator.CreateInstance(
                 Type.GetTypeFromProgID("HNetCfg.FwPolicy2"));
 
-            try {
+            try
+            {
                 await Task.Run(() => firewallPolicy9092.Rules.Remove("9092"));
 
                 await Task.Run(() => firewallPolicy9092.Rules.Add(firewallRule9092));
 
                 sitePortVerify = true;
                 enable.richTextBoxResults.Text += "Firewall: Regra da porta 9092 adicionada\n\n";
-            } catch(Exception ex) {
+            }
+            catch (Exception ex)
+            {
                 MessageBox.Show($"Erro para criar a regra 9092 do Firewall: {ex.Message}");
             }
             #endregion
@@ -343,11 +443,14 @@ namespace InstallCeltaBSPDV.Configurations {
             INetFwPolicy2 firewallPolicy = (INetFwPolicy2)Activator.CreateInstance(
                 Type.GetTypeFromProgID("HNetCfg.FwPolicy2"));
 
-            try {
+            try
+            {
                 await Task.Run(() => firewallPolicy!.Rules.Remove("27017"));
                 await Task.Run(() => firewallPolicy!.Rules.Add(firewallRule27017));
                 mongoPortVerify = true;
-            } catch(Exception ex) {
+            }
+            catch (Exception ex)
+            {
                 MessageBox.Show($"Erro para configurar a porta 27017: {ex.Message}");
             }
 
@@ -355,11 +458,11 @@ namespace InstallCeltaBSPDV.Configurations {
             enable.richTextBoxResults.Text += "Firewall: Regra da porta 27017 adicionada\n\n";
             #endregion
 
-            if(pingVerify && sitePortVerify && mongoPortVerify) {
+            if (pingVerify && sitePortVerify && mongoPortVerify)
+            {
                 enable.cbFirewall.Checked = true;
             }
         }
-
     }
 
 }

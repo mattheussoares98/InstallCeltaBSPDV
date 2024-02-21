@@ -96,7 +96,7 @@ namespace InstallCeltaBSPDV.Forms.DownloadFiles {
                teamViewer,
                new Dictionary<string, string>() { {
                        $"{teamViewer}.zip",
-                        "https://onedrive.live.com/download?cid=4ECE55D0B3C830E2&resid=4ECE55D0B3C830E2%21149&authkey=AIlA55j2KUOeyog"} });
+                        "https://onedrive.live.com/download?resid=4ECE55D0B3C830E2%21327&authkey=!AADxXLnlrn6Z5KM"} });
 
             downloadFilesForm.urlsDownloadDictionary.Add(
                 manualPDV,

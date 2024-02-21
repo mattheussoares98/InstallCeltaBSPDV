@@ -22,403 +22,401 @@
         ///  Required method for Designer support - do not modify
         ///  the contents of this method with the code editor.
         /// </summary>
-        private void InitializeComponent() {
+        private void InitializeComponent()
+        {
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(EnableConfigurations));
-            this.buttonConfigurations = new System.Windows.Forms.Button();
-            this.flowLayoutPanelConfigurations = new System.Windows.Forms.FlowLayoutPanel();
-            this.cbUSB = new System.Windows.Forms.CheckBox();
-            this.cbPCAndMonitor = new System.Windows.Forms.CheckBox();
-            this.cbFastBoot = new System.Windows.Forms.CheckBox();
-            this.cbTemp = new System.Windows.Forms.CheckBox();
-            this.cbHostname = new System.Windows.Forms.CheckBox();
-            this.cbCeltaBSPDV = new System.Windows.Forms.CheckBox();
-            this.cbMongoDB = new System.Windows.Forms.CheckBox();
-            this.cbShortcut = new System.Windows.Forms.CheckBox();
-            this.cbRemoteAcces = new System.Windows.Forms.CheckBox();
-            this.cbComponentsReport = new System.Windows.Forms.CheckBox();
-            this.cbRoboMongo = new System.Windows.Forms.CheckBox();
-            this.cbNeverNotifyUser = new System.Windows.Forms.CheckBox();
-            this.cbBestPerformance = new System.Windows.Forms.CheckBox();
-            this.cbPCI = new System.Windows.Forms.CheckBox();
-            this.cbInitBlocks = new System.Windows.Forms.CheckBox();
-            this.cbTaskManager = new System.Windows.Forms.CheckBox();
-            this.cbTeamViewer = new System.Windows.Forms.CheckBox();
-            this.cbUltraVNC = new System.Windows.Forms.CheckBox();
-            this.cdDeviceManager = new System.Windows.Forms.CheckBox();
-            this.cbDLLs = new System.Windows.Forms.CheckBox();
-            this.cbLogo = new System.Windows.Forms.CheckBox();
-            this.cbIP = new System.Windows.Forms.CheckBox();
-            this.richTextBoxResults = new System.Windows.Forms.RichTextBox();
-            this.progressBarInstall = new System.Windows.Forms.ProgressBar();
-            this.buttonDownloadFiles = new System.Windows.Forms.Button();
-            this.folderBrowserDialog1 = new System.Windows.Forms.FolderBrowserDialog();
-            this.buttonDistributeDLLs = new System.Windows.Forms.Button();
-            this.cbFirewall = new System.Windows.Forms.CheckBox();
-            this.flowLayoutPanelConfigurations.SuspendLayout();
-            this.SuspendLayout();
+            buttonConfigurations = new Button();
+            flowLayoutPanelConfigurations = new FlowLayoutPanel();
+            cbFirewall = new CheckBox();
+            cbUSB = new CheckBox();
+            cbPCAndMonitor = new CheckBox();
+            cbFastBoot = new CheckBox();
+            cbTemp = new CheckBox();
+            cbHostname = new CheckBox();
+            cbCeltaBSPDV = new CheckBox();
+            cbMongoDB = new CheckBox();
+            cbShortcut = new CheckBox();
+            cbRemoteAcces = new CheckBox();
+            cbComponentsReport = new CheckBox();
+            cbTeamViewer = new CheckBox();
+            cbRoboMongo = new CheckBox();
+            cbNeverNotifyUser = new CheckBox();
+            cbBestPerformance = new CheckBox();
+            cbPCI = new CheckBox();
+            cbInitBlocks = new CheckBox();
+            cbTaskManager = new CheckBox();
+            cbUltraVNC = new CheckBox();
+            cdDeviceManager = new CheckBox();
+            cbDLLs = new CheckBox();
+            cbLogo = new CheckBox();
+            cbIP = new CheckBox();
+            richTextBoxResults = new RichTextBox();
+            progressBarInstall = new ProgressBar();
+            buttonDownloadFiles = new Button();
+            folderBrowserDialog1 = new FolderBrowserDialog();
+            buttonDistributeDLLs = new Button();
+            flowLayoutPanelConfigurations.SuspendLayout();
+            SuspendLayout();
             // 
             // buttonConfigurations
             // 
-            this.buttonConfigurations.Location = new System.Drawing.Point(590, 365);
-            this.buttonConfigurations.Name = "buttonConfigurations";
-            this.buttonConfigurations.Size = new System.Drawing.Size(392, 41);
-            this.buttonConfigurations.TabIndex = 0;
-            this.buttonConfigurations.Text = "Iniciar configurações";
-            this.buttonConfigurations.UseVisualStyleBackColor = true;
-            this.buttonConfigurations.Click += new System.EventHandler(this.buttonConfigurations_Click);
+            buttonConfigurations.Location = new Point(590, 365);
+            buttonConfigurations.Name = "buttonConfigurations";
+            buttonConfigurations.Size = new Size(392, 41);
+            buttonConfigurations.TabIndex = 0;
+            buttonConfigurations.Text = "Iniciar configurações";
+            buttonConfigurations.UseVisualStyleBackColor = true;
+            buttonConfigurations.Click += buttonConfigurations_Click;
             // 
             // flowLayoutPanelConfigurations
             // 
-            this.flowLayoutPanelConfigurations.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
-            this.flowLayoutPanelConfigurations.Controls.Add(this.cbFirewall);
-            this.flowLayoutPanelConfigurations.Controls.Add(this.cbUSB);
-            this.flowLayoutPanelConfigurations.Controls.Add(this.cbPCAndMonitor);
-            this.flowLayoutPanelConfigurations.Controls.Add(this.cbFastBoot);
-            this.flowLayoutPanelConfigurations.Controls.Add(this.cbTemp);
-            this.flowLayoutPanelConfigurations.Controls.Add(this.cbHostname);
-            this.flowLayoutPanelConfigurations.Controls.Add(this.cbCeltaBSPDV);
-            this.flowLayoutPanelConfigurations.Controls.Add(this.cbMongoDB);
-            this.flowLayoutPanelConfigurations.Controls.Add(this.cbShortcut);
-            this.flowLayoutPanelConfigurations.Controls.Add(this.cbRemoteAcces);
-            this.flowLayoutPanelConfigurations.Controls.Add(this.cbComponentsReport);
-            this.flowLayoutPanelConfigurations.Controls.Add(this.cbRoboMongo);
-            this.flowLayoutPanelConfigurations.Controls.Add(this.cbNeverNotifyUser);
-            this.flowLayoutPanelConfigurations.Controls.Add(this.cbBestPerformance);
-            this.flowLayoutPanelConfigurations.Controls.Add(this.cbPCI);
-            this.flowLayoutPanelConfigurations.Controls.Add(this.cbInitBlocks);
-            this.flowLayoutPanelConfigurations.Controls.Add(this.cbTaskManager);
-            this.flowLayoutPanelConfigurations.Controls.Add(this.cbTeamViewer);
-            this.flowLayoutPanelConfigurations.Controls.Add(this.cbUltraVNC);
-            this.flowLayoutPanelConfigurations.Controls.Add(this.cdDeviceManager);
-            this.flowLayoutPanelConfigurations.Controls.Add(this.cbDLLs);
-            this.flowLayoutPanelConfigurations.Controls.Add(this.cbLogo);
-            this.flowLayoutPanelConfigurations.Controls.Add(this.cbIP);
-            this.flowLayoutPanelConfigurations.FlowDirection = System.Windows.Forms.FlowDirection.TopDown;
-            this.flowLayoutPanelConfigurations.Font = new System.Drawing.Font("Segoe UI", 8F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
-            this.flowLayoutPanelConfigurations.Location = new System.Drawing.Point(11, 3);
-            this.flowLayoutPanelConfigurations.Margin = new System.Windows.Forms.Padding(0);
-            this.flowLayoutPanelConfigurations.Name = "flowLayoutPanelConfigurations";
-            this.flowLayoutPanelConfigurations.Size = new System.Drawing.Size(576, 534);
-            this.flowLayoutPanelConfigurations.TabIndex = 2;
-            // 
-            // cbUSB
-            // 
-            this.cbUSB.AutoSize = true;
-            this.cbUSB.Location = new System.Drawing.Point(3, 26);
-            this.cbUSB.Name = "cbUSB";
-            this.cbUSB.Size = new System.Drawing.Size(203, 17);
-            this.cbUSB.TabIndex = 5;
-            this.cbUSB.Text = "Desabilitar suspensão seletiva USB";
-            this.cbUSB.UseVisualStyleBackColor = true;
-            this.cbUSB.CheckedChanged += new System.EventHandler(this.cbUSB_CheckedChanged);
-            // 
-            // cbPCAndMonitor
-            // 
-            this.cbPCAndMonitor.AutoSize = true;
-            this.cbPCAndMonitor.Location = new System.Drawing.Point(3, 49);
-            this.cbPCAndMonitor.Name = "cbPCAndMonitor";
-            this.cbPCAndMonitor.Size = new System.Drawing.Size(337, 17);
-            this.cbPCAndMonitor.TabIndex = 6;
-            this.cbPCAndMonitor.Text = "Desabilitar tempo para suspensão do monitor e computador";
-            this.cbPCAndMonitor.UseVisualStyleBackColor = true;
-            this.cbPCAndMonitor.CheckedChanged += new System.EventHandler(this.cbPCAndMonitor_CheckedChanged);
-            // 
-            // cbFastBoot
-            // 
-            this.cbFastBoot.AutoSize = true;
-            this.cbFastBoot.Location = new System.Drawing.Point(3, 72);
-            this.cbFastBoot.Name = "cbFastBoot";
-            this.cbFastBoot.Size = new System.Drawing.Size(225, 17);
-            this.cbFastBoot.TabIndex = 24;
-            this.cbFastBoot.Text = "Ligar inicialiazação rápida do windows";
-            this.cbFastBoot.UseVisualStyleBackColor = true;
-            this.cbFastBoot.CheckedChanged += new System.EventHandler(this.cbFastBoot_CheckedChanged);
-            // 
-            // cbTemp
-            // 
-            this.cbTemp.AutoSize = true;
-            this.cbTemp.Location = new System.Drawing.Point(3, 95);
-            this.cbTemp.Name = "cbTemp";
-            this.cbTemp.Size = new System.Drawing.Size(134, 17);
-            this.cbTemp.TabIndex = 7;
-            this.cbTemp.Text = "Criar a pasta C:\\Temp";
-            this.cbTemp.UseVisualStyleBackColor = true;
-            this.cbTemp.CheckedChanged += new System.EventHandler(this.cbTemp_CheckedChanged);
-            // 
-            // cbHostname
-            // 
-            this.cbHostname.AutoSize = true;
-            this.cbHostname.Location = new System.Drawing.Point(3, 118);
-            this.cbHostname.Name = "cbHostname";
-            this.cbHostname.Size = new System.Drawing.Size(228, 17);
-            this.cbHostname.TabIndex = 8;
-            this.cbHostname.Text = "Hostname conforme o número do caixa";
-            this.cbHostname.UseVisualStyleBackColor = true;
-            this.cbHostname.CheckedChanged += new System.EventHandler(this.cbHostname_CheckedChanged);
-            // 
-            // cbCeltaBSPDV
-            // 
-            this.cbCeltaBSPDV.AutoSize = true;
-            this.cbCeltaBSPDV.Location = new System.Drawing.Point(3, 141);
-            this.cbCeltaBSPDV.Name = "cbCeltaBSPDV";
-            this.cbCeltaBSPDV.Size = new System.Drawing.Size(238, 17);
-            this.cbCeltaBSPDV.TabIndex = 9;
-            this.cbCeltaBSPDV.Text = "Copiar a pasta CeltaBSPDV para o disco C";
-            this.cbCeltaBSPDV.UseVisualStyleBackColor = true;
-            this.cbCeltaBSPDV.CheckedChanged += new System.EventHandler(this.cbCeltaBSPDV_CheckedChanged);
-            // 
-            // cbMongoDB
-            // 
-            this.cbMongoDB.AutoSize = true;
-            this.cbMongoDB.Location = new System.Drawing.Point(3, 164);
-            this.cbMongoDB.Name = "cbMongoDB";
-            this.cbMongoDB.Size = new System.Drawing.Size(129, 17);
-            this.cbMongoDB.TabIndex = 10;
-            this.cbMongoDB.Text = "Instalar o MongoDB";
-            this.cbMongoDB.UseVisualStyleBackColor = true;
-            this.cbMongoDB.CheckedChanged += new System.EventHandler(this.cbMongoDB_CheckedChanged);
-            // 
-            // cbShortcut
-            // 
-            this.cbShortcut.AutoSize = true;
-            this.cbShortcut.Location = new System.Drawing.Point(3, 187);
-            this.cbShortcut.Name = "cbShortcut";
-            this.cbShortcut.Size = new System.Drawing.Size(460, 17);
-            this.cbShortcut.TabIndex = 11;
-            this.cbShortcut.Text = "Adicionar atalho do PDV na pasta de inicialização do windows e na área de trabalh" +
-    "o";
-            this.cbShortcut.UseVisualStyleBackColor = true;
-            this.cbShortcut.CheckedChanged += new System.EventHandler(this.cbShortcut_CheckedChanged);
-            // 
-            // cbRemoteAcces
-            // 
-            this.cbRemoteAcces.AutoSize = true;
-            this.cbRemoteAcces.Location = new System.Drawing.Point(3, 210);
-            this.cbRemoteAcces.Name = "cbRemoteAcces";
-            this.cbRemoteAcces.Size = new System.Drawing.Size(249, 17);
-            this.cbRemoteAcces.TabIndex = 12;
-            this.cbRemoteAcces.Text = "Habilitar acesso remoto ao banco de dados";
-            this.cbRemoteAcces.UseVisualStyleBackColor = true;
-            this.cbRemoteAcces.CheckedChanged += new System.EventHandler(this.cbRemoteAcces_CheckedChanged);
-            // 
-            // cbComponentsReport
-            // 
-            this.cbComponentsReport.AutoSize = true;
-            this.cbComponentsReport.Location = new System.Drawing.Point(3, 233);
-            this.cbComponentsReport.Name = "cbComponentsReport";
-            this.cbComponentsReport.Size = new System.Drawing.Size(171, 17);
-            this.cbComponentsReport.TabIndex = 13;
-            this.cbComponentsReport.Text = "Instalar Components Report";
-            this.cbComponentsReport.UseVisualStyleBackColor = true;
-            this.cbComponentsReport.CheckedChanged += new System.EventHandler(this.cbComponentsReport_CheckedChanged);
-            // 
-            // cbRoboMongo
-            // 
-            this.cbRoboMongo.AutoSize = true;
-            this.cbRoboMongo.Location = new System.Drawing.Point(3, 256);
-            this.cbRoboMongo.Name = "cbRoboMongo";
-            this.cbRoboMongo.Size = new System.Drawing.Size(143, 17);
-            this.cbRoboMongo.TabIndex = 25;
-            this.cbRoboMongo.Text = "Instalar o RoboMongo";
-            this.cbRoboMongo.UseVisualStyleBackColor = true;
-            this.cbRoboMongo.CheckedChanged += new System.EventHandler(this.cbRoboMongo_CheckedChanged);
-            // 
-            // cbNeverNotifyUser
-            // 
-            this.cbNeverNotifyUser.AutoSize = true;
-            this.cbNeverNotifyUser.Location = new System.Drawing.Point(3, 279);
-            this.cbNeverNotifyUser.Name = "cbNeverNotifyUser";
-            this.cbNeverNotifyUser.Size = new System.Drawing.Size(298, 17);
-            this.cbNeverNotifyUser.TabIndex = 14;
-            this.cbNeverNotifyUser.Text = "Configurar controle de usuários para nunca notificar";
-            this.cbNeverNotifyUser.UseVisualStyleBackColor = true;
-            this.cbNeverNotifyUser.CheckedChanged += new System.EventHandler(this.cbNeverNotifyUser_CheckedChanged);
-            // 
-            // cbBestPerformance
-            // 
-            this.cbBestPerformance.AutoSize = true;
-            this.cbBestPerformance.Location = new System.Drawing.Point(3, 302);
-            this.cbBestPerformance.Name = "cbBestPerformance";
-            this.cbBestPerformance.Size = new System.Drawing.Size(371, 17);
-            this.cbBestPerformance.TabIndex = 15;
-            this.cbBestPerformance.Text = "Selecionar opções de desempenho para obter melhor desempenho";
-            this.cbBestPerformance.UseVisualStyleBackColor = true;
-            this.cbBestPerformance.CheckedChanged += new System.EventHandler(this.cbBestPerformance_CheckedChanged);
-            // 
-            // cbPCI
-            // 
-            this.cbPCI.AutoSize = true;
-            this.cbPCI.Location = new System.Drawing.Point(3, 325);
-            this.cbPCI.Name = "cbPCI";
-            this.cbPCI.Size = new System.Drawing.Size(199, 17);
-            this.cbPCI.TabIndex = 23;
-            this.cbPCI.Text = "Desabilitar suspensão seletiva PCI";
-            this.cbPCI.UseVisualStyleBackColor = true;
-            this.cbPCI.CheckedChanged += new System.EventHandler(this.cbPCI_CheckedChanged);
-            // 
-            // cbInitBlocks
-            // 
-            this.cbInitBlocks.AutoSize = true;
-            this.cbInitBlocks.Location = new System.Drawing.Point(3, 348);
-            this.cbInitBlocks.Name = "cbInitBlocks";
-            this.cbInitBlocks.Size = new System.Drawing.Size(248, 17);
-            this.cbInitBlocks.TabIndex = 16;
-            this.cbInitBlocks.Text = "Desativar blocos dinâmicos do menu iniciar";
-            this.cbInitBlocks.UseVisualStyleBackColor = true;
-            this.cbInitBlocks.CheckedChanged += new System.EventHandler(this.cbInitBlocks_CheckedChanged);
-            // 
-            // cbTaskManager
-            // 
-            this.cbTaskManager.AutoSize = true;
-            this.cbTaskManager.Location = new System.Drawing.Point(3, 371);
-            this.cbTaskManager.Name = "cbTaskManager";
-            this.cbTaskManager.Size = new System.Drawing.Size(466, 17);
-            this.cbTaskManager.TabIndex = 17;
-            this.cbTaskManager.Text = "Desativar a inicialização automática de APPs desnecessários no gerenciador de tar" +
-    "efas";
-            this.cbTaskManager.UseVisualStyleBackColor = true;
-            this.cbTaskManager.CheckedChanged += new System.EventHandler(this.cbTaskManager_CheckedChanged);
-            // 
-            // cbTeamViewer
-            // 
-            this.cbTeamViewer.AutoSize = true;
-            this.cbTeamViewer.Location = new System.Drawing.Point(3, 394);
-            this.cbTeamViewer.Name = "cbTeamViewer";
-            this.cbTeamViewer.Size = new System.Drawing.Size(273, 17);
-            this.cbTeamViewer.TabIndex = 21;
-            this.cbTeamViewer.Text = "Instalar o team viewer e fixar a senha \"CeltaPDV\"";
-            this.cbTeamViewer.UseVisualStyleBackColor = true;
-            this.cbTeamViewer.CheckedChanged += new System.EventHandler(this.cbTeamViewer_CheckedChanged);
-            // 
-            // cbUltraVNC
-            // 
-            this.cbUltraVNC.AutoSize = true;
-            this.cbUltraVNC.Location = new System.Drawing.Point(3, 417);
-            this.cbUltraVNC.Name = "cbUltraVNC";
-            this.cbUltraVNC.Size = new System.Drawing.Size(220, 17);
-            this.cbUltraVNC.TabIndex = 18;
-            this.cbUltraVNC.Text = "UltraVNC instalado com a senha \"123\"";
-            this.cbUltraVNC.UseVisualStyleBackColor = true;
-            this.cbUltraVNC.CheckedChanged += new System.EventHandler(this.cbUltraVNC_CheckedChanged);
-            // 
-            // cdDeviceManager
-            // 
-            this.cdDeviceManager.AutoSize = true;
-            this.cdDeviceManager.Location = new System.Drawing.Point(3, 440);
-            this.cdDeviceManager.Name = "cdDeviceManager";
-            this.cdDeviceManager.Size = new System.Drawing.Size(509, 17);
-            this.cdDeviceManager.TabIndex = 27;
-            this.cdDeviceManager.Text = "Gerenciador de dispositivos - não permitir desativar dispositivos USB, interface " +
-    "humana e rede";
-            this.cdDeviceManager.UseVisualStyleBackColor = true;
-            this.cdDeviceManager.CheckedChanged += new System.EventHandler(this.cdDeviceManager_CheckedChanged);
-            // 
-            // cbDLLs
-            // 
-            this.cbDLLs.AutoSize = true;
-            this.cbDLLs.Location = new System.Drawing.Point(3, 463);
-            this.cbDLLs.Name = "cbDLLs";
-            this.cbDLLs.Size = new System.Drawing.Size(138, 17);
-            this.cbDLLs.TabIndex = 26;
-            this.cbDLLs.Text = "Copiar as DLLs do SAT";
-            this.cbDLLs.UseVisualStyleBackColor = true;
-            this.cbDLLs.CheckedChanged += new System.EventHandler(this.cbDLLs_CheckedChanged);
-            // 
-            // cbLogo
-            // 
-            this.cbLogo.AutoSize = true;
-            this.cbLogo.Location = new System.Drawing.Point(3, 486);
-            this.cbLogo.Name = "cbLogo";
-            this.cbLogo.Size = new System.Drawing.Size(133, 17);
-            this.cbLogo.TabIndex = 19;
-            this.cbLogo.Text = "Adicionar o logotipo";
-            this.cbLogo.UseVisualStyleBackColor = true;
-            this.cbLogo.CheckedChanged += new System.EventHandler(this.cbLogo_CheckedChanged);
-            // 
-            // cbIP
-            // 
-            this.cbIP.AutoSize = true;
-            this.cbIP.Location = new System.Drawing.Point(3, 509);
-            this.cbIP.Name = "cbIP";
-            this.cbIP.Size = new System.Drawing.Size(136, 17);
-            this.cbIP.TabIndex = 20;
-            this.cbIP.Text = "Fixar o IP da máquina";
-            this.cbIP.UseVisualStyleBackColor = true;
-            this.cbIP.CheckedChanged += new System.EventHandler(this.cbIP_CheckedChanged);
-            // 
-            // richTextBoxResults
-            // 
-            this.richTextBoxResults.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-            this.richTextBoxResults.EnableAutoDragDrop = true;
-            this.richTextBoxResults.Location = new System.Drawing.Point(591, 3);
-            this.richTextBoxResults.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
-            this.richTextBoxResults.Name = "richTextBoxResults";
-            this.richTextBoxResults.ReadOnly = true;
-            this.richTextBoxResults.ScrollBars = System.Windows.Forms.RichTextBoxScrollBars.Vertical;
-            this.richTextBoxResults.Size = new System.Drawing.Size(392, 296);
-            this.richTextBoxResults.TabIndex = 23;
-            this.richTextBoxResults.Text = "";
-            this.richTextBoxResults.TextChanged += new System.EventHandler(this.richTextBoxResults_TextChanged);
-            // 
-            // progressBarInstall
-            // 
-            this.progressBarInstall.Location = new System.Drawing.Point(591, 316);
-            this.progressBarInstall.Name = "progressBarInstall";
-            this.progressBarInstall.Size = new System.Drawing.Size(391, 42);
-            this.progressBarInstall.TabIndex = 3;
-            this.progressBarInstall.Visible = false;
-            // 
-            // buttonDownloadFiles
-            // 
-            this.buttonDownloadFiles.Location = new System.Drawing.Point(590, 422);
-            this.buttonDownloadFiles.Name = "buttonDownloadFiles";
-            this.buttonDownloadFiles.Size = new System.Drawing.Size(392, 41);
-            this.buttonDownloadFiles.TabIndex = 24;
-            this.buttonDownloadFiles.Text = "Baixar arquivos";
-            this.buttonDownloadFiles.UseVisualStyleBackColor = true;
-            this.buttonDownloadFiles.Click += new System.EventHandler(this.button1_Click);
-            // 
-            // buttonDistributeDLLs
-            // 
-            this.buttonDistributeDLLs.Location = new System.Drawing.Point(591, 478);
-            this.buttonDistributeDLLs.Name = "buttonDistributeDLLs";
-            this.buttonDistributeDLLs.Size = new System.Drawing.Size(392, 41);
-            this.buttonDistributeDLLs.TabIndex = 26;
-            this.buttonDistributeDLLs.Text = "Distribuir DLLs do SAT nas pastas necessárias";
-            this.buttonDistributeDLLs.UseVisualStyleBackColor = true;
-            this.buttonDistributeDLLs.Click += new System.EventHandler(this.buttonDistributeDLLs_Click);
+            flowLayoutPanelConfigurations.AutoSizeMode = AutoSizeMode.GrowAndShrink;
+            flowLayoutPanelConfigurations.Controls.Add(cbFirewall);
+            flowLayoutPanelConfigurations.Controls.Add(cbUSB);
+            flowLayoutPanelConfigurations.Controls.Add(cbPCAndMonitor);
+            flowLayoutPanelConfigurations.Controls.Add(cbFastBoot);
+            flowLayoutPanelConfigurations.Controls.Add(cbTemp);
+            flowLayoutPanelConfigurations.Controls.Add(cbHostname);
+            flowLayoutPanelConfigurations.Controls.Add(cbCeltaBSPDV);
+            flowLayoutPanelConfigurations.Controls.Add(cbMongoDB);
+            flowLayoutPanelConfigurations.Controls.Add(cbShortcut);
+            flowLayoutPanelConfigurations.Controls.Add(cbRemoteAcces);
+            flowLayoutPanelConfigurations.Controls.Add(cbComponentsReport);
+            flowLayoutPanelConfigurations.Controls.Add(cbTeamViewer);
+            flowLayoutPanelConfigurations.Controls.Add(cbRoboMongo);
+            flowLayoutPanelConfigurations.Controls.Add(cbNeverNotifyUser);
+            flowLayoutPanelConfigurations.Controls.Add(cbBestPerformance);
+            flowLayoutPanelConfigurations.Controls.Add(cbPCI);
+            flowLayoutPanelConfigurations.Controls.Add(cbInitBlocks);
+            flowLayoutPanelConfigurations.Controls.Add(cbTaskManager);
+            flowLayoutPanelConfigurations.Controls.Add(cbUltraVNC);
+            flowLayoutPanelConfigurations.Controls.Add(cdDeviceManager);
+            flowLayoutPanelConfigurations.Controls.Add(cbDLLs);
+            flowLayoutPanelConfigurations.Controls.Add(cbLogo);
+            flowLayoutPanelConfigurations.Controls.Add(cbIP);
+            flowLayoutPanelConfigurations.FlowDirection = FlowDirection.TopDown;
+            flowLayoutPanelConfigurations.Font = new Font("Segoe UI", 8F, FontStyle.Regular, GraphicsUnit.Point);
+            flowLayoutPanelConfigurations.Location = new Point(11, 3);
+            flowLayoutPanelConfigurations.Margin = new Padding(0);
+            flowLayoutPanelConfigurations.Name = "flowLayoutPanelConfigurations";
+            flowLayoutPanelConfigurations.Size = new Size(576, 534);
+            flowLayoutPanelConfigurations.TabIndex = 2;
             // 
             // cbFirewall
             // 
-            this.cbFirewall.AutoSize = true;
-            this.cbFirewall.Location = new System.Drawing.Point(3, 3);
-            this.cbFirewall.Name = "cbFirewall";
-            this.cbFirewall.Size = new System.Drawing.Size(222, 17);
-            this.cbFirewall.TabIndex = 28;
-            this.cbFirewall.Text = "Configurar firewall (9092, 27017, ping)";
-            this.cbFirewall.UseVisualStyleBackColor = true;
+            cbFirewall.AutoSize = true;
+            cbFirewall.Location = new Point(3, 3);
+            cbFirewall.Name = "cbFirewall";
+            cbFirewall.Size = new Size(222, 17);
+            cbFirewall.TabIndex = 28;
+            cbFirewall.Text = "Configurar firewall (9092, 27017, ping)";
+            cbFirewall.UseVisualStyleBackColor = true;
+            cbFirewall.CheckedChanged += cbFirewall_CheckedChanged;
+            // 
+            // cbUSB
+            // 
+            cbUSB.AutoSize = true;
+            cbUSB.Location = new Point(3, 26);
+            cbUSB.Name = "cbUSB";
+            cbUSB.Size = new Size(203, 17);
+            cbUSB.TabIndex = 5;
+            cbUSB.Text = "Desabilitar suspensão seletiva USB";
+            cbUSB.UseVisualStyleBackColor = true;
+            cbUSB.CheckedChanged += cbUSB_CheckedChanged;
+            // 
+            // cbPCAndMonitor
+            // 
+            cbPCAndMonitor.AutoSize = true;
+            cbPCAndMonitor.Location = new Point(3, 49);
+            cbPCAndMonitor.Name = "cbPCAndMonitor";
+            cbPCAndMonitor.Size = new Size(337, 17);
+            cbPCAndMonitor.TabIndex = 6;
+            cbPCAndMonitor.Text = "Desabilitar tempo para suspensão do monitor e computador";
+            cbPCAndMonitor.UseVisualStyleBackColor = true;
+            cbPCAndMonitor.CheckedChanged += cbPCAndMonitor_CheckedChanged;
+            // 
+            // cbFastBoot
+            // 
+            cbFastBoot.AutoSize = true;
+            cbFastBoot.Location = new Point(3, 72);
+            cbFastBoot.Name = "cbFastBoot";
+            cbFastBoot.Size = new Size(225, 17);
+            cbFastBoot.TabIndex = 24;
+            cbFastBoot.Text = "Ligar inicialiazação rápida do windows";
+            cbFastBoot.UseVisualStyleBackColor = true;
+            cbFastBoot.CheckedChanged += cbFastBoot_CheckedChanged;
+            // 
+            // cbTemp
+            // 
+            cbTemp.AutoSize = true;
+            cbTemp.Location = new Point(3, 95);
+            cbTemp.Name = "cbTemp";
+            cbTemp.Size = new Size(134, 17);
+            cbTemp.TabIndex = 7;
+            cbTemp.Text = "Criar a pasta C:\\Temp";
+            cbTemp.UseVisualStyleBackColor = true;
+            cbTemp.CheckedChanged += cbTemp_CheckedChanged;
+            // 
+            // cbHostname
+            // 
+            cbHostname.AutoSize = true;
+            cbHostname.Location = new Point(3, 118);
+            cbHostname.Name = "cbHostname";
+            cbHostname.Size = new Size(228, 17);
+            cbHostname.TabIndex = 8;
+            cbHostname.Text = "Hostname conforme o número do caixa";
+            cbHostname.UseVisualStyleBackColor = true;
+            cbHostname.CheckedChanged += cbHostname_CheckedChanged;
+            // 
+            // cbCeltaBSPDV
+            // 
+            cbCeltaBSPDV.AutoSize = true;
+            cbCeltaBSPDV.Location = new Point(3, 141);
+            cbCeltaBSPDV.Name = "cbCeltaBSPDV";
+            cbCeltaBSPDV.Size = new Size(238, 17);
+            cbCeltaBSPDV.TabIndex = 9;
+            cbCeltaBSPDV.Text = "Copiar a pasta CeltaBSPDV para o disco C";
+            cbCeltaBSPDV.UseVisualStyleBackColor = true;
+            cbCeltaBSPDV.CheckedChanged += cbCeltaBSPDV_CheckedChanged;
+            // 
+            // cbMongoDB
+            // 
+            cbMongoDB.AutoSize = true;
+            cbMongoDB.Location = new Point(3, 164);
+            cbMongoDB.Name = "cbMongoDB";
+            cbMongoDB.Size = new Size(129, 17);
+            cbMongoDB.TabIndex = 10;
+            cbMongoDB.Text = "Instalar o MongoDB";
+            cbMongoDB.UseVisualStyleBackColor = true;
+            cbMongoDB.CheckedChanged += cbMongoDB_CheckedChanged;
+            // 
+            // cbShortcut
+            // 
+            cbShortcut.AutoSize = true;
+            cbShortcut.Location = new Point(3, 187);
+            cbShortcut.Name = "cbShortcut";
+            cbShortcut.Size = new Size(460, 17);
+            cbShortcut.TabIndex = 11;
+            cbShortcut.Text = "Adicionar atalho do PDV na pasta de inicialização do windows e na área de trabalho";
+            cbShortcut.UseVisualStyleBackColor = true;
+            cbShortcut.CheckedChanged += cbShortcut_CheckedChanged;
+            // 
+            // cbRemoteAcces
+            // 
+            cbRemoteAcces.AutoSize = true;
+            cbRemoteAcces.Location = new Point(3, 210);
+            cbRemoteAcces.Name = "cbRemoteAcces";
+            cbRemoteAcces.Size = new Size(249, 17);
+            cbRemoteAcces.TabIndex = 12;
+            cbRemoteAcces.Text = "Habilitar acesso remoto ao banco de dados";
+            cbRemoteAcces.UseVisualStyleBackColor = true;
+            cbRemoteAcces.CheckedChanged += cbRemoteAcces_CheckedChanged;
+            // 
+            // cbComponentsReport
+            // 
+            cbComponentsReport.AutoSize = true;
+            cbComponentsReport.Location = new Point(3, 233);
+            cbComponentsReport.Name = "cbComponentsReport";
+            cbComponentsReport.Size = new Size(171, 17);
+            cbComponentsReport.TabIndex = 13;
+            cbComponentsReport.Text = "Instalar Components Report";
+            cbComponentsReport.UseVisualStyleBackColor = true;
+            cbComponentsReport.CheckedChanged += cbComponentsReport_CheckedChanged;
+            // 
+            // cbTeamViewer
+            // 
+            cbTeamViewer.AutoSize = true;
+            cbTeamViewer.Location = new Point(3, 256);
+            cbTeamViewer.Name = "cbTeamViewer";
+            cbTeamViewer.Size = new Size(273, 17);
+            cbTeamViewer.TabIndex = 21;
+            cbTeamViewer.Text = "Instalar o team viewer e fixar a senha \"CeltaPDV\"";
+            cbTeamViewer.UseVisualStyleBackColor = true;
+            cbTeamViewer.CheckedChanged += cbTeamViewer_CheckedChanged;
+            // 
+            // cbRoboMongo
+            // 
+            cbRoboMongo.AutoSize = true;
+            cbRoboMongo.Location = new Point(3, 279);
+            cbRoboMongo.Name = "cbRoboMongo";
+            cbRoboMongo.Size = new Size(143, 17);
+            cbRoboMongo.TabIndex = 25;
+            cbRoboMongo.Text = "Instalar o RoboMongo";
+            cbRoboMongo.UseVisualStyleBackColor = true;
+            cbRoboMongo.CheckedChanged += cbRoboMongo_CheckedChanged;
+            // 
+            // cbNeverNotifyUser
+            // 
+            cbNeverNotifyUser.AutoSize = true;
+            cbNeverNotifyUser.Location = new Point(3, 302);
+            cbNeverNotifyUser.Name = "cbNeverNotifyUser";
+            cbNeverNotifyUser.Size = new Size(298, 17);
+            cbNeverNotifyUser.TabIndex = 14;
+            cbNeverNotifyUser.Text = "Configurar controle de usuários para nunca notificar";
+            cbNeverNotifyUser.UseVisualStyleBackColor = true;
+            cbNeverNotifyUser.CheckedChanged += cbNeverNotifyUser_CheckedChanged;
+            // 
+            // cbBestPerformance
+            // 
+            cbBestPerformance.AutoSize = true;
+            cbBestPerformance.Location = new Point(3, 325);
+            cbBestPerformance.Name = "cbBestPerformance";
+            cbBestPerformance.Size = new Size(371, 17);
+            cbBestPerformance.TabIndex = 15;
+            cbBestPerformance.Text = "Selecionar opções de desempenho para obter melhor desempenho";
+            cbBestPerformance.UseVisualStyleBackColor = true;
+            cbBestPerformance.CheckedChanged += cbBestPerformance_CheckedChanged;
+            // 
+            // cbPCI
+            // 
+            cbPCI.AutoSize = true;
+            cbPCI.Location = new Point(3, 348);
+            cbPCI.Name = "cbPCI";
+            cbPCI.Size = new Size(199, 17);
+            cbPCI.TabIndex = 23;
+            cbPCI.Text = "Desabilitar suspensão seletiva PCI";
+            cbPCI.UseVisualStyleBackColor = true;
+            cbPCI.CheckedChanged += cbPCI_CheckedChanged;
+            // 
+            // cbInitBlocks
+            // 
+            cbInitBlocks.AutoSize = true;
+            cbInitBlocks.Location = new Point(3, 371);
+            cbInitBlocks.Name = "cbInitBlocks";
+            cbInitBlocks.Size = new Size(248, 17);
+            cbInitBlocks.TabIndex = 16;
+            cbInitBlocks.Text = "Desativar blocos dinâmicos do menu iniciar";
+            cbInitBlocks.UseVisualStyleBackColor = true;
+            cbInitBlocks.CheckedChanged += cbInitBlocks_CheckedChanged;
+            // 
+            // cbTaskManager
+            // 
+            cbTaskManager.AutoSize = true;
+            cbTaskManager.Location = new Point(3, 394);
+            cbTaskManager.Name = "cbTaskManager";
+            cbTaskManager.Size = new Size(466, 17);
+            cbTaskManager.TabIndex = 17;
+            cbTaskManager.Text = "Desativar a inicialização automática de APPs desnecessários no gerenciador de tarefas";
+            cbTaskManager.UseVisualStyleBackColor = true;
+            cbTaskManager.CheckedChanged += cbTaskManager_CheckedChanged;
+            // 
+            // cbUltraVNC
+            // 
+            cbUltraVNC.AutoSize = true;
+            cbUltraVNC.Location = new Point(3, 417);
+            cbUltraVNC.Name = "cbUltraVNC";
+            cbUltraVNC.Size = new Size(220, 17);
+            cbUltraVNC.TabIndex = 18;
+            cbUltraVNC.Text = "UltraVNC instalado com a senha \"123\"";
+            cbUltraVNC.UseVisualStyleBackColor = true;
+            cbUltraVNC.CheckedChanged += cbUltraVNC_CheckedChanged;
+            // 
+            // cdDeviceManager
+            // 
+            cdDeviceManager.AutoSize = true;
+            cdDeviceManager.Location = new Point(3, 440);
+            cdDeviceManager.Name = "cdDeviceManager";
+            cdDeviceManager.Size = new Size(509, 17);
+            cdDeviceManager.TabIndex = 27;
+            cdDeviceManager.Text = "Gerenciador de dispositivos - não permitir desativar dispositivos USB, interface humana e rede";
+            cdDeviceManager.UseVisualStyleBackColor = true;
+            cdDeviceManager.CheckedChanged += cdDeviceManager_CheckedChanged;
+            // 
+            // cbDLLs
+            // 
+            cbDLLs.AutoSize = true;
+            cbDLLs.Location = new Point(3, 463);
+            cbDLLs.Name = "cbDLLs";
+            cbDLLs.Size = new Size(138, 17);
+            cbDLLs.TabIndex = 26;
+            cbDLLs.Text = "Copiar as DLLs do SAT";
+            cbDLLs.UseVisualStyleBackColor = true;
+            cbDLLs.CheckedChanged += cbDLLs_CheckedChanged;
+            // 
+            // cbLogo
+            // 
+            cbLogo.AutoSize = true;
+            cbLogo.Location = new Point(3, 486);
+            cbLogo.Name = "cbLogo";
+            cbLogo.Size = new Size(133, 17);
+            cbLogo.TabIndex = 19;
+            cbLogo.Text = "Adicionar o logotipo";
+            cbLogo.UseVisualStyleBackColor = true;
+            cbLogo.CheckedChanged += cbLogo_CheckedChanged;
+            // 
+            // cbIP
+            // 
+            cbIP.AutoSize = true;
+            cbIP.Location = new Point(3, 509);
+            cbIP.Name = "cbIP";
+            cbIP.Size = new Size(136, 17);
+            cbIP.TabIndex = 20;
+            cbIP.Text = "Fixar o IP da máquina";
+            cbIP.UseVisualStyleBackColor = true;
+            cbIP.CheckedChanged += cbIP_CheckedChanged;
+            // 
+            // richTextBoxResults
+            // 
+            richTextBoxResults.Anchor = AnchorStyles.Top | AnchorStyles.Right;
+            richTextBoxResults.EnableAutoDragDrop = true;
+            richTextBoxResults.Location = new Point(591, 3);
+            richTextBoxResults.Margin = new Padding(3, 2, 3, 2);
+            richTextBoxResults.Name = "richTextBoxResults";
+            richTextBoxResults.ReadOnly = true;
+            richTextBoxResults.ScrollBars = RichTextBoxScrollBars.Vertical;
+            richTextBoxResults.Size = new Size(392, 296);
+            richTextBoxResults.TabIndex = 23;
+            richTextBoxResults.Text = "";
+            richTextBoxResults.TextChanged += richTextBoxResults_TextChanged;
+            // 
+            // progressBarInstall
+            // 
+            progressBarInstall.Location = new Point(591, 316);
+            progressBarInstall.Name = "progressBarInstall";
+            progressBarInstall.Size = new Size(391, 42);
+            progressBarInstall.TabIndex = 3;
+            progressBarInstall.Visible = false;
+            // 
+            // buttonDownloadFiles
+            // 
+            buttonDownloadFiles.Location = new Point(590, 422);
+            buttonDownloadFiles.Name = "buttonDownloadFiles";
+            buttonDownloadFiles.Size = new Size(392, 41);
+            buttonDownloadFiles.TabIndex = 24;
+            buttonDownloadFiles.Text = "Baixar arquivos";
+            buttonDownloadFiles.UseVisualStyleBackColor = true;
+            buttonDownloadFiles.Click += button1_Click;
+            // 
+            // buttonDistributeDLLs
+            // 
+            buttonDistributeDLLs.Location = new Point(591, 478);
+            buttonDistributeDLLs.Name = "buttonDistributeDLLs";
+            buttonDistributeDLLs.Size = new Size(392, 41);
+            buttonDistributeDLLs.TabIndex = 26;
+            buttonDistributeDLLs.Text = "Distribuir DLLs do SAT nas pastas necessárias";
+            buttonDistributeDLLs.UseVisualStyleBackColor = true;
+            buttonDistributeDLLs.Click += buttonDistributeDLLs_Click;
             // 
             // EnableConfigurations
             // 
-            this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 15F);
-            this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.AutoSize = true;
-            this.ClientSize = new System.Drawing.Size(987, 546);
-            this.Controls.Add(this.buttonDistributeDLLs);
-            this.Controls.Add(this.buttonDownloadFiles);
-            this.Controls.Add(this.progressBarInstall);
-            this.Controls.Add(this.flowLayoutPanelConfigurations);
-            this.Controls.Add(this.richTextBoxResults);
-            this.Controls.Add(this.buttonConfigurations);
-            this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
-            this.MaximumSize = new System.Drawing.Size(1007, 673);
-            this.Name = "EnableConfigurations";
-            this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
-            this.Text = "Instalador";
-            this.flowLayoutPanelConfigurations.ResumeLayout(false);
-            this.flowLayoutPanelConfigurations.PerformLayout();
-            this.ResumeLayout(false);
-
+            AutoScaleDimensions = new SizeF(7F, 15F);
+            AutoScaleMode = AutoScaleMode.Font;
+            AutoSize = true;
+            ClientSize = new Size(987, 546);
+            Controls.Add(buttonDistributeDLLs);
+            Controls.Add(buttonDownloadFiles);
+            Controls.Add(progressBarInstall);
+            Controls.Add(flowLayoutPanelConfigurations);
+            Controls.Add(richTextBoxResults);
+            Controls.Add(buttonConfigurations);
+            Icon = (Icon)resources.GetObject("$this.Icon");
+            MaximumSize = new Size(1007, 673);
+            Name = "EnableConfigurations";
+            StartPosition = FormStartPosition.CenterScreen;
+            Text = "Instalador";
+            flowLayoutPanelConfigurations.ResumeLayout(false);
+            flowLayoutPanelConfigurations.PerformLayout();
+            ResumeLayout(false);
         }
 
         #endregion
@@ -427,7 +425,6 @@
         private CheckBox cbUltraVNC;
         private CheckBox cbLogo;
         private CheckBox cbIP;
-        private CheckBox cbTeamViewer;
         internal FlowLayoutPanel flowLayoutPanelConfigurations;
         public RichTextBox richTextBoxResults;
         public CheckBox cbCeltaBSPDV;
@@ -452,5 +449,6 @@
         private CheckBox cdDeviceManager;
         private Button buttonDistributeDLLs;
         public CheckBox cbFirewall;
+        public CheckBox cbTeamViewer;
     }
 }
