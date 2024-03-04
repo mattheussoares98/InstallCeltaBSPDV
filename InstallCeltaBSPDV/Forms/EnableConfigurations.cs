@@ -50,7 +50,6 @@ namespace InstallCeltaBSPDV {
             cbMongoDB.Enabled = false;
             cbRemoteAcces.Enabled = false;
             cbComponentsReport.Enabled = false;
-            cbTeamViewer.Enabled = false;
             ControlBox = false;
             #endregion
 
@@ -76,7 +75,6 @@ namespace InstallCeltaBSPDV {
             cbMongoDB.Enabled = true;
             cbRemoteAcces.Enabled = true;
             cbComponentsReport.Enabled = true;
-            cbTeamViewer.Enabled = true;
             ControlBox = true;
             #endregion
         }

@@ -29,36 +29,11 @@ namespace InstallCeltaBSPDV.Configurations
         {
             await configureFirewall();
             await configureEnergyPlan();
-            await downloadTeamViewerQuickSupport();
             openAdjustVisualEffects();
             neverNotifyUser();
             setHostName();
             createTempPath();
             openPowerCfg();
-        }
-
-        public async Task downloadTeamViewerQuickSupport()
-        {
-            if (enable.cbTeamViewer.Checked)
-            {
-                return;
-            }
-
-            try
-            {
-                await new Download(enable).downloadFileTaskAsync(
-                 "CeltaWare TeamViewer.exe",
-                 "https://onedrive.live.com/download?resid=4ECE55D0B3C830E2%21327&authkey=!AADxXLnlrn6Z5KM",
-                 desktopPath
-                 );
-                Task.Delay(7000).Wait();
-                enable.cbTeamViewer.Checked = true;
-            }
-            catch (Exception ex)
-            {
-                MessageBox.Show("Erro para copiar a pasta C:\\CeltaBSPDV: " + ex.Message);
-            }
-
         }
 
         public async Task overrideFilesInPath(string pathToRead, string destiny)
