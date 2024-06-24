@@ -62,61 +62,61 @@ namespace InstallCeltaBSPDV.Forms.DownloadFiles {
                 epsonTMT20,
                 new Dictionary<string, string>() { {
                         $"{epsonTMT20}.zip",
-                        "https://onedrive.live.com/download?cid=4ECE55D0B3C830E2&resid=4ECE55D0B3C830E2%21128&authkey=ANLrDR1WEhDx5Ko"} });
+                        "http://187.35.140.227/downloads/lastversion/Programas"} });
 
             downloadFilesForm.urlsDownloadDictionary.Add(
                     epsonTMT20x,
                     new Dictionary<string, string>() { {
                         $"{epsonTMT20x}.zip",
-                        "https://onedrive.live.com/download?cid=4ECE55D0B3C830E2&resid=4ECE55D0B3C830E2%21127&authkey=AHucWdv2kCvnSWk"} });
+                        "http://187.35.140.227/downloads/lastversion/Programas"} });
 
             downloadFilesForm.urlsDownloadDictionary.Add(
                     epsonTMT88v,
                     new Dictionary<string, string>() { {
                         $"{epsonTMT88v}.zip",
-                        "https://onedrive.live.com/download?cid=4ECE55D0B3C830E2&resid=4ECE55D0B3C830E2%21133&authkey=ADk3X_5MZDr5Y-c"} });
+                        "http://187.35.140.227/downloads/lastversion/Programas"} });
 
             downloadFilesForm.urlsDownloadDictionary.Add(
                     bematechMP4200,
                     new Dictionary<string, string>() { {
                         $"{bematechMP4200}.zip",
-                        "https://onedrive.live.com/download?cid=4ECE55D0B3C830E2&resid=4ECE55D0B3C830E2%21135&authkey=ANlYGGRr4hzyt6E"} });
+                        "http://187.35.140.227/downloads/lastversion/Programas"} });
 
             downloadFilesForm.urlsDownloadDictionary.Add(
                     swedaSI300S,
                     new Dictionary<string, string>() { {
                         $"{swedaSI300S}.exe",
-                        "https://onedrive.live.com/download?cid=4ECE55D0B3C830E2&resid=4ECE55D0B3C830E2%21136&authkey=AAlS32lRV6LUgQ0"} });
+                        "http://187.35.140.227/downloads/lastversion/Programas"} });
 
             downloadFilesForm.urlsDownloadDictionary.Add(
                     swedaSI300SIX,
                     new Dictionary<string, string>() { {
                         $"{swedaSI300SIX}.exe",
-                        "https://onedrive.live.com/download?cid=4ECE55D0B3C830E2&resid=4ECE55D0B3C830E2%21134&authkey=AISStDKIMVPTj18"} });
+                        "http://187.35.140.227/downloads/lastversion/Programas"} });
 
             downloadFilesForm.urlsDownloadDictionary.Add(
                     darumaDR700,
                     new Dictionary<string, string>() { {
                         $"{darumaDR700}.zip",
-                        "https://onedrive.live.com/download?cid=4ECE55D0B3C830E2&resid=4ECE55D0B3C830E2%21131&authkey=AILgLWfUabVOl4U"} });
+                        "http://187.35.140.227/downloads/lastversion/Programas"} });
 
             downloadFilesForm.urlsDownloadDictionary.Add(
                     darumaDR800,
                     new Dictionary<string, string>() { {
                         $"{darumaDR800}.zip",
-                        "https://onedrive.live.com/download?cid=4ECE55D0B3C830E2&resid=4ECE55D0B3C830E2%21130&authkey=ANsY69F1rlXkvXg"} });
+                        "http://187.35.140.227/downloads/lastversion/Programas"} });
 
             downloadFilesForm.urlsDownloadDictionary.Add(
                     elginI9,
                     new Dictionary<string, string>() { {
                         $"{elginI9}.zip",
-                        "https://onedrive.live.com/download?cid=4ECE55D0B3C830E2&resid=4ECE55D0B3C830E2%21132&authkey=AC2o_fMqCCuKKRw"} });
+                        "http://187.35.140.227/downloads/lastversion/Programas"} });
 
             downloadFilesForm.urlsDownloadDictionary.Add(
                     tancatp550,
                     new Dictionary<string, string>() { {
                         $"{tancatp550}.zip",
-                        "https://onedrive.live.com/download?cid=4ECE55D0B3C830E2&resid=4ECE55D0B3C830E2%21129&authkey=AIi60KeAZCfC4aA"} });
+                        "http://187.35.140.227/downloads/lastversion/Programas"} });
         }
     }
 }

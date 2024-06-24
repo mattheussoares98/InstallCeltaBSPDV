@@ -56,13 +56,13 @@ namespace InstallCeltaBSPDV.Forms.DownloadFiles {
                 gertecPPC930,
                 new Dictionary<string, string>() { {
                         $"{gertecPPC930}.exe",
-                        "https://onedrive.live.com/download?cid=4ECE55D0B3C830E2&resid=4ECE55D0B3C830E2%21137&authkey=AGSc16MDGItCElU"} });
+                        "http://187.35.140.227/downloads/lastversion/Programas"} });
 
             downloadFilesForm.urlsDownloadDictionary.Add(
                 ingenicoIPP320,
                 new Dictionary<string, string>() { {
                         $"{ingenicoIPP320}.exe",
-                        "https://onedrive.live.com/download?cid=4ECE55D0B3C830E2&resid=4ECE55D0B3C830E2%21138&authkey=AFs_YCS9I-kchIg"} });
+                        "http://187.35.140.227/downloads/lastversion/Programas"} });
         }
 
     }

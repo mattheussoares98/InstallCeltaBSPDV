@@ -30,7 +30,7 @@ namespace InstallCeltaBSPDV.Forms.DownloadFiles {
         private const string satTanca = "SAT tanca";
         private const string satGertec = "SAT gertec";
         private const string satElgin = "SAT elgin";
-        private const string satControlId = "SAT control-id";
+        private const string satControlId = "SAT control ID";
         #endregion
 
         private void addItemsInCheckedListBoxSats() {
@@ -61,43 +61,43 @@ namespace InstallCeltaBSPDV.Forms.DownloadFiles {
                 satSweda,
                 new Dictionary<string, string>() { {
                         $"{satSweda}.zip",
-                        "https://onedrive.live.com/download?cid=4ECE55D0B3C830E2&resid=4ECE55D0B3C830E2%21122&authkey=ACHEDJkaqTAwD78"} });
+                        "http://187.35.140.227/downloads/lastversion/Programas"} });
 
             downloadFilesForm.urlsDownloadDictionary.Add(
                 satBematech,
                 new Dictionary<string, string>() { {
                         $"{satBematech}.zip",
-                       "https://onedrive.live.com/download?cid=4ECE55D0B3C830E2&resid=4ECE55D0B3C830E2%21126&authkey=AJ5iBhSz2gbeFXQ"} });
+                       "http://187.35.140.227/downloads/lastversion/Programas"} });
 
             downloadFilesForm.urlsDownloadDictionary.Add(
                 satDimep,
                 new Dictionary<string, string>() { {
                         $"{satDimep}.zip",
-                       "https://onedrive.live.com/download?cid=4ECE55D0B3C830E2&resid=4ECE55D0B3C830E2%21124&authkey=ADIYkIX9v9QSQFg"} });
+                       "http://187.35.140.227/downloads/lastversion/Programas"} });
 
             downloadFilesForm.urlsDownloadDictionary.Add(
                 satTanca,
                 new Dictionary<string, string>() { {
                         $"{satTanca}.zip",
-                      "https://onedrive.live.com/download?cid=4ECE55D0B3C830E2&resid=4ECE55D0B3C830E2%21123&authkey=AL1wLIdb3G4fqFw"} });
+                      "http://187.35.140.227/downloads/lastversion/Programas"} });
 
             downloadFilesForm.urlsDownloadDictionary.Add(
                 satGertec,
                 new Dictionary<string, string>() { {
                         $"{satGertec}.zip",
-                     "https://onedrive.live.com/download?cid=4ECE55D0B3C830E2&resid=4ECE55D0B3C830E2%21120&authkey=ADM7ifA1g4BQ0_Y"} });
+                     "http://187.35.140.227/downloads/lastversion/Programas"} });
 
             downloadFilesForm.urlsDownloadDictionary.Add(
                 satElgin,
                 new Dictionary<string, string>() { {
                         $"{satElgin}.zip",
-                     "https://onedrive.live.com/download?cid=4ECE55D0B3C830E2&resid=4ECE55D0B3C830E2%21121&authkey=AJQgw34e-gNaS6M"} });
+                     "http://187.35.140.227/downloads/lastversion/Programas"} });
 
             downloadFilesForm.urlsDownloadDictionary.Add(
                 satControlId,
                 new Dictionary<string, string>() { {
                         $"{satControlId}.zip",
-                     "https://onedrive.live.com/download?cid=4ECE55D0B3C830E2&resid=4ECE55D0B3C830E2%21125&authkey=AKXyyQ8sUmdzjTY"} });
+                     "http://187.35.140.227/downloads/lastversion/Programas"} });
         }
     }
 }

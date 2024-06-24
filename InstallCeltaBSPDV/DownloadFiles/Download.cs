@@ -42,7 +42,7 @@ namespace InstallCeltaBSPDV.DownloadFiles
 
                 try
                 {
-                    using (var s = await client.GetStreamAsync(uriDownload))
+                    using (var s = await client.GetStreamAsync(uriDownload + "/" + fileName))
                     {
                         using (var fs = new FileStream(fileNamePath, FileMode.CreateNew))
                         {

@@ -4,8 +4,10 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace InstallCeltaBSPDV.Forms.DownloadFiles {
-    internal class Keyboards {
+namespace InstallCeltaBSPDV.Forms.DownloadFiles
+{
+    internal class Keyboards
+    {
 
         /// <summary>
         /// e-mail e senha onde estão os arquivos de download
@@ -15,7 +17,8 @@ namespace InstallCeltaBSPDV.Forms.DownloadFiles {
 
         private DownloadFilesForm downloadFilesForm;
 
-        public Keyboards(DownloadFilesForm downloadFilesForm) {
+        public Keyboards(DownloadFilesForm downloadFilesForm)
+        {
             this.downloadFilesForm = downloadFilesForm;
             addPinPadsInUrlsDictionary();
             addItemsInCheckedListBoxPinPads();
@@ -29,22 +32,25 @@ namespace InstallCeltaBSPDV.Forms.DownloadFiles {
 
         #endregion
 
-        private void addPinPadsInUrlsDictionary() {
+        private void addPinPadsInUrlsDictionary()
+        {
             downloadFilesForm.urlsDownloadDictionary.Add(
                 smak,
                 new Dictionary<string, string>() { {
                         $"{smak}.zip",
-                        "https://onedrive.live.com/download?cid=4ECE55D0B3C830E2&resid=4ECE55D0B3C830E2%21140&authkey=ALqH3YBSihorG7Y"} });
+                        "http://187.35.140.227/downloads/lastversion/Programas"} });
 
             downloadFilesForm.urlsDownloadDictionary.Add(
                 gertec,
                 new Dictionary<string, string>() { {
                         $"{gertec}.zip",
-                        "https://onedrive.live.com/download?cid=4ECE55D0B3C830E2&resid=4ECE55D0B3C830E2%21139&authkey=AIp32ceFHQ6EuXs"} });
+                        "http://187.35.140.227/downloads/lastversion/Programas"} });
         }
 
-        private void addItemsInCheckedListBoxPinPads() {
-            foreach(string utility in keyboards) {
+        private void addItemsInCheckedListBoxPinPads()
+        {
+            foreach (string utility in keyboards)
+            {
                 downloadFilesForm.checkedListBoxKeyboards.Items.Add(utility);
             }
             downloadFilesForm.checkedListBoxKeyboards.Height = downloadFilesForm.checkedListBoxKeyboards.Items.Count * downloadFilesForm.checkedListBoxKeyboards.ItemHeight + 5;

@@ -4,8 +4,10 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace InstallCeltaBSPDV.Forms.DownloadFiles {
-    internal class Utilities {
+namespace InstallCeltaBSPDV.Forms.DownloadFiles
+{
+    internal class Utilities
+    {
 
         /// <summary>
         /// e-mail e senha onde estão os arquivos de download
@@ -15,26 +17,28 @@ namespace InstallCeltaBSPDV.Forms.DownloadFiles {
 
         private DownloadFilesForm downloadFilesForm;
 
-        public Utilities(DownloadFilesForm downloadFilesForm) {
+        public Utilities(DownloadFilesForm downloadFilesForm)
+        {
             this.downloadFilesForm = downloadFilesForm;
             addUtilitiesInUrlsDictionary();
             addItemsInCheckedListBoxUtilities();
         }
 
         #region Utilities List and names
-        private List<string> utilities = new() { ultraVnc, wnb, webConfigSat, teamViewer, manualPDV, driverBooster, winRar, anydesk, layoutKeyboard };
+        private List<string> utilities = new() { ultraVnc, wnb, teamViewer, manualPDV, driverBooster, winRar, anydesk, layoutKeyboard };
         private const string ultraVnc = "Ultra VNC";
         private const string wnb = "WNB";
-        private const string webConfigSat = "WebConfig SAT";
-        private const string teamViewer = "Team Viewer";
+        private const string teamViewer = "TeamViewer";
         private const string manualPDV = "Manual do PDV";
         private const string driverBooster = "Driver Booster";
         private const string winRar = "Win rar";
         private const string anydesk = "Anydesk";
         private const string layoutKeyboard = "Layout teclado";
         #endregion
-        private void addItemsInCheckedListBoxUtilities() {
-            foreach(string utility in utilities) {
+        private void addItemsInCheckedListBoxUtilities()
+        {
+            foreach (string utility in utilities)
+            {
                 downloadFilesForm.checkedListBoxUtilities.Items.Add(utility);
             }
             downloadFilesForm.checkedListBoxUtilities.Height = downloadFilesForm.checkedListBoxUtilities.Items.Count * downloadFilesForm.checkedListBoxUtilities.ItemHeight + 5;
@@ -56,7 +60,8 @@ namespace InstallCeltaBSPDV.Forms.DownloadFiles {
         /// 
         /// A aplicação percorre o urlsDownloadDictionary através dos valores que estão no "selectedItemsToDownload", vai pegando o  nome do arquivo com a extensão (Keys) e o valor dele (urls) pra efetuar os downloads 
         /// </summary>
-        private void addUtilitiesInUrlsDictionary() {
+        private void addUtilitiesInUrlsDictionary()
+        {
             ///MUITO IMPORTANTE
             ///no dictionary que é criado dentro do .Add, precisa ter como chave o nome do arquivo com a extensão
 
@@ -65,56 +70,50 @@ namespace InstallCeltaBSPDV.Forms.DownloadFiles {
                 ultraVnc,
                 new Dictionary<string, string>() { {
                         $"{ultraVnc}.exe",
-                        "https://onedrive.live.com/download?cid=4ECE55D0B3C830E2&resid=4ECE55D0B3C830E2%21112&authkey=AODdrk-HogBiRVo"} });
+                        "http://187.35.140.227/downloads/lastversion/Programas"} });
 
             downloadFilesForm.urlsDownloadDictionary.Add(
                 winRar,
                 new Dictionary<string, string>() { {
                         $"{winRar}.exe",
-                        "https://onedrive.live.com/download?cid=4ECE55D0B3C830E2&resid=4ECE55D0B3C830E2%21115&authkey=AHNbUxwJeUG7PpI"} });
+                        "http://187.35.140.227/downloads/lastversion/Programas"} });
 
             downloadFilesForm.urlsDownloadDictionary.Add(
                 anydesk,
                 new Dictionary<string, string>() { {
                         $"{anydesk}.exe",
-                        "https://onedrive.live.com/download?cid=4ECE55D0B3C830E2&resid=4ECE55D0B3C830E2%21119&authkey=AN3bUo4nClqJc9k"} });
-
-            downloadFilesForm.urlsDownloadDictionary.Add(
-                webConfigSat,
-                new Dictionary<string, string>() { {
-                        $"web.config", //como precisa ter esse nome, troquei direto aqui
-                        "https://onedrive.live.com/download?cid=4ECE55D0B3C830E2&resid=4ECE55D0B3C830E2%21114&authkey=AOBMQRaV2AO2Kw4"} });
+                        "http://187.35.140.227/downloads/lastversion/Programas"} });
 
             downloadFilesForm.urlsDownloadDictionary.Add(
                 wnb,
                 new Dictionary<string, string>() { {
                         $"{wnb}.exe",
-                        "https://onedrive.live.com/download?cid=4ECE55D0B3C830E2&resid=4ECE55D0B3C830E2%21113&authkey=ALgByofqR9Z16w4"} });
+                        "http://187.35.140.227/downloads/lastversion/Programas"} });
 
 
             downloadFilesForm.urlsDownloadDictionary.Add(
                teamViewer,
                new Dictionary<string, string>() { {
                        $"{teamViewer}.exe",
-                        "https://onedrive.live.com/download?resid=4ECE55D0B3C830E2%21328&authkey=!ADh-Ct_IZA1nyf4"} });
+                        "http://187.35.140.227/downloads/lastversion/Programas"} });
 
             downloadFilesForm.urlsDownloadDictionary.Add(
                 manualPDV,
                 new Dictionary<string, string>() { {
                         $"{manualPDV}.pdf",
-                        "https://onedrive.live.com/download?cid=4ECE55D0B3C830E2&resid=4ECE55D0B3C830E2%21116&authkey=AIUxI-1Yl--U8ko&em=2"} });
+                        "http://187.35.140.227/downloads/lastversion/Programas"} });
 
             downloadFilesForm.urlsDownloadDictionary.Add(
                 driverBooster,
                 new Dictionary<string, string>() { {
                         $"{driverBooster}.exe",
-                        "https://onedrive.live.com/download?cid=4ECE55D0B3C830E2&resid=4ECE55D0B3C830E2%21117&authkey=APR5I5FfnCBrGRI"} });
+                        "http://187.35.140.227/downloads/lastversion/Programas"} });
 
             downloadFilesForm.urlsDownloadDictionary.Add(
                 layoutKeyboard,
                 new Dictionary<string, string>() { {
                         $"{layoutKeyboard}.zip",
-                        "https://onedrive.live.com/download?cid=D4CEA33D5404A268&resid=D4CEA33D5404A268%21112&authkey=AJLNQmrohGWWneE"} });
+                        "http://187.35.140.227/downloads/lastversion/Programas"} });
 
             #endregion
         }
