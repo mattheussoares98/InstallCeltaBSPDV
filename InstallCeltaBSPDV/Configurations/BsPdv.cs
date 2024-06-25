@@ -61,14 +61,14 @@ namespace InstallCeltaBSPDV.Configurations {
             if(enable.cbCeltaBSPDV.Checked == true) {
                 return;
             }
-            await new Download(enable).downloadFileTaskAsync(Download.installBsPdvZip, "http://187.35.140.227/downloads/lastversion/installbspdv.zip");
+            await new Download(enable).downloadFileTaskAsync(Download.installBsPdvZip, "http://187.35.140.227/downloads/lastversion");
             await new Windows(enable).enableAllPermissionsForPath("C:\\Install");
             await new Windows(enable).enableAllPermissionsForPath("C:\\Install\\PDV");
             await new Windows(enable).enableAllPermissionsForPath("C:\\Install\\PDV\\CeltaBSPDV");
             //await new Windows(enable).enableAllPermissionsForPath(Download.cInstallBsPdvZip);
             //await new Windows(enable).enableAllPermissionsForPath(Download.cInstall);
 
-            await new Windows(enable).extractFile(Download.cInstallBsPdvZip, Download.cInstall, "installbspdv.zip", uriDownload: "http://187.35.140.227/downloads/lastversion/installbspdv.zip");
+            await new Windows(enable).extractFile(Download.cInstallBsPdvZip, Download.cInstall, "installbspdv.zip", uriDownload: "http://187.35.140.227/downloads/lastversion");
 
 
             Task.Delay(7000).Wait();
