@@ -51,6 +51,7 @@ namespace InstallCeltaBSPDV {
             cbRemoteAcces.Enabled = false;
             cbComponentsReport.Enabled = false;
             ControlBox = false;
+            cbRustDesk.Enabled = false;
             #endregion
 
 
@@ -76,6 +77,7 @@ namespace InstallCeltaBSPDV {
             cbRemoteAcces.Enabled = true;
             cbComponentsReport.Enabled = true;
             ControlBox = true;
+            cbRustDesk.Enabled = true;
             #endregion
         }
 

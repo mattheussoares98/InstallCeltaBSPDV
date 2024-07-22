@@ -40,6 +40,7 @@
             cbComponentsReport = new CheckBox();
             cbTeamViewer = new CheckBox();
             cbRoboMongo = new CheckBox();
+            cbRustDesk = new CheckBox();
             cbNeverNotifyUser = new CheckBox();
             cbBestPerformance = new CheckBox();
             cbPCI = new CheckBox();
@@ -84,6 +85,7 @@
             flowLayoutPanelConfigurations.Controls.Add(cbComponentsReport);
             flowLayoutPanelConfigurations.Controls.Add(cbTeamViewer);
             flowLayoutPanelConfigurations.Controls.Add(cbRoboMongo);
+            flowLayoutPanelConfigurations.Controls.Add(cbRustDesk);
             flowLayoutPanelConfigurations.Controls.Add(cbNeverNotifyUser);
             flowLayoutPanelConfigurations.Controls.Add(cbBestPerformance);
             flowLayoutPanelConfigurations.Controls.Add(cbPCI);
@@ -99,7 +101,7 @@
             flowLayoutPanelConfigurations.Location = new Point(11, 3);
             flowLayoutPanelConfigurations.Margin = new Padding(0);
             flowLayoutPanelConfigurations.Name = "flowLayoutPanelConfigurations";
-            flowLayoutPanelConfigurations.Size = new Size(576, 534);
+            flowLayoutPanelConfigurations.Size = new Size(576, 562);
             flowLayoutPanelConfigurations.TabIndex = 2;
             // 
             // cbFirewall
@@ -245,10 +247,20 @@
             cbRoboMongo.UseVisualStyleBackColor = true;
             cbRoboMongo.CheckedChanged += cbRoboMongo_CheckedChanged;
             // 
+            // cbRustDesk
+            // 
+            cbRustDesk.AutoSize = true;
+            cbRustDesk.Location = new Point(3, 302);
+            cbRustDesk.Name = "cbRustDesk";
+            cbRustDesk.Size = new Size(115, 17);
+            cbRustDesk.TabIndex = 29;
+            cbRustDesk.Text = "Instalar RustDesk";
+            cbRustDesk.UseVisualStyleBackColor = true;
+            // 
             // cbNeverNotifyUser
             // 
             cbNeverNotifyUser.AutoSize = true;
-            cbNeverNotifyUser.Location = new Point(3, 302);
+            cbNeverNotifyUser.Location = new Point(3, 325);
             cbNeverNotifyUser.Name = "cbNeverNotifyUser";
             cbNeverNotifyUser.Size = new Size(298, 17);
             cbNeverNotifyUser.TabIndex = 14;
@@ -259,7 +271,7 @@
             // cbBestPerformance
             // 
             cbBestPerformance.AutoSize = true;
-            cbBestPerformance.Location = new Point(3, 325);
+            cbBestPerformance.Location = new Point(3, 348);
             cbBestPerformance.Name = "cbBestPerformance";
             cbBestPerformance.Size = new Size(371, 17);
             cbBestPerformance.TabIndex = 15;
@@ -270,7 +282,7 @@
             // cbPCI
             // 
             cbPCI.AutoSize = true;
-            cbPCI.Location = new Point(3, 348);
+            cbPCI.Location = new Point(3, 371);
             cbPCI.Name = "cbPCI";
             cbPCI.Size = new Size(199, 17);
             cbPCI.TabIndex = 23;
@@ -281,7 +293,7 @@
             // cbInitBlocks
             // 
             cbInitBlocks.AutoSize = true;
-            cbInitBlocks.Location = new Point(3, 371);
+            cbInitBlocks.Location = new Point(3, 394);
             cbInitBlocks.Name = "cbInitBlocks";
             cbInitBlocks.Size = new Size(248, 17);
             cbInitBlocks.TabIndex = 16;
@@ -292,7 +304,7 @@
             // cbTaskManager
             // 
             cbTaskManager.AutoSize = true;
-            cbTaskManager.Location = new Point(3, 394);
+            cbTaskManager.Location = new Point(3, 417);
             cbTaskManager.Name = "cbTaskManager";
             cbTaskManager.Size = new Size(466, 17);
             cbTaskManager.TabIndex = 17;
@@ -303,7 +315,7 @@
             // cbUltraVNC
             // 
             cbUltraVNC.AutoSize = true;
-            cbUltraVNC.Location = new Point(3, 417);
+            cbUltraVNC.Location = new Point(3, 440);
             cbUltraVNC.Name = "cbUltraVNC";
             cbUltraVNC.Size = new Size(220, 17);
             cbUltraVNC.TabIndex = 18;
@@ -314,7 +326,7 @@
             // cdDeviceManager
             // 
             cdDeviceManager.AutoSize = true;
-            cdDeviceManager.Location = new Point(3, 440);
+            cdDeviceManager.Location = new Point(3, 463);
             cdDeviceManager.Name = "cdDeviceManager";
             cdDeviceManager.Size = new Size(509, 17);
             cdDeviceManager.TabIndex = 27;
@@ -325,7 +337,7 @@
             // cbDLLs
             // 
             cbDLLs.AutoSize = true;
-            cbDLLs.Location = new Point(3, 463);
+            cbDLLs.Location = new Point(3, 486);
             cbDLLs.Name = "cbDLLs";
             cbDLLs.Size = new Size(138, 17);
             cbDLLs.TabIndex = 26;
@@ -336,7 +348,7 @@
             // cbLogo
             // 
             cbLogo.AutoSize = true;
-            cbLogo.Location = new Point(3, 486);
+            cbLogo.Location = new Point(3, 509);
             cbLogo.Name = "cbLogo";
             cbLogo.Size = new Size(133, 17);
             cbLogo.TabIndex = 19;
@@ -347,7 +359,7 @@
             // cbIP
             // 
             cbIP.AutoSize = true;
-            cbIP.Location = new Point(3, 509);
+            cbIP.Location = new Point(3, 532);
             cbIP.Name = "cbIP";
             cbIP.Size = new Size(136, 17);
             cbIP.TabIndex = 20;
@@ -402,7 +414,7 @@
             AutoScaleDimensions = new SizeF(7F, 15F);
             AutoScaleMode = AutoScaleMode.Font;
             AutoSize = true;
-            ClientSize = new Size(987, 546);
+            ClientSize = new Size(987, 574);
             Controls.Add(buttonDistributeDLLs);
             Controls.Add(buttonDownloadFiles);
             Controls.Add(progressBarInstall);
@@ -450,5 +462,6 @@
         private Button buttonDistributeDLLs;
         public CheckBox cbFirewall;
         public CheckBox cbTeamViewer;
+        public CheckBox cbRustDesk;
     }
 }

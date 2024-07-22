@@ -30,6 +30,8 @@ namespace InstallCeltaBSPDV.Configurations {
             installComponentsReport();
 
             installRoboMongo();
+
+            await downloadAndInstallRustDesk();
         }
 
         #region directories
@@ -314,6 +316,57 @@ namespace InstallCeltaBSPDV.Configurations {
 
             //se chegar aqui é porque não deu erro em nenhuma instalação e por isso pode marcar como instalado os dois components
             enable.cbComponentsReport.Checked = true;
+        }
+
+        private async Task downloadAndInstallRustDesk()
+        {
+            string rustDeskPath = "C:\\Install\\rustdesk-1.2.6-x86_64.msi";
+            //precisa ter o arquivo C:\\Install\\rustdesk-1.2.6-x86_64.msi
+            if (enable.cbRustDesk.Checked == true && !File.Exists(rustDeskPath))
+            {
+                //adicionei a condição de existir o mongoDbFilePath também porque se não existir, significa que o banco de dados não está instalado
+                return;
+            }
+            if (!File.Exists(rustDeskPath))
+            {
+                await new Download(enable).downloadFileTaskAsync("RustDesk", "http://187.35.140.227/downloads/lastversion/Programas/rustdesk-1.2.6-x86_64.msi");
+
+                await downloadAndInstallRustDesk();
+            }
+
+            var installRustDesk = new ProcessStartInfo("cmd", $"/c cd c:\\install&msiexec /i rustdesk-1.2.6-x86_64.msi /quiet");
+            installRustDesk.CreateNoWindow = true;
+
+            try
+            {
+
+                bool isInstalled = verifyAppIsInstalled("RustDesk"); //ele verifica pelo regedit se o mongo já foi instalado
+                if (!isInstalled)
+                {
+                    Process.Start(installRustDesk);
+                }
+                while (!isInstalled)
+                {
+                    //vai ficar verificando se o aplicativo já foi instalado pra somente depois que terminar a instalação, continuar a execução dos códigos
+                    isInstalled = verifyAppIsInstalled("RustDesk");
+
+                    Task.Delay(3000).Wait();
+                    //coloquei pra aguardar 3 segundos pra executar novamente senão o aplicativo fica executando com muita frequência essa execução
+                    if (isInstalled)
+                    {
+                        //quando o aplicativo finalmente está instalado, ele sai do laço while e continua a execução dos códigos
+                        break;
+                    }
+
+                }
+                if (isInstalled)
+                    enable.cbRustDesk.Checked = true;
+
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show("Erro para instalar o RustDesk: " + ex.Message);
+            }
         }
     }
 }
