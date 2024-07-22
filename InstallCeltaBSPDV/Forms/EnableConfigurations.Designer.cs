@@ -256,6 +256,7 @@
             cbRustDesk.TabIndex = 29;
             cbRustDesk.Text = "Instalar RustDesk";
             cbRustDesk.UseVisualStyleBackColor = true;
+            cbRustDesk.CheckedChanged += cbRustDesk_CheckedChanged;
             // 
             // cbNeverNotifyUser
             // 

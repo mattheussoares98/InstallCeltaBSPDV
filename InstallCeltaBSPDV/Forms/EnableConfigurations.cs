@@ -292,6 +292,9 @@ namespace InstallCeltaBSPDV {
             }
         }
 
-        
+        private void cbRustDesk_CheckedChanged(object sender, EventArgs e)
+        {
+            DatabaseLoadCheckeds.updateData(cbRustDesk);
+        }
     }
 }
