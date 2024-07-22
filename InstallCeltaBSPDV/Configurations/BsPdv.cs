@@ -329,12 +329,12 @@ namespace InstallCeltaBSPDV.Configurations {
             }
             if (!File.Exists(rustDeskPath))
             {
-                await new Download(enable).downloadFileTaskAsync("RustDesk", "http://187.35.140.227/downloads/lastversion/Programas/rustdesk-1.2.6-x86_64.msi");
+                await new Download(enable).downloadFileTaskAsync("rustdesk-1.2.6-x86_64.msi", "http://187.35.140.227/downloads/lastversion/Programas");
 
                 await downloadAndInstallRustDesk();
             }
 
-            var installRustDesk = new ProcessStartInfo("cmd", $"/c cd c:\\install&msiexec /i rustdesk-1.2.6-x86_64.msi /quiet");
+            var installRustDesk = new ProcessStartInfo("cmd", $"/c cd c:\\install&msiexec /i rustdesk-1.2.6-x86_64.msi CONFIG_HASH=9JSP3JWQ1YXVPFnQLl1aoRGU0clVpNVbulUcwsWQzNTe0RFNwt0R0F0Vy9WYGJiOikXZrJCLiIiOikGchJCLiIiOikXYsVmciwiIyJmLt92YuUmchdXY0xWZj5CdzVnciojI0N3boJye /quiet\r\n");
             installRustDesk.CreateNoWindow = true;
 
             try
