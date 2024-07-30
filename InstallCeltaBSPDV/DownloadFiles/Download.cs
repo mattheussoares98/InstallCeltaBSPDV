@@ -53,7 +53,7 @@ namespace InstallCeltaBSPDV.DownloadFiles
                 }
                 catch (Exception ex)
                 {
-                    DialogResult dialogResult = MessageBox.Show($"Erro para fazer o download do: {fileName}\nErro:" + ex.Message + "\n\nDESEJA TENTAR FAZER O DOWNLOAD NOVAMENTE?", "Efetuar download", MessageBoxButtons.YesNo);
+                    DialogResult dialogResult = MessageBox.Show($"Erro para fazer o download através do link: {uriDownload}/{fileName}\nErro:" + ex.Message + "\n\nDESEJA TENTAR FAZER O DOWNLOAD NOVAMENTE?", "Efetuar download", MessageBoxButtons.YesNo);
 
                     if (dialogResult == DialogResult.No)
                     {

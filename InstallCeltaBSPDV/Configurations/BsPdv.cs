@@ -50,7 +50,7 @@ namespace InstallCeltaBSPDV.Configurations {
                 enable.cbShortcut.Checked = true;
                 return;
             }
-            await new Download(enable).downloadFileTaskAsync("CeltaPDV.lnk", "https://onedrive.live.com/download?cid=4ECE55D0B3C830E2&resid=4ECE55D0B3C830E2%21141&authkey=ABdh5NfeBNTGoTc");
+            await new Download(enable).downloadFileTaskAsync("CeltaPDV.zip", "http://187.35.140.227/downloads/lastversion/Programas");
 
             createStartupLink();
             createDesktopLink();
