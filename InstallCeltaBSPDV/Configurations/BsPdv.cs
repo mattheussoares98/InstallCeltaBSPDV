@@ -320,8 +320,8 @@ namespace InstallCeltaBSPDV.Configurations {
 
         private async Task downloadAndInstallRustDesk()
         {
-            string rustDeskPath = "C:\\Install\\rustdesk-1.2.6-x86_64.msi";
-            //precisa ter o arquivo C:\\Install\\rustdesk-1.2.6-x86_64.msi
+            string rustDeskPath = "C:\\Install\\rustdesk.msi";
+            //precisa ter o arquivo C:\\Install\\rustdesk.msi
             if (enable.cbRustDesk.Checked == true && !File.Exists(rustDeskPath))
             {
                 //adicionei a condição de existir o mongoDbFilePath também porque se não existir, significa que o banco de dados não está instalado
@@ -329,12 +329,12 @@ namespace InstallCeltaBSPDV.Configurations {
             }
             if (!File.Exists(rustDeskPath))
             {
-                await new Download(enable).downloadFileTaskAsync("rustdesk-1.2.6-x86_64.msi", "http://187.35.140.227/downloads/lastversion/Programas");
+                await new Download(enable).downloadFileTaskAsync("rustdesk.msi", "http://187.35.140.227/downloads/lastversion/Programas");
 
                 await downloadAndInstallRustDesk();
             }
 
-            var installRustDesk = new ProcessStartInfo("cmd", $"/c cd c:\\install&msiexec /i rustdesk-1.2.6-x86_64.msi CONFIG_HASH=9JSP3JWQ1YXVPFnQLl1aoRGU0clVpNVbulUcwsWQzNTe0RFNwt0R0F0Vy9WYGJiOikXZrJCLiIiOikGchJCLiIiOikXYsVmciwiIyJmLt92YuUmchdXY0xWZj5CdzVnciojI0N3boJye /quiet&\"C:\\Program Files\\RustDesk\\rustdesk.exe\" --config \"host=rust.celtaware.com.br,key=FaorWAtGKp4Tty3sAk0qInmSiVW4PdhkYKBqOUv5Abw=\"\r\n");
+            var installRustDesk = new ProcessStartInfo("cmd", $"/c cd c:\\install&msiexec /i rustdesk.msi CONFIG_HASH=9JSP3JWQ1YXVPFnQLl1aoRGU0clVpNVbulUcwsWQzNTe0RFNwt0R0F0Vy9WYGJiOikXZrJCLiIiOikGchJCLiIiOikXYsVmciwiIyJmLt92YuUmchdXY0xWZj5CdzVnciojI0N3boJye /quiet&\"C:\\Program Files\\RustDesk\\rustdesk.exe\" --config \"host=rust.celtaware.com.br,key=FaorWAtGKp4Tty3sAk0qInmSiVW4PdhkYKBqOUv5Abw=\"\r\n");
             installRustDesk.CreateNoWindow = true;
 
             try
