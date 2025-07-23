@@ -8,16 +8,20 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace InstallCeltaBSPDV.Configurations {
-    internal class BsPdv {
+namespace InstallCeltaBSPDV.Configurations
+{
+    internal class BsPdv
+    {
 
         private readonly EnableConfigurations enable = new();
 
-        public BsPdv(EnableConfigurations enable) {
+        public BsPdv(EnableConfigurations enable)
+        {
             this.enable = enable;
         }
 
-        public async Task configureBsPdv() {
+        public async Task configureBsPdv()
+        {
 
             await downloadAndConfigurePdvPaths();
 
@@ -40,13 +44,16 @@ namespace InstallCeltaBSPDV.Configurations {
         private readonly string desktopPath = Environment.GetFolderPath(Environment.SpecialFolder.Desktop) + @"\CeltaPDV.lnk";
         #endregion
 
-        
-        private async void createPdvLinks() {
-            if(enable.cbShortcut.Checked == true) {
+
+        private async void createPdvLinks()
+        {
+            if (enable.cbShortcut.Checked == true)
+            {
                 return;
             }
 
-            if(File.Exists(startupPath) && File.Exists(desktopPath)) {
+            if (File.Exists(startupPath) && File.Exists(desktopPath))
+            {
                 enable.cbShortcut.Checked = true;
                 return;
             }
@@ -55,12 +62,15 @@ namespace InstallCeltaBSPDV.Configurations {
             createStartupLink();
             createDesktopLink();
 
-            if(File.Exists(startupPath) && File.Exists(desktopPath)) {
+            if (File.Exists(startupPath) && File.Exists(desktopPath))
+            {
                 enable.cbShortcut.Checked = true;
             }
         }
-        private async Task downloadAndConfigurePdvPaths() {
-            if(enable.cbCeltaBSPDV.Checked == true) {
+        private async Task downloadAndConfigurePdvPaths()
+        {
+            if (enable.cbCeltaBSPDV.Checked == true)
+            {
                 return;
             }
             await new Download(enable).downloadFileTaskAsync(Download.installBsPdvZip, "http://187.35.140.227/downloads/lastversion");
@@ -76,41 +86,61 @@ namespace InstallCeltaBSPDV.Configurations {
             Task.Delay(7000).Wait();
             await new Windows(enable).movePdvPath(); //essencial fazer esse processo depois de baixaro arquivo installBsPdv.zip
         }
-        private void createStartupLink() {
-            if(File.Exists(startupPath)) {
+        private void createStartupLink()
+        {
+            if (File.Exists(startupPath))
+            {
                 return;
-            } else {
+            }
+            else
+            {
 
-                try {
+                try
+                {
                     File.Copy(cInstall + "\\CeltaPDV.lnk", startupPath);
-                } catch(Exception ex) {
+                }
+                catch (Exception ex)
+                {
                     MessageBox.Show("Erro para copiar o atalho para a área de trabalho: " + ex.Message);
                 }
             }
         }
-        private void createDesktopLink() {
+        private void createDesktopLink()
+        {
 
-            if(File.Exists(desktopPath)) {
+            if (File.Exists(desktopPath))
+            {
                 return;
-            } else {
-                try {
+            }
+            else
+            {
+                try
+                {
                     File.Copy(cInstall + "\\CeltaPDV.lnk", desktopPath);
-                } catch(Exception ex) {
+                }
+                catch (Exception ex)
+                {
                     MessageBox.Show("Erro para copiar o atalho para a área de trabalho: " + ex.Message);
                 }
             }
         }
 
-        public bool verifyAppIsInstalled(string displayName) {
+        public bool verifyAppIsInstalled(string displayName)
+        {
             // consulta no regedit se contém algum aplicativo instalado. O "displayName" será o nome que verá se está instalado
-            List<string> programsDisplayName = new() {
+            List<string> programsDisplayName = new()
+            {
             };
 
             string registry_key = @"SOFTWARE\Microsoft\Windows\CurrentVersion\Uninstall";
-            using(RegistryKey key = Registry.LocalMachine.OpenSubKey(registry_key)) {
-                foreach(string subkey_name in key.GetSubKeyNames()) {
-                    using(RegistryKey subkey = key.OpenSubKey(subkey_name)) {
-                        if(subkey.GetValue("DisplayName") != null) {
+            using (RegistryKey key = Registry.LocalMachine.OpenSubKey(registry_key))
+            {
+                foreach (string subkey_name in key.GetSubKeyNames())
+                {
+                    using (RegistryKey subkey = key.OpenSubKey(subkey_name))
+                    {
+                        if (subkey.GetValue("DisplayName") != null)
+                        {
                             programsDisplayName.Add((string)subkey.GetValue("DisplayName"));
                         }
                     }
@@ -118,21 +148,26 @@ namespace InstallCeltaBSPDV.Configurations {
             }
 
             bool appInstalled = false;
-            foreach(var installed in programsDisplayName) {
-                if(installed.Contains(displayName)) {
+            foreach (var installed in programsDisplayName)
+            {
+                if (installed.Contains(displayName))
+                {
                     appInstalled = true;
                 }
             }
             return appInstalled;
         }
-        private async Task downloadAndInstallMongoDb() {
+        private async Task downloadAndInstallMongoDb()
+        {
             string mongoDbFilePath = "C:\\Install\\PDV\\Database\\mongodb-win32-x86_64-2008plus-ssl-4.0.22-signed.msi";
             //precisa ter o arquivo C:\Install\PDV\Database\mongodb-win32-x86_64-2008plus-ssl-4.0.22-signed
-            if(enable.cbMongoDB.Checked == true && !File.Exists(mongoDbFilePath)) {
+            if (enable.cbMongoDB.Checked == true && !File.Exists(mongoDbFilePath))
+            {
                 //adicionei a condição de existir o mongoDbFilePath também porque se não existir, significa que o banco de dados não está instalado
                 return;
             }
-            if(!File.Exists(mongoDbFilePath)) {
+            if (!File.Exists(mongoDbFilePath))
+            {
                 await new Download(enable).downloadFileTaskAsync(Download.installBsPdvZip, "http://187.35.140.227/downloads/lastversion/installbspdv.zip");
 
                 await downloadAndInstallMongoDb();
@@ -144,38 +179,47 @@ namespace InstallCeltaBSPDV.Configurations {
             installMongo.CreateNoWindow = true;
 
             //pra funcionar esse instalador, precisa ter o BAT da instalação do banco de dados dentro da pasta onde vai executar o aplicativo com o nome "installMongoDB.bat"
-            if(!File.Exists(appDirectory + "\\installMongoDB.bat")) {
+            if (!File.Exists(appDirectory + "\\installMongoDB.bat"))
+            {
                 MessageBox.Show($"Não foi possível encontrar o {appDirectory}\\installMongoDB.bat. Abortando a instalação do banco de dados");
                 return;
             }
 
-            try {
+            try
+            {
 
                 bool isInstalled = verifyAppIsInstalled("Mongo"); //ele verifica pelo regedit se o mongo já foi instalado
-                if(!isInstalled) {
+                if (!isInstalled)
+                {
                     Process.Start(installMongo);
                 }
-                while(!isInstalled) {
+                while (!isInstalled)
+                {
                     //vai ficar verificando se o aplicativo já foi instalado pra somente depois que terminar a instalação, continuar a execução dos códigos
                     isInstalled = verifyAppIsInstalled("Mongo");
 
                     Task.Delay(3000).Wait();
                     //coloquei pra aguardar 3 segundos pra executar novamente senão o aplicativo fica executando com muita frequência essa execução
-                    if(isInstalled) {
+                    if (isInstalled)
+                    {
                         //quando o aplicativo finalmente está instalado, ele sai do laço while e continua a execução dos códigos
                         break;
                     }
 
                 }
-                if(isInstalled)
+                if (isInstalled)
                     enable.cbMongoDB.Checked = true;
 
-            } catch(Exception ex) {
+            }
+            catch (Exception ex)
+            {
                 MessageBox.Show("Erro para instalar o MongoDB: " + ex.Message);
             }
         }
-        private async Task editMongoCfg() {
-            if(enable.cbRemoteAcces.Checked == true) {
+        private async Task editMongoCfg()
+        {
+            if (enable.cbRemoteAcces.Checked == true)
+            {
                 return;
             }
 
@@ -183,7 +227,8 @@ namespace InstallCeltaBSPDV.Configurations {
             string mongoBin = programFiles += "\\MongoDB\\Server\\4.0\\bin";
             string mongoConfig = mongoBin + "\\mongod.cfg";
 
-            if(!File.Exists(mongoConfig)) {
+            if (!File.Exists(mongoConfig))
+            {
                 enable.richTextBoxResults.Text += $"O {mongoConfig} não existe. A aplicação fará a instalação do banco de dados para editar o acesso remoto ao banco de dados\n\n";
 
                 await downloadAndInstallMongoDb();
@@ -191,12 +236,14 @@ namespace InstallCeltaBSPDV.Configurations {
                 await editMongoCfg();
             }
 
-            try {
+            try
+            {
                 StreamReader sr = File.OpenText(mongoConfig);
                 string? textoDoArquivo = sr.ReadToEnd();
                 sr.Close();
 
-                if(textoDoArquivo.Contains("0.0.0.0")) {
+                if (textoDoArquivo.Contains("0.0.0.0"))
+                {
 
                     enable.cbRemoteAcces.Checked = true;
                     //enable.checkBoxEnableRemoteAcces.ForeColor = Color.Green;
@@ -218,7 +265,9 @@ namespace InstallCeltaBSPDV.Configurations {
                 enable.cbMongoDB.Checked = true;
                 //enable.checkBoxInstallMongo.ForeColor = Color.Green;
 
-            } catch(Exception e) {
+            }
+            catch (Exception e)
+            {
                 MessageBox.Show("Erro para ler os dados do arquivo: " + e.Message);
                 Console.WriteLine(e.Message);
             }
@@ -226,8 +275,10 @@ namespace InstallCeltaBSPDV.Configurations {
 
         }
 
-        private void installRoboMongo() {
-            if(enable.cbRoboMongo.Checked == true) {
+        private void installRoboMongo()
+        {
+            if (enable.cbRoboMongo.Checked == true)
+            {
                 return;
             }
 
@@ -237,18 +288,24 @@ namespace InstallCeltaBSPDV.Configurations {
             var openInstallRoboMongo = new ProcessStartInfo("cmd", $"/c cd {cInstallPdvDatabase}&{roboFileName}");
             openInstallRoboMongo.CreateNoWindow = true;
 
-            if(!Directory.Exists(cProgramFilesRobo)) {
+            if (!Directory.Exists(cProgramFilesRobo))
+            {
                 enable.richTextBoxResults.Text += "Como o RoboMongo não está instalado, a aplicação abrirá o instalador \n\n";
                 enable.cbRoboMongo.Checked = false;
-                if(File.Exists(cInstallPdvDatabase + "\\" + roboFileName)) {
+                if (File.Exists(cInstallPdvDatabase + "\\" + roboFileName))
+                {
                     Process.Start(openInstallRoboMongo);
                 }
-            } else {
+            }
+            else
+            {
                 enable.cbRoboMongo.Checked = true;
             }
         }
-        private void installComponentsReport() {
-            if(enable.cbComponentsReport.Checked == true) {
+        private void installComponentsReport()
+        {
+            if (enable.cbComponentsReport.Checked == true)
+            {
                 return;
             }
 
@@ -267,29 +324,38 @@ namespace InstallCeltaBSPDV.Configurations {
             #endregion
 
             #region install CLR Types 2014
-            if(!File.Exists(componentsDirectory + componentOne)) {
+            if (!File.Exists(componentsDirectory + componentOne))
+            {
                 MessageBox.Show($"Não foi possível instalar o component {componentOne} porque o arquivo{componentsDirectory + componentOne} não existe");
                 return;
-            } else {
+            }
+            else
+            {
 
-                try {
+                try
+                {
                     bool isInstalledComponentOne = verifyAppIsInstalled("Microsoft System CLR Types para SQL Server 2014"); //ele verifica pelo regedit se o mongo já foi instalado
-                    if(!isInstalledComponentOne) {
+                    if (!isInstalledComponentOne)
+                    {
                         Process.Start(installComponentOne);
                     }
-                    while(!isInstalledComponentOne) {
+                    while (!isInstalledComponentOne)
+                    {
                         //vai ficar verificando se o aplicativo já foi instalado pra somente depois que terminar a instalação, continuar a execução dos códigos
                         isInstalledComponentOne = verifyAppIsInstalled("Microsoft System CLR Types para SQL Server 2014");
 
                         Task.Delay(3000).Wait();
                         //coloquei pra aguardar 3 segundos pra executar novamente senão o aplicativo fica executando com muita frequência essa verificação
-                        if(isInstalledComponentOne) {
+                        if (isInstalledComponentOne)
+                        {
                             //quando o aplicativo finalmente está instalado, ele sai do laço while e continua a execução dos códigos
                             break;
                         }
 
                     }
-                } catch(Exception ex) {
+                }
+                catch (Exception ex)
+                {
                     MessageBox.Show($"Erro para instalar o {componentOne}: " + ex.Message);
                 }
             }
@@ -301,14 +367,20 @@ namespace InstallCeltaBSPDV.Configurations {
             //2: só vai tentar instalar esse quando o anterior já foi instalado
             //3: a instalação vai funcionar
             //4: como vai funcionar a instalação, não precisa esperar o término dela
-            if(!File.Exists(componentsDirectory + componentTwo)) {
+            if (!File.Exists(componentsDirectory + componentTwo))
+            {
                 MessageBox.Show($"Não foi possível instalar o component {componentTwo} porque o arquivo{componentsDirectory + componentTwo} não existe");
                 return;
-            } else {
+            }
+            else
+            {
 
-                try {
+                try
+                {
                     Process.Start(installComponentTwo);
-                } catch(Exception ex) {
+                }
+                catch (Exception ex)
+                {
                     MessageBox.Show($"Erro para instalar o {componentTwo}: " + ex.Message);
                 }
             }
@@ -320,52 +392,40 @@ namespace InstallCeltaBSPDV.Configurations {
 
         private async Task downloadAndInstallRustDesk()
         {
-            string rustDeskPath = "C:\\Install\\rustdesk.msi";
-            //precisa ter o arquivo C:\\Install\\rustdesk.msi
-            if (enable.cbRustDesk.Checked == true && !File.Exists(rustDeskPath))
+            // --- KEY CHANGE HERE ---
+            // Dynamically get the path to the batch file located in the application's startup directory.
+            string batFilePath = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "InstallRustDesk.bat");
+
+
+
+            // Verify the batch file actually exists alongside your .exe
+            if (!File.Exists(batFilePath))
             {
-                //adicionei a condição de existir o mongoDbFilePath também porque se não existir, significa que o banco de dados não está instalado
+                MessageBox.Show($"Erro: O script de instalação '{batFilePath}' não foi encontrado.");
                 return;
             }
-            if (!File.Exists(rustDeskPath))
-            {
-                await new Download(enable).downloadFileTaskAsync("rustdesk.msi", "http://187.35.140.227/downloads/lastversion/Programas");
 
-                await downloadAndInstallRustDesk();
-            }
-
-            var installRustDesk = new ProcessStartInfo("cmd", $"/c cd c:\\install&msiexec /i rustdesk.msi CONFIG_HASH=9JSP3JWQ1YXVPFnQLl1aoRGU0clVpNVbulUcwsWQzNTe0RFNwt0R0F0Vy9WYGJiOikXZrJCLiIiOikGchJCLiIiOikXYsVmciwiIyJmLt92YuUmchdXY0xWZj5CdzVnciojI0N3boJye /quiet&\"C:\\Program Files\\RustDesk\\rustdesk.exe\" --config \"host=rust.celtaware.com.br,key=FaorWAtGKp4Tty3sAk0qInmSiVW4PdhkYKBqOUv5Abw=\"\r\n");
-            installRustDesk.CreateNoWindow = true;
+            var installProcessInfo = new ProcessStartInfo(batFilePath);
+            installProcessInfo.CreateNoWindow = true;
+            installProcessInfo.UseShellExecute = false;
 
             try
             {
+                Process.Start(installProcessInfo);
 
-                bool isInstalled = verifyAppIsInstalled("RustDesk"); //ele verifica pelo regedit se o mongo já foi instalado
-                if (!isInstalled)
+                // This loop waits for the installation to complete.
+                while (!verifyAppIsInstalled("RustDesk"))
                 {
-                    Process.Start(installRustDesk);
+                    // Wait for a few seconds before checking again.
+                    await Task.Delay(3000);
                 }
-                while (!isInstalled)
-                {
-                    //vai ficar verificando se o aplicativo já foi instalado pra somente depois que terminar a instalação, continuar a execução dos códigos
-                    isInstalled = verifyAppIsInstalled("RustDesk");
 
-                    Task.Delay(3000).Wait();
-                    //coloquei pra aguardar 3 segundos pra executar novamente senão o aplicativo fica executando com muita frequência essa execução
-                    if (isInstalled)
-                    {
-                        //quando o aplicativo finalmente está instalado, ele sai do laço while e continua a execução dos códigos
-                        break;
-                    }
-
-                }
-                if (isInstalled)
-                    enable.cbRustDesk.Checked = true;
-
+                // Mark as complete.
+                enable.cbRustDesk.Checked = true;
             }
             catch (Exception ex)
             {
-                MessageBox.Show("Erro para instalar o RustDesk: " + ex.Message);
+                MessageBox.Show("Erro ao executar o script de instalação do RustDesk: " + ex.Message);
             }
         }
     }
