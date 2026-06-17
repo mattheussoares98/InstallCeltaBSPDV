@@ -159,7 +159,7 @@ namespace InstallCeltaBSPDV.Configurations
         }
         private async Task downloadAndInstallMongoDb()
         {
-            string mongoDbFilePath = "C:\\Install\\PDV\\Database\\mongodb-win32-x86_64-2008plus-ssl-4.0.22-signed.msi";
+            string mongoDbFilePath = "C:\\Install\\PDV\\Database\\mongodb.msi";
             //precisa ter o arquivo C:\Install\PDV\Database\mongodb-win32-x86_64-2008plus-ssl-4.0.22-signed
             if (enable.cbMongoDB.Checked == true && !File.Exists(mongoDbFilePath))
             {
