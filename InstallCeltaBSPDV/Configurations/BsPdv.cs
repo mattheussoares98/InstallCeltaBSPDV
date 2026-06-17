@@ -29,7 +29,7 @@ namespace InstallCeltaBSPDV.Configurations
 
             createPdvLinks();
 
-            await editMongoCfg(); //nessa função já está adicionando permissão para todos usuários na pasta do arquivo. Ele só chega nessa parte quando existe a pasta do arquivo
+            //await editMongoCfg(); //nessa função já está adicionando permissão para todos usuários na pasta do arquivo. Ele só chega nessa parte quando existe a pasta do arquivo
 
             installComponentsReport();
 
@@ -157,65 +157,87 @@ namespace InstallCeltaBSPDV.Configurations
             }
             return appInstalled;
         }
+
         private async Task downloadAndInstallMongoDb()
         {
-            string mongoDbFilePath = "C:\\Install\\PDV\\Database\\mongodb.msi";
-            //precisa ter o arquivo C:\Install\PDV\Database\mongodb-win32-x86_64-2008plus-ssl-4.0.22-signed
-            if (enable.cbMongoDB.Checked == true && !File.Exists(mongoDbFilePath))
+            string mongoDbFilePath = @"C:\\Install\\PDV\\Database\\mongodb.msi";
+
+            // Checks if installation is requested and if the installer file already exists
+            if (enable.cbMongoDB.Checked && !File.Exists(mongoDbFilePath))
             {
-                //adicionei a condição de existir o mongoDbFilePath também porque se não existir, significa que o banco de dados não está instalado
                 return;
             }
+
+            // Downloads the required zip file if the msi is still not found
             if (!File.Exists(mongoDbFilePath))
             {
+                enable.richTextBoxResults.Text += $"O arquivo {mongoDbFilePath} não foi encontrado. Inicializando download do {Download.installBsPdvZip}. Se ficar em loop, feche com CTRL+F4 e adicione o {mongoDbFilePath} onde ele não deveria ter sido removido ou delete o {Download.installBsPdvZip}!\n\n";
+                //só tenta baixar o arquivo se ele não existir ainda
+
                 await new Download(enable).downloadFileTaskAsync(Download.installBsPdvZip, "http://187.35.140.227/downloads/lastversion/installbspdv.zip");
 
+                // Executes the method again after downloading
                 await downloadAndInstallMongoDb();
-            }
-
-            string appPath = System.Reflection.Assembly.GetExecutingAssembly().Location;
-            string appDirectory = Path.GetDirectoryName(appPath)!;
-            var installMongo = new ProcessStartInfo("cmd", $"/c cd {appDirectory}&installMongoDB.bat");
-            installMongo.CreateNoWindow = true;
-
-            //pra funcionar esse instalador, precisa ter o BAT da instalação do banco de dados dentro da pasta onde vai executar o aplicativo com o nome "installMongoDB.bat"
-            if (!File.Exists(appDirectory + "\\installMongoDB.bat"))
-            {
-                MessageBox.Show($"Não foi possível encontrar o {appDirectory}\\installMongoDB.bat. Abortando a instalação do banco de dados");
                 return;
             }
+
+            // AppDomain.CurrentDomain.BaseDirectory is the safest path to get the application's root directory
+            string appDirectory = AppDomain.CurrentDomain.BaseDirectory;
+
+            // Path.Combine automatically and safely handles directory separators
+            string batFilePath = Path.Combine(appDirectory, "InstallMongoDb.bat");
+
+            // Validates if the batch file was copied to the output directory
+            if (!File.Exists(batFilePath))
+            {
+                MessageBox.Show($"Não foi possível encontrar o {batFilePath}. Abortando a instalação do banco de dados.");
+                return;
+            }
+
+            var installMongo = new ProcessStartInfo
+            {
+                FileName = batFilePath,
+                CreateNoWindow = true,
+                UseShellExecute = false
+            };
 
             try
             {
+                // Checks via registry if MongoDB is already installed
+                bool isInstalled = verifyAppIsInstalled("Mongo");
 
-                bool isInstalled = verifyAppIsInstalled("Mongo"); //ele verifica pelo regedit se o mongo já foi instalado
                 if (!isInstalled)
                 {
+                    // Starts the batch process to install MongoDB
                     Process.Start(installMongo);
                 }
+
                 while (!isInstalled)
                 {
-                    //vai ficar verificando se o aplicativo já foi instalado pra somente depois que terminar a instalação, continuar a execução dos códigos
+                    // Verifies periodically if the installation process has updated the registry
                     isInstalled = verifyAppIsInstalled("Mongo");
 
-                    Task.Delay(3000).Wait();
-                    //coloquei pra aguardar 3 segundos pra executar novamente senão o aplicativo fica executando com muita frequência essa execução
                     if (isInstalled)
                     {
-                        //quando o aplicativo finalmente está instalado, ele sai do laço while e continua a execução dos códigos
+                        // Exits the loop once the registry confirms the installation
                         break;
                     }
 
+                    // Uses await instead of .Wait() to release the UI thread and improve application performance
+                    await Task.Delay(3000);
                 }
-                if (isInstalled)
-                    enable.cbMongoDB.Checked = true;
 
+                if (isInstalled)
+                {
+                    enable.cbMongoDB.Checked = true;
+                }
             }
             catch (Exception ex)
             {
                 MessageBox.Show("Erro para instalar o MongoDB: " + ex.Message);
             }
         }
+
         private async Task editMongoCfg()
         {
             if (enable.cbRemoteAcces.Checked == true)
@@ -224,7 +246,7 @@ namespace InstallCeltaBSPDV.Configurations
             }
 
             string programFiles = Environment.ExpandEnvironmentVariables("%ProgramW6432%");
-            string mongoBin = programFiles += "\\MongoDB\\Server\\4.0\\bin";
+            string mongoBin = programFiles += "\\MongoDB\\Server\\7.0\\bin";
             string mongoConfig = mongoBin + "\\mongod.cfg";
 
             if (!File.Exists(mongoConfig))
@@ -252,7 +274,7 @@ namespace InstallCeltaBSPDV.Configurations
                     return;
                 }
 
-                await new Windows(enable).enableAllPermissionsForPath(Environment.ExpandEnvironmentVariables("%ProgramW6432%") + "\\MongoDB\\Server\\4.0\\bin");
+                await new Windows(enable).enableAllPermissionsForPath(Environment.ExpandEnvironmentVariables("%ProgramW6432%") + "\\MongoDB\\Server\\7.0\\bin");
 
                 string newText = textoDoArquivo.Replace("127.0.0.1", "0.0.0.0");
 
