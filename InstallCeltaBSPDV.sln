@@ -1,7 +1,7 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-# Visual Studio Version 17
-VisualStudioVersion = 17.2.32602.215
+# Visual Studio Version 18
+VisualStudioVersion = 18.8.11912.234 insiders
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "InstallCeltaBSPDV", "InstallCeltaBSPDV\InstallCeltaBSPDV.csproj", "{0D4231B5-DABF-40C7-8E1E-6198565137B6}"
 EndProject
@@ -22,7 +22,6 @@ Global
 		{0D4231B5-DABF-40C7-8E1E-6198565137B6}.Debug|x86.ActiveCfg = Debug|x86
 		{0D4231B5-DABF-40C7-8E1E-6198565137B6}.Debug|x86.Build.0 = Debug|x86
 		{0D4231B5-DABF-40C7-8E1E-6198565137B6}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{0D4231B5-DABF-40C7-8E1E-6198565137B6}.Release|Any CPU.Build.0 = Release|Any CPU
 		{0D4231B5-DABF-40C7-8E1E-6198565137B6}.Release|ARM64.ActiveCfg = Release|ARM64
 		{0D4231B5-DABF-40C7-8E1E-6198565137B6}.Release|ARM64.Build.0 = Release|ARM64
 		{0D4231B5-DABF-40C7-8E1E-6198565137B6}.Release|x86.ActiveCfg = Release|x86

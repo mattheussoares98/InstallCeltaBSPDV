@@ -1,16 +1,7 @@
 ﻿using InstallCeltaBSPDV.DownloadFiles;
-using IWshRuntimeLibrary;
-using Microsoft.Win32;
 using NetFwTypeLib;
-using System;
-using System.Collections.Generic;
 using System.Diagnostics;
 using System.IO.Compression;
-using System.Linq;
-using System.Security.AccessControl;
-using System.Security.Principal;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace InstallCeltaBSPDV.Configurations
 {

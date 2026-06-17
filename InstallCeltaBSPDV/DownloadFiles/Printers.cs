@@ -1,11 +1,7 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace InstallCeltaBSPDV.Forms.DownloadFiles {
-    internal class Printers {
+﻿namespace InstallCeltaBSPDV.Forms.DownloadFiles
+{
+    internal class Printers
+    {
 
         /// <summary>
         /// e-mail e senha onde estão os arquivos de download
@@ -14,13 +10,16 @@ namespace InstallCeltaBSPDV.Forms.DownloadFiles {
         /// </summary>
 
         DownloadFilesForm downloadFilesForm;
-        public Printers(DownloadFilesForm downloadFiles) {
+        public Printers(DownloadFilesForm downloadFiles)
+        {
             this.downloadFilesForm = downloadFiles;
             addItemsInCheckedListBoxPrinters();
             addPrintersInUrlsDictionary();
         }
-        private void addItemsInCheckedListBoxPrinters() {
-            foreach(string printer in printers) {
+        private void addItemsInCheckedListBoxPrinters()
+        {
+            foreach (string printer in printers)
+            {
                 downloadFilesForm.checkedListBoxPrinters.Items.Add(printer);
             }
             downloadFilesForm.checkedListBoxPrinters.Height = downloadFilesForm.checkedListBoxPrinters.Items.Count * downloadFilesForm.checkedListBoxPrinters.ItemHeight + 5;
@@ -57,7 +56,8 @@ namespace InstallCeltaBSPDV.Forms.DownloadFiles {
         /// 
         /// A aplicação percorre o urlsDownloadDictionary através dos valores que estão no "selectedItemsToDownload", vai pegando o  nome do arquivo com a extensão (Keys) e o valor dele (urls) pra efetuar os downloads 
         /// </summary>
-        private void addPrintersInUrlsDictionary() {
+        private void addPrintersInUrlsDictionary()
+        {
             downloadFilesForm.urlsDownloadDictionary.Add(
                 epsonTMT20,
                 new Dictionary<string, string>() { {

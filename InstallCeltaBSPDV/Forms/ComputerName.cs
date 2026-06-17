@@ -1,31 +1,29 @@
 ﻿using Microsoft.Win32;
-using System;
-using System.Collections.Generic;
-using System.ComponentModel;
-using System.Data;
-using System.Drawing;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using System.Windows.Forms;
 
-namespace InstallCeltaBSPDV {
-    public partial class ComputerName: Form {
-        public ComputerName(EnableConfigurations enableConfigurations) {
+namespace InstallCeltaBSPDV
+{
+    public partial class ComputerName : Form
+    {
+        public ComputerName(EnableConfigurations enableConfigurations)
+        {
             InitializeComponent();
             maskedTextBoxSetComputerName.Focus();
             enable = enableConfigurations;
         }
         EnableConfigurations enable;
 
-        public void buttonSetComputerName_Click(object sender, EventArgs e) {
+        public void buttonSetComputerName_Click(object sender, EventArgs e)
+        {
 
             RegistryKey key = Registry.LocalMachine;
             string newName = "PDV" + maskedTextBoxSetComputerName.Text;
 
-            if(maskedTextBoxSetComputerName.Text.Length < 3) {
+            if (maskedTextBoxSetComputerName.Text.Length < 3)
+            {
                 MessageBox.Show("Digite o número do PDV com 3 números", "AVISO!", MessageBoxButtons.OK, MessageBoxIcon.Warning, defaultButton: MessageBoxDefaultButton.Button1);
-            } else {
+            }
+            else
+            {
                 string activeComputerName = "SYSTEM\\CurrentControlSet\\Control\\ComputerName\\ActiveComputerName";
                 RegistryKey activeCmpName = key.CreateSubKey(activeComputerName);
                 activeCmpName.SetValue("ComputerName", newName);
@@ -45,13 +43,16 @@ namespace InstallCeltaBSPDV {
             }
         }
 
-        private void maskedTextBoxSetComputerName_KeyUp(object sender, KeyEventArgs e) {
-            if(e.KeyCode == Keys.Enter) {
+        private void maskedTextBoxSetComputerName_KeyUp(object sender, KeyEventArgs e)
+        {
+            if (e.KeyCode == Keys.Enter)
+            {
                 buttonSetComputerName_Click(null, null);
             }
         }
 
-        private void ComputerName_FormClosing(object sender, FormClosingEventArgs e) {
+        private void ComputerName_FormClosing(object sender, FormClosingEventArgs e)
+        {
             e.Cancel = false;
         }
     }

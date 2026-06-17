@@ -1,22 +1,18 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using InstallCeltaBSPDV.Forms.DownloadFiles;
-
-namespace InstallCeltaBSPDV.Forms.DownloadFiles {
-    internal class SATs {
+﻿namespace InstallCeltaBSPDV.Forms.DownloadFiles
+{
+    internal class SATs
+    {
 
         /// <summary>
         /// e-mail e senha onde estão os arquivos de download
         ///email: suporteceltaware@hotmail.com
         ///senha: Celta@123
         /// </summary>
-        
+
         DownloadFilesForm downloadFilesForm;
 
-        public SATs(DownloadFilesForm downloadFilesForm) {
+        public SATs(DownloadFilesForm downloadFilesForm)
+        {
             this.downloadFilesForm = downloadFilesForm;
             addSatsInUrlsDictionary();
             addItemsInCheckedListBoxSats();
@@ -33,8 +29,10 @@ namespace InstallCeltaBSPDV.Forms.DownloadFiles {
         private const string satControlId = "SAT control ID";
         #endregion
 
-        private void addItemsInCheckedListBoxSats() {
-            foreach(string sat in sats) {
+        private void addItemsInCheckedListBoxSats()
+        {
+            foreach (string sat in sats)
+            {
                 downloadFilesForm.checkedListBoxSats.Items.Add(sat);
             }
             downloadFilesForm.checkedListBoxSats.Height = downloadFilesForm.checkedListBoxSats.Items.Count * downloadFilesForm.checkedListBoxSats.ItemHeight + 5;
@@ -56,7 +54,8 @@ namespace InstallCeltaBSPDV.Forms.DownloadFiles {
         /// 
         /// A aplicação percorre o urlsDownloadDictionary através dos valores que estão no "selectedItemsToDownload", vai pegando o  nome do arquivo com a extensão (Keys) e o valor dele (urls) pra efetuar os downloads 
         /// </summary>
-        private void addSatsInUrlsDictionary() {
+        private void addSatsInUrlsDictionary()
+        {
             downloadFilesForm.urlsDownloadDictionary.Add(
                 satSweda,
                 new Dictionary<string, string>() { {

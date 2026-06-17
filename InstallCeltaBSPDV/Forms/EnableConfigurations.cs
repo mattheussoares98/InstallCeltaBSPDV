@@ -1,19 +1,8 @@
-
-using Microsoft.Win32;
-using NetFwTypeLib;
-using System.Diagnostics;
-using System.Runtime.InteropServices;
-using System.Net;
-using System.Net.Sockets;
-using System.Security.AccessControl;
-using System.Security.Principal;
-using System.IO.Compression;
 using InstallCeltaBSPDV.Configurations;
 using InstallCeltaBSPDV.Forms;
-using System.Data.SQLite;
-using System.Data;
 
-namespace InstallCeltaBSPDV {
+namespace InstallCeltaBSPDV
+{
     public partial class EnableConfigurations : Form
     {
         public EnableConfigurations()
@@ -55,7 +44,7 @@ namespace InstallCeltaBSPDV {
             #endregion
 
 
-            await new Windows(this).configureWindows();
+            await new Configurations.Windows(this).configureWindows();
 
             await new BsPdv(this).configureBsPdv();
 
@@ -99,10 +88,10 @@ namespace InstallCeltaBSPDV {
 
                 try
                 {
-                    await new Windows(this).overrideFilesInPath(folderBrowserDialog1.SelectedPath, windows);
-                    await new Windows(this).overrideFilesInPath(folderBrowserDialog1.SelectedPath, syswow64);
-                    await new Windows(this).overrideFilesInPath(folderBrowserDialog1.SelectedPath, system32);
-                    await new Windows(this).overrideFilesInPath(folderBrowserDialog1.SelectedPath, cCeltaBsPdv);
+                    await new Configurations.Windows(this).overrideFilesInPath(folderBrowserDialog1.SelectedPath, windows);
+                    await new Configurations.Windows(this).overrideFilesInPath(folderBrowserDialog1.SelectedPath, syswow64);
+                    await new Configurations.Windows(this).overrideFilesInPath(folderBrowserDialog1.SelectedPath, system32);
+                    await new Configurations.Windows(this).overrideFilesInPath(folderBrowserDialog1.SelectedPath, cCeltaBsPdv);
 
                     cbDLLs.Checked = true;
                 }
@@ -270,16 +259,16 @@ namespace InstallCeltaBSPDV {
                     {
                         //quando o SAT é Elgin, o PDV procura as DLLs dele dentro de uma pasta com o nome Elgin. Por isso há esse tratamento para quando o diretório do SAT possui o nome Elgin
                         Directory.CreateDirectory(cCeltaBsPdv + "\\Elgin");
-                        await new Windows(this).overrideFilesInPath(folderBrowserDialog1.SelectedPath, cCeltaBsPdv + "\\Elgin");
+                        await new Configurations.Windows(this).overrideFilesInPath(folderBrowserDialog1.SelectedPath, cCeltaBsPdv + "\\Elgin");
                     }
                     else
                     {
-                        await new Windows(this).overrideFilesInPath(folderBrowserDialog1.SelectedPath, cCeltaBsPdv);
+                        await new Configurations.Windows(this).overrideFilesInPath(folderBrowserDialog1.SelectedPath, cCeltaBsPdv);
                     }
 
-                    await new Windows(this).overrideFilesInPath(folderBrowserDialog1.SelectedPath, windows);
-                    await new Windows(this).overrideFilesInPath(folderBrowserDialog1.SelectedPath, syswow64);
-                    await new Windows(this).overrideFilesInPath(folderBrowserDialog1.SelectedPath, system32);
+                    await new Configurations.Windows(this).overrideFilesInPath(folderBrowserDialog1.SelectedPath, windows);
+                    await new Configurations.Windows(this).overrideFilesInPath(folderBrowserDialog1.SelectedPath, syswow64);
+                    await new Configurations.Windows(this).overrideFilesInPath(folderBrowserDialog1.SelectedPath, system32);
 
 
                     cbDLLs.Checked = true;

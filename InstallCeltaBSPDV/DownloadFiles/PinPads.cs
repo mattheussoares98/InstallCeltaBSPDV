@@ -1,11 +1,7 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace InstallCeltaBSPDV.Forms.DownloadFiles {
-    internal class PinPads {
+﻿namespace InstallCeltaBSPDV.Forms.DownloadFiles
+{
+    internal class PinPads
+    {
 
         /// <summary>
         /// e-mail e senha onde estão os arquivos de download
@@ -15,7 +11,8 @@ namespace InstallCeltaBSPDV.Forms.DownloadFiles {
 
         private DownloadFilesForm downloadFilesForm;
 
-        public PinPads(DownloadFilesForm downloadFilesForm) {
+        public PinPads(DownloadFilesForm downloadFilesForm)
+        {
             this.downloadFilesForm = downloadFilesForm;
             addPinPadsInUrlsDictionary();
             addItemsInCheckedListBoxPinPads();
@@ -28,8 +25,10 @@ namespace InstallCeltaBSPDV.Forms.DownloadFiles {
         private const string ingenicoIPP320 = "Ingenico IPP320";
 
         #endregion
-        private void addItemsInCheckedListBoxPinPads() {
-            foreach(string utility in pinPads) {
+        private void addItemsInCheckedListBoxPinPads()
+        {
+            foreach (string utility in pinPads)
+            {
                 downloadFilesForm.checkedListBoxPinPads.Items.Add(utility);
             }
             downloadFilesForm.checkedListBoxPinPads.Height = downloadFilesForm.checkedListBoxPinPads.Items.Count * downloadFilesForm.checkedListBoxPinPads.ItemHeight + 5;
@@ -51,7 +50,8 @@ namespace InstallCeltaBSPDV.Forms.DownloadFiles {
         /// 
         /// A aplicação percorre o urlsDownloadDictionary através dos valores que estão no "selectedItemsToDownload", vai pegando o  nome do arquivo com a extensão (Keys) e o valor dele (urls) pra efetuar os downloads 
         /// </summary>
-        private void addPinPadsInUrlsDictionary() {
+        private void addPinPadsInUrlsDictionary()
+        {
             downloadFilesForm.urlsDownloadDictionary.Add(
                 gertecPPC930,
                 new Dictionary<string, string>() { {

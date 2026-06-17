@@ -1,12 +1,4 @@
-﻿using InstallCeltaBSPDV.Configurations;
-using System;
-using System.Collections.Generic;
-using System.IO.Compression;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace InstallCeltaBSPDV.DownloadFiles
+﻿namespace InstallCeltaBSPDV.DownloadFiles
 {
     public class Download
     {
@@ -77,7 +69,7 @@ namespace InstallCeltaBSPDV.DownloadFiles
 
             if (fileNamePath.Contains(".zip") || fileNamePath.Contains(".rar"))
             {
-                await new Windows(enable).extractFile(fileNamePath, destinyPath, null, null);
+                await new Configurations.Windows(enable).extractFile(fileNamePath, destinyPath, null, null);
             }
             #endregion
 

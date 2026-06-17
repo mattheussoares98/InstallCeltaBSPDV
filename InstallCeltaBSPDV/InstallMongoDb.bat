@@ -16,7 +16,7 @@ echo   logAppend: true
 echo   path: C:\Temp\mongod.log
 echo net:
 echo   port: 27017
-echo   bindIp: 127.0.0.1,Your-Server-Public-IP
+echo   bindIp: 0.0.0.0,Your-Server-Public-IP
 ) > "%CFG_FILE%"
 
 :: 3. Restart the Windows service to apply the remote ip rules
