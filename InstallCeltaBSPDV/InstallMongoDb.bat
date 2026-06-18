@@ -1,7 +1,12 @@
 @echo off
-:: 1. Run the silent MSI installation
+:: 1. Run the silent MSI installation without allowing Windows Installer to reboot automatically
 echo Installing MongoDB 7.0...
-msiexec.exe /l*v mdbinstall.log /qb /i C:\Install\PDV\Database\mongodb.msi SHOULD_INSTALL_COMPASS="0" ADDLOCAL="ServerService"
+msiexec.exe /l*v mdbinstall.log /qb /norestart /i C:\Install\PDV\Database\mongodb.msi SHOULD_INSTALL_COMPASS="0" ADDLOCAL="ServerService" REBOOT=ReallySuppress
+
+if %ERRORLEVEL% NEQ 3010 if %ERRORLEVEL% NEQ 0 (
+    echo MongoDB installer finished with exit code %ERRORLEVEL%.
+    exit /b %ERRORLEVEL%
+)
 
 :: 2. Wait for installation to finish and create the remote configuration file
 echo Writing remote configuration rules...

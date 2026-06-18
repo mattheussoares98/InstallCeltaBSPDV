@@ -203,7 +203,21 @@ namespace InstallCeltaBSPDV.Configurations
                 if (!isInstalled)
                 {
                     // Starts the batch process to install MongoDB
-                    Process.Start(installMongo);
+                    using var installProcess = Process.Start(installMongo);
+
+                    if (installProcess is null)
+                    {
+                        MessageBox.Show("Não foi possível iniciar a instalação do MongoDB");
+                        return;
+                    }
+
+                    await installProcess.WaitForExitAsync();
+
+                    if (installProcess.ExitCode != 0 && installProcess.ExitCode != 3010)
+                    {
+                        MessageBox.Show($"Erro para instalar o MongoDB. Código de saída: {installProcess.ExitCode}");
+                        return;
+                    }
                 }
 
                 while (!isInstalled)
