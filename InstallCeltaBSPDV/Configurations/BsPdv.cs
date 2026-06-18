@@ -408,26 +408,36 @@ namespace InstallCeltaBSPDV.Configurations
 
         private async Task downloadAndInstallRustDesk()
         {
-            // --- KEY CHANGE HERE ---
-            // Dynamically get the path to the batch file located in the application's startup directory.
-            string batFilePath = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "InstallRustDesk.bat");
+            await new Download(enable).downloadFileTaskAsync("RustDesk.msi", "http://187.35.140.227/downloads/lastversion/Programas");
 
+            const string rustDeskExecutablePath = @"C:\Program Files\RustDesk\RustDesk.exe";
+            const string rustDeskConfig = "host=rust.celtaware.com.br,key=FaorWAtGKp4Tty3sAk0qInmSiVW4PdhkYKBqOUv5Abw=";
+            const string rustDeskPassword = "Celta@123";
 
-
-            // Verify the batch file actually exists alongside your .exe
-            if (!File.Exists(batFilePath))
+            if (!File.Exists(Download.cInstallRustDesk))
             {
-                MessageBox.Show($"Erro: O script de instalação '{batFilePath}' não foi encontrado.");
+                MessageBox.Show($"Não foi possível instalar o RustDesk porque o arquivo {Download.cInstallRustDesk} não existe");
                 return;
             }
 
-            var installProcessInfo = new ProcessStartInfo(batFilePath);
-            installProcessInfo.CreateNoWindow = true;
-            installProcessInfo.UseShellExecute = false;
-
             try
             {
-                Process.Start(installProcessInfo);
+                var installProcessInfo = new ProcessStartInfo("msiexec")
+                {
+                    Arguments = $"/i \"{Download.cInstallRustDesk}\" CONFIG_HASH=9JSP3JWQ1YXVPFnQLl1aoRGU0clVpNVbulUcwsWQzNTe0RFNwt0R0F0Vy9WYGJiOikXZrJCLiIiOikGchJCLiIiOikXYsVmciwiIyJmLt92YuUmchdXY0xWZj5CdzVnciojI0N3boJye /quiet",
+                    CreateNoWindow = true,
+                    UseShellExecute = false,
+                };
+
+                using var installProcess = Process.Start(installProcessInfo);
+
+                if (installProcess is null)
+                {
+                    MessageBox.Show("Não foi possível iniciar a instalação do RustDesk");
+                    return;
+                }
+
+                await installProcess.WaitForExitAsync();
 
                 // This loop waits for the installation to complete.
                 while (!verifyAppIsInstalled("RustDesk"))
@@ -435,6 +445,36 @@ namespace InstallCeltaBSPDV.Configurations
                     // Wait for a few seconds before checking again.
                     await Task.Delay(3000);
                 }
+
+                var rustDeskExecutableAttempts = 0;
+                while (!File.Exists(rustDeskExecutablePath) && rustDeskExecutableAttempts < 20)
+                {
+                    rustDeskExecutableAttempts++;
+                    await Task.Delay(3000);
+                }
+
+                if (!File.Exists(rustDeskExecutablePath))
+                {
+                    MessageBox.Show($"O RustDesk foi instalado, mas o arquivo {rustDeskExecutablePath} não foi encontrado");
+                    return;
+                }
+
+                var configProcessInfo = new ProcessStartInfo(rustDeskExecutablePath)
+                {
+                    Arguments = $"--config \"{rustDeskConfig}\"",
+                    CreateNoWindow = true,
+                    UseShellExecute = false,
+                };
+
+                var passwordProcessInfo = new ProcessStartInfo(rustDeskExecutablePath)
+                {
+                    Arguments = $"--password \"{rustDeskPassword}\"",
+                    CreateNoWindow = true,
+                    UseShellExecute = false,
+                };
+
+                Process.Start(configProcessInfo);
+                Process.Start(passwordProcessInfo);
 
                 // Mark as complete.
                 enable.cbRustDesk.Checked = true;

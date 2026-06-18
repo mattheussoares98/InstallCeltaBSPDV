@@ -11,6 +11,7 @@
 
         public static readonly string cInstall = "C:\\Install";
         public static readonly string cInstallBsPdvZip = "C:\\Install\\installbspdv.zip";
+        public static readonly string cInstallRustDesk = "C:\\Install\\RustDesk.msi";
         public static readonly string installBsPdvZip = "installbspdv.zip";
         public static readonly string cInstallPdvCeltabspdv = "C:\\Install\\PDV\\CeltaBSPDV";
         public static readonly string cCeltabspdv = "C:\\CeltaBSPDV";
