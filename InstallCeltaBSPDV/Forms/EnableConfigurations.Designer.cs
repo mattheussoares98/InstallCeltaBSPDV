@@ -48,14 +48,12 @@
             cbTaskManager = new CheckBox();
             cbUltraVNC = new CheckBox();
             cdDeviceManager = new CheckBox();
-            cbDLLs = new CheckBox();
             cbLogo = new CheckBox();
             cbIP = new CheckBox();
             richTextBoxResults = new RichTextBox();
             progressBarInstall = new ProgressBar();
             buttonDownloadFiles = new Button();
             folderBrowserDialog1 = new FolderBrowserDialog();
-            buttonDistributeDLLs = new Button();
             flowLayoutPanelConfigurations.SuspendLayout();
             SuspendLayout();
             // 
@@ -93,11 +91,10 @@
             flowLayoutPanelConfigurations.Controls.Add(cbTaskManager);
             flowLayoutPanelConfigurations.Controls.Add(cbUltraVNC);
             flowLayoutPanelConfigurations.Controls.Add(cdDeviceManager);
-            flowLayoutPanelConfigurations.Controls.Add(cbDLLs);
             flowLayoutPanelConfigurations.Controls.Add(cbLogo);
             flowLayoutPanelConfigurations.Controls.Add(cbIP);
             flowLayoutPanelConfigurations.FlowDirection = FlowDirection.TopDown;
-            flowLayoutPanelConfigurations.Font = new Font("Segoe UI", 8F, FontStyle.Regular, GraphicsUnit.Point);
+            flowLayoutPanelConfigurations.Font = new Font("Segoe UI", 8F);
             flowLayoutPanelConfigurations.Location = new Point(11, 3);
             flowLayoutPanelConfigurations.Margin = new Padding(0);
             flowLayoutPanelConfigurations.Name = "flowLayoutPanelConfigurations";
@@ -120,7 +117,7 @@
             cbUSB.AutoSize = true;
             cbUSB.Location = new Point(3, 26);
             cbUSB.Name = "cbUSB";
-            cbUSB.Size = new Size(203, 17);
+            cbUSB.Size = new Size(204, 17);
             cbUSB.TabIndex = 5;
             cbUSB.Text = "Desabilitar suspensão seletiva USB";
             cbUSB.UseVisualStyleBackColor = true;
@@ -153,7 +150,7 @@
             cbTemp.AutoSize = true;
             cbTemp.Location = new Point(3, 95);
             cbTemp.Name = "cbTemp";
-            cbTemp.Size = new Size(134, 17);
+            cbTemp.Size = new Size(133, 17);
             cbTemp.TabIndex = 7;
             cbTemp.Text = "Criar a pasta C:\\Temp";
             cbTemp.UseVisualStyleBackColor = true;
@@ -175,7 +172,7 @@
             cbCeltaBSPDV.AutoSize = true;
             cbCeltaBSPDV.Location = new Point(3, 141);
             cbCeltaBSPDV.Name = "cbCeltaBSPDV";
-            cbCeltaBSPDV.Size = new Size(238, 17);
+            cbCeltaBSPDV.Size = new Size(239, 17);
             cbCeltaBSPDV.TabIndex = 9;
             cbCeltaBSPDV.Text = "Copiar a pasta CeltaBSPDV para o disco C";
             cbCeltaBSPDV.UseVisualStyleBackColor = true;
@@ -186,7 +183,7 @@
             cbMongoDB.AutoSize = true;
             cbMongoDB.Location = new Point(3, 164);
             cbMongoDB.Name = "cbMongoDB";
-            cbMongoDB.Size = new Size(129, 17);
+            cbMongoDB.Size = new Size(130, 17);
             cbMongoDB.TabIndex = 10;
             cbMongoDB.Text = "Instalar o MongoDB";
             cbMongoDB.UseVisualStyleBackColor = true;
@@ -329,27 +326,16 @@
             cdDeviceManager.AutoSize = true;
             cdDeviceManager.Location = new Point(3, 463);
             cdDeviceManager.Name = "cdDeviceManager";
-            cdDeviceManager.Size = new Size(509, 17);
+            cdDeviceManager.Size = new Size(510, 17);
             cdDeviceManager.TabIndex = 27;
             cdDeviceManager.Text = "Gerenciador de dispositivos - não permitir desativar dispositivos USB, interface humana e rede";
             cdDeviceManager.UseVisualStyleBackColor = true;
             cdDeviceManager.CheckedChanged += cdDeviceManager_CheckedChanged;
             // 
-            // cbDLLs
-            // 
-            cbDLLs.AutoSize = true;
-            cbDLLs.Location = new Point(3, 486);
-            cbDLLs.Name = "cbDLLs";
-            cbDLLs.Size = new Size(138, 17);
-            cbDLLs.TabIndex = 26;
-            cbDLLs.Text = "Copiar as DLLs do SAT";
-            cbDLLs.UseVisualStyleBackColor = true;
-            cbDLLs.CheckedChanged += cbDLLs_CheckedChanged;
-            // 
             // cbLogo
             // 
             cbLogo.AutoSize = true;
-            cbLogo.Location = new Point(3, 509);
+            cbLogo.Location = new Point(3, 486);
             cbLogo.Name = "cbLogo";
             cbLogo.Size = new Size(133, 17);
             cbLogo.TabIndex = 19;
@@ -360,7 +346,7 @@
             // cbIP
             // 
             cbIP.AutoSize = true;
-            cbIP.Location = new Point(3, 532);
+            cbIP.Location = new Point(3, 509);
             cbIP.Name = "cbIP";
             cbIP.Size = new Size(136, 17);
             cbIP.TabIndex = 20;
@@ -400,23 +386,12 @@
             buttonDownloadFiles.UseVisualStyleBackColor = true;
             buttonDownloadFiles.Click += button1_Click;
             // 
-            // buttonDistributeDLLs
-            // 
-            buttonDistributeDLLs.Location = new Point(591, 478);
-            buttonDistributeDLLs.Name = "buttonDistributeDLLs";
-            buttonDistributeDLLs.Size = new Size(392, 41);
-            buttonDistributeDLLs.TabIndex = 26;
-            buttonDistributeDLLs.Text = "Distribuir DLLs do SAT nas pastas necessárias";
-            buttonDistributeDLLs.UseVisualStyleBackColor = true;
-            buttonDistributeDLLs.Click += buttonDistributeDLLs_Click;
-            // 
             // EnableConfigurations
             // 
             AutoScaleDimensions = new SizeF(7F, 15F);
             AutoScaleMode = AutoScaleMode.Font;
             AutoSize = true;
             ClientSize = new Size(987, 574);
-            Controls.Add(buttonDistributeDLLs);
             Controls.Add(buttonDownloadFiles);
             Controls.Add(progressBarInstall);
             Controls.Add(flowLayoutPanelConfigurations);
@@ -458,9 +433,7 @@
         public ProgressBar progressBarInstall;
         public Button buttonConfigurations;
         private FolderBrowserDialog folderBrowserDialog1;
-        private CheckBox cbDLLs;
         private CheckBox cdDeviceManager;
-        private Button buttonDistributeDLLs;
         public CheckBox cbFirewall;
         public CheckBox cbTeamViewer;
         public CheckBox cbRustDesk;

@@ -92,8 +92,6 @@ namespace InstallCeltaBSPDV
                     await new Configurations.Windows(this).overrideFilesInPath(folderBrowserDialog1.SelectedPath, syswow64);
                     await new Configurations.Windows(this).overrideFilesInPath(folderBrowserDialog1.SelectedPath, system32);
                     await new Configurations.Windows(this).overrideFilesInPath(folderBrowserDialog1.SelectedPath, cCeltaBsPdv);
-
-                    cbDLLs.Checked = true;
                 }
                 catch (Exception ex)
                 {
@@ -221,7 +219,6 @@ namespace InstallCeltaBSPDV
 
         private void cbDLLs_CheckedChanged(object sender, EventArgs e)
         {
-            DatabaseLoadCheckeds.updateData(cbDLLs);
 
         }
 
@@ -269,9 +266,6 @@ namespace InstallCeltaBSPDV
                     await new Configurations.Windows(this).overrideFilesInPath(folderBrowserDialog1.SelectedPath, windows);
                     await new Configurations.Windows(this).overrideFilesInPath(folderBrowserDialog1.SelectedPath, syswow64);
                     await new Configurations.Windows(this).overrideFilesInPath(folderBrowserDialog1.SelectedPath, system32);
-
-
-                    cbDLLs.Checked = true;
                 }
                 catch (Exception ex)
                 {

@@ -238,6 +238,7 @@ namespace InstallCeltaBSPDV.Configurations
                 if (isInstalled)
                 {
                     enable.cbMongoDB.Checked = true;
+                    enable.cbRemoteAcces.Checked = true;
                 }
             }
             catch (Exception ex)
